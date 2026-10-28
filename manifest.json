@@ -9,5 +9,11 @@
       "version_manifest": "languages/zh_tw/zh-tw-version.json"
     }
   },
-  "notes": "Add version manifests for other locales when their translations are ready."
+  "notes": "Add version manifests for other locales when their translations are ready.",
+  "resource_pack_source": {
+    "owner": "ga200604101111",
+    "repo": "SAOMCZHPACK",
+    "ref": "main",
+    "manifest": "pack-version.json"
+  }
 }

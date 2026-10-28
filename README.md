@@ -62,3 +62,19 @@ A clean, deduplicated submission is written under `D:/翻譯/SAO_TW_Dynamic/subm
 ### Scope and limitations
 
 Confirmed hook targets: SAOUI equipment stat labels, SAOJob skill descriptions/lore, MobNameSplit names, vanilla bossbar and scoreboard rendering, Actionbar, and unsigned system-chat exact matches. Signed or player-formatted chat is intentionally left unchanged. Unknown words remain in the original language and only safe allowlisted labels are proposed for review. A translated user interface may still require content-specific text layout fixes.
+
+## Dedicated resource repository — V12
+
+The language database and its version live here in SAOMCZH. Resource packs live in
+[SAOMCZHPACK](https://github.com/ga200604101111/SAOMCZHPACK) and its dedicated
+[pack-version.json](https://github.com/ga200604101111/SAOMCZHPACK/blob/main/pack-version.json).
+
+The V12 Java agent uses separate HTTPS allowlists for the two owners/repos and does not
+download unverified or unpublished ZIPs. When a release becomes public and its manifest
+is enabled, freshly installed clients can bootstrap a local configuration automatically,
+download one full ZIP + one support ZIP, and retain the old pack until Minecraft restarts.
+No ZIP asset is committed to Git history. Staged resources are SHA-256 checked.
+
+Currently the pack release remains a draft, so resource_packs.available is false and
+a fresh install cannot fetch its ZIP assets yet. This restriction is intentional until
+asset redistribution rights have been reviewed.

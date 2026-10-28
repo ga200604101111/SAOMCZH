@@ -6,5 +6,9 @@
   "locale": "zh_tw",
   "check_interval_minutes": 60,
   "apply_to_v9": false,
-  "allow_asset_downloads": true
+  "allow_asset_downloads": true,
+  "pack_owner": "ga200604101111",
+  "pack_repo": "SAOMCZHPACK",
+  "pack_ref": "main",
+  "pack_manifest": "pack-version.json"
 }
