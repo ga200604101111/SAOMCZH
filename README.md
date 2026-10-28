@@ -17,7 +17,7 @@ A proposed community-maintained translation table for the Minecraft SAO client i
 5. Original server translations remain the fallback for unknown strings.
 
 ## Local staging versus public publishing
-`translations.json` currently contains 373 translated entries from the local project. Their legal status is distinct from the original extension code. Confirm source-text redistribution permission and choose a contributor license before accepting outside submissions.
+`translations.json` currently contains 416 translated entries from the local project. Their legal status is distinct from the original extension code. Confirm source-text redistribution permission and choose a contributor license before accepting outside submissions.
 
 ## Locale codes
 Minecraft uses `zh_tw`; human-facing BCP-47 is `zh-TW`. The manifest consistently uses Minecraft locale codes. The version filename is `zh-tw-version.json` (not `verison`).
@@ -35,4 +35,30 @@ To use the optional Python updater, copy `github-source.example.json` to your lo
 ```powershell
 py tools/github_sync.py --root D:/翻譯
 ```
-By default downloads are cached, not applied to your live V9 dictionary. Set `apply_to_v9=true` only after verifying the repository source. Multi-language download is supported by the updater; **V9 only renders zh_tw** until a future client version adds locale-aware loading.
+By default downloads are cached, not applied to your live V9 dictionary. Set `apply_to_v9=true` only after verifying the repository source. Multi-language download is supported by the updater; **The current V11 agent renders zh_tw; the manifest and updater can cache other locales for future client integration.**
+
+## V11 agent: versioned resource packs and single-copy cache
+
+The next client agent is named `SAO_ZH_Agent_v11.jar` (Minecraft 1.21.4 / Fabric / SAOUI 2.35.0).
+It reads the same language `manifest.json` and version JSON.
+
+When `resource_packs.available=true` **and** the client config enables `allow_asset_downloads`, public GitHub Release ZIPs are streamed into `SAO_ZH_Cache/packs/`, SHA-256 checked and validated. While Minecraft is running, newly downloaded packs are marked as **staged**; the old pack is not replaced or deleted. On shutdown, cleanup is attempted. At the next game launch, a verified staged pack becomes active and deletion of old ZIPs is retried if needed.
+
+The currently published version manifest deliberately has `resource_packs.available=false` because the binary Release is still a private draft and third-party asset redistribution rights have not been confirmed. No client can automatically fetch the asset pack until a permitted public Release exists and the manifest is updated.
+
+Do **not** place the pack ZIP or Java agent JAR in Git history. Use GitHub Releases for optional downloadable binaries.
+
+## Community missing-translation reports
+
+V11 records missing *allowlisted UI labels only*, not player messages, to `D:/翻譯/SAO_TW_Dynamic/review/missing_zh_tw.jsonl`.
+Share them privately or attach a filtered proposal to an issue:
+
+```powershell
+python tools/export_missing.py --root D:/翻譯
+```
+
+A clean, deduplicated submission is written under `D:/翻譯/SAO_TW_Dynamic/submissions/`. Nothing is uploaded automatically. Review the resulting file once more before making it public.
+
+### Scope and limitations
+
+Confirmed hook targets: SAOUI equipment stat labels, SAOJob skill descriptions/lore, MobNameSplit names, vanilla bossbar and scoreboard rendering, Actionbar, and unsigned system-chat exact matches. Signed or player-formatted chat is intentionally left unchanged. Unknown words remain in the original language and only safe allowlisted labels are proposed for review. A translated user interface may still require content-specific text layout fixes.

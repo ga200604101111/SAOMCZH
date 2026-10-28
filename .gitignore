@@ -20,3 +20,6 @@ __pycache__/
 cache/
 local-overrides.json
 github-source.json
+
+submissions/
+missing-submission-*.json

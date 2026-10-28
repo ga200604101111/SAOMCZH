@@ -1,15 +1,30 @@
 {
   "schema_version": 1,
   "locale": "zh_tw",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "min_client_protocol": 1,
   "translation": {
     "path": "languages/zh_tw/translations.json",
-    "size_bytes": 23240,
-    "sha256": "b62106381d27c539b23550f261a4972763790f0efeadab518c758e56ef55c823"
+    "size_bytes": 24769,
+    "sha256": "b44caafb742712c8abdc67c319940736ee6c8d27a8ae182517dfe1225b28f488"
   },
   "resource_pack": {
     "available": false,
     "reason": "Redistribution rights have not been confirmed; large packs are deliberately excluded."
+  },
+  "resource_packs": {
+    "available": false,
+    "reason": "Files are in a private draft Release. Enable only after owner verifies redistribution rights and publishes the Release.",
+    "release_tag": "v1.0.0",
+    "main": {
+      "url": "https://github.com/ga200604101111/SAOMCZH/releases/download/v1.0.0/SAO_TW_v9.zip",
+      "size_bytes": 303533824,
+      "sha256": "d6e4794ed883245cfbfc95460cf99a806d213956a1e7c98b34a4d8470f276442"
+    },
+    "support": {
+      "url": "https://github.com/ga200604101111/SAOMCZH/releases/download/v1.0.0/SAO_TW_v9_support.zip",
+      "size_bytes": 23631,
+      "sha256": "60f032b10310b5ed6c801f9b0dc0f934794adbb3d720d06dea991821e85a4e99"
+    }
   }
 }

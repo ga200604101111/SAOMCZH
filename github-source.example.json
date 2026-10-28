@@ -6,5 +6,5 @@
   "locale": "zh_tw",
   "check_interval_minutes": 60,
   "apply_to_v9": false,
-  "allow_asset_downloads": false
+  "allow_asset_downloads": true
 }

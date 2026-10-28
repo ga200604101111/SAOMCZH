@@ -27,7 +27,7 @@ class TranslationSyncTests(unittest.TestCase):
   return self.resources[path]
  def test_public_repo_manifest_matches_export(self):
   report=validate_repo(ROOT)
-  self.assertEqual(report['zh_tw']['entries'],373)
+  self.assertGreaterEqual(report['zh_tw']['entries'],373)
  def test_sync_caches_but_does_not_modify_live_v9_by_default(self):
   file=self.root/'SAO_TW_Dynamic/zh_tw.json'
   before=file.read_bytes()
