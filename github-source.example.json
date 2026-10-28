@@ -1,0 +1,10 @@
+{
+  "enabled": false,
+  "owner": "ga200604101111",
+  "repo": "SAOMCZH",
+  "ref": "main",
+  "locale": "zh_tw",
+  "check_interval_minutes": 60,
+  "apply_to_v9": false,
+  "allow_asset_downloads": false
+}

@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "project": "sao-community-localization",
+  "client_protocol": 1,
+  "default_locale": "en_us",
+  "locales": {
+    "zh_tw": {
+      "name": "繁體中文（台灣）",
+      "version_manifest": "languages/zh_tw/zh-tw-version.json"
+    }
+  },
+  "notes": "Add version manifests for other locales when their translations are ready."
+}

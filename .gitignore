@@ -1,0 +1,22 @@
+# Never commit captured server data, private identities, or launcher logs
+raw/
+review/
+backups/
+private/
+.github-secrets/
+*.log
+*.sqlite
+*.db
+*.jar
+*.zip
+*.7z
+*.exe
+*.token
+*credentials*
+*.pending
+*.tmp
+__pycache__/
+*.pyc
+cache/
+local-overrides.json
+github-source.json

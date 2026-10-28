@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "locale": "zh_tw",
+  "version": "1.0.0",
+  "min_client_protocol": 1,
+  "translation": {
+    "path": "languages/zh_tw/translations.json",
+    "size_bytes": 23240,
+    "sha256": "b62106381d27c539b23550f261a4972763790f0efeadab518c758e56ef55c823"
+  },
+  "resource_pack": {
+    "available": false,
+    "reason": "Redistribution rights have not been confirmed; large packs are deliberately excluded."
+  }
+}
