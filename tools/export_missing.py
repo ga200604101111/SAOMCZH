@@ -5,7 +5,7 @@ import argparse,datetime,hashlib,json,re,sys
 from pathlib import Path
 ALLOWED={
  "equipment_stat","skill_name","skill_desc","skill_stat","skill_lore","mob_name",
- "bossbar_title","scoreboard_title","actionbar_system"
+ "bossbar_title","scoreboard_title","actionbar_system","item_name","item_lore"
 }
 SECTIONS={"names","messages","lines","items"}
 UUID=re.compile(r"\b[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}\b",re.I)
@@ -41,7 +41,8 @@ def export(root:Path)->tuple[Path,int,int]:
     ignored+=1;continue
    if row.get("id")!=stable(section,text):
     ignored+=1;continue
-   if text in existing.get(section,{}):
+   sections=("items","names","lines") if section=="items" else (section,)
+   if any(text in existing.get(part,{}) for part in sections):
     ignored+=1;continue
    key=(section,text)
    if key not in found:
@@ -57,7 +58,7 @@ def export(root:Path)->tuple[Path,int,int]:
  package={
   "schema_version":1,"locale":"zh_tw","type":"missing-translation-proposals",
   "generated_at":datetime.datetime.now(datetime.timezone.utc).isoformat(),
-  "privacy":"Only allowlisted UI labels are included. No chat logs, player names, UUIDs, IPs, or raw server packets.",
+  "privacy":"Only allowlisted UI/item text is included, with common identifier filters. No chat event or raw packet capture. Manually review custom item names before sharing.",
   "entries":entries
  }
  folder=root/"SAO_TW_Dynamic/submissions";folder.mkdir(exist_ok=True)
