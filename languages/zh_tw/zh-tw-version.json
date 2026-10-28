@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "locale": "zh_tw",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "min_client_protocol": 1,
   "translation": {
     "path": "languages/zh_tw/translations.json",
-    "size_bytes": 24769,
-    "sha256": "b44caafb742712c8abdc67c319940736ee6c8d27a8ae182517dfe1225b28f488"
+    "size_bytes": 24469,
+    "sha256": "31b753d71f6044b1e556b82f51555af5840655bd7018aa92cd0a1d8a5b7fc754"
   },
   "resource_pack_source": "SAOMCZHPACK/pack-version.json"
 }
