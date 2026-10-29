@@ -24,9 +24,22 @@ final class TextProjection {
  private static Object tree(Object source,Access a,Function<String,String>f,int depth,int[]count)throws Exception{
   if(depth>24||++count[0]>128)return source;Object contents=a.content.invoke(source);
   String raw=a.plainType.isInstance(contents)?(String)a.plain.invoke(contents):null;
-  String changed=raw==null?null:f.apply(raw);boolean modified=raw!=null&&!raw.equals(changed);
-  List<?>siblings=(List<?>)a.siblings.invoke(source);if(siblings.size()>128)return source;List<Object>children=new ArrayList<>(siblings.size());
-  for(Object child:siblings){Object v=tree(child,a,f,depth+1,count);children.add(v);modified|=v!=child;}
-  if(!modified)return source;Object result=raw==null?a.copy.invoke(source):a.literal.invoke(null,changed);a.setStyle.invoke(result,a.style.invoke(source));for(Object child:children)a.append.invoke(result,child);return result;
+  String changed=raw==null?null:f.apply(raw);boolean selfChanged=raw!=null&&!raw.equals(changed);
+  List<?>siblings=(List<?>)a.siblings.invoke(source);if(siblings.size()>128)return source;
+  // Allocate child copies only when a descendant actually changes. A typical rendered Text
+  // does not need an ArrayList allocation on every frame.
+  List<Object>children=null;
+  for(int i=0;i<siblings.size();i++){
+   Object child=siblings.get(i),next=tree(child,a,f,depth+1,count);
+   if(children==null&&next!=child){
+    children=new ArrayList<>(siblings.size());for(int j=0;j<i;j++)children.add(siblings.get(j));
+   }
+   if(children!=null)children.add(next);
+  }
+  if(!selfChanged&&children==null)return source;
+  Object result=selfChanged?a.literal.invoke(null,changed):a.copy.invoke(source);
+  a.setStyle.invoke(result,a.style.invoke(source));
+  for(Object child:children==null?siblings:children)a.append.invoke(result,child);
+  return result;
  }
 }

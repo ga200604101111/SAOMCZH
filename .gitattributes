@@ -1,0 +1,2 @@
+# Locale manifests pin exact byte hashes; Windows checkouts must not change LF to CRLF.
+languages/zh_tw/*.json text eol=lf

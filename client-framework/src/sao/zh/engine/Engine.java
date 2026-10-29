@@ -4,6 +4,26 @@ import java.io.*;import java.nio.file.*;import java.nio.charset.StandardCharsets
 /** External runtime. The installed kernel never names Minecraft classes or implements translation. */
 public final class Engine {
  private final LayoutSupport layout=new LayoutSupport();private volatile Map<String,Script.Hook>refreshGuards=Map.of();
+ // Render-thread-local bounded cache: dictionary and rule updates invalidate the whole generation.
+ // Only cache String projections, never mutable Text or UI model objects.
+ private final ThreadLocal<TranslationMemo> translationMemo=ThreadLocal.withInitial(TranslationMemo::new);
+ private static final class TranslationMemo {
+  private long generation=Long.MIN_VALUE;
+  private final LinkedHashMap<Script.Hook,LinkedHashMap<String,String>> hooks=new LinkedHashMap<>(16,.75f,true);
+  private void reset(long next){if(next!=generation){hooks.clear();generation=next;}}
+  String get(Script.Hook hook,String raw,long next){
+   reset(next);Map<String,String> values=hooks.get(hook);return values==null?null:values.get(raw);
+  }
+  void put(Script.Hook hook,String raw,String translation,long next){
+   reset(next);LinkedHashMap<String,String> values=hooks.get(hook);
+   if(values==null){
+    values=new LinkedHashMap<>(16,.75f,true);hooks.put(hook,values);
+    while(hooks.size()>48)hooks.remove(hooks.keySet().iterator().next());
+   }
+   values.put(raw,translation);
+   while(values.size()>32)values.remove(values.keySet().iterator().next());
+  }
+ }
  private final Instrumentation inst;private final Path root,store;private final RuleTransformer transformer=new RuleTransformer();
  private final UnknownCollector unknownCollector;
  private volatile Script current=Script.empty(),previous;private volatile byte[]currentBytes,currentSig,previousBytes,previousSig;
@@ -59,10 +79,23 @@ public final class Engine {
  });}
  private String translate(Script.Hook h,String raw){
   if(raw==null||raw.length()>8192)return raw;
-  String result=h.literal(raw);if(!result.equals(raw))return result;
+  // Most fixed GUI labels repeat every frame; keep the memo per thread, hook and rule generation.
+  // Cap at 256 chars to avoid retaining large descriptions or unbounded numeric history.
+  long generation=epoch.get();boolean cacheable=raw.length()<=256;
+  TranslationMemo memo=cacheable?translationMemo.get():null;
+  if(cacheable){String hit=memo.get(h,raw,generation);if(hit!=null)return hit;}
+  String result=h.literal(raw);
+  if(!result.equals(raw)){if(cacheable)memo.put(h,raw,result,generation);return result;}
   Map<String,Map<String,String>>data=dictionary;String next=data.getOrDefault(h.section,Map.of()).get(raw);
   if(next==null&&h.section.equals("items"))for(String section:new String[]{"names","lines"}){next=data.getOrDefault(section,Map.of()).get(raw);if(next!=null)break;}
-  if(next==null||next.length()>16384){if(!h.capture.isEmpty())unknownCollector.offer(h.capture,h.section,h.id,raw);return raw;}return next;
+  if(next==null||next.length()>16384){
+   if(!h.capture.isEmpty())unknownCollector.offer(h.capture,h.section,h.id,raw);
+   // Capture-enabled misses must remain retryable when the asynchronous queue is full.
+   if(cacheable&&h.capture.isEmpty())memo.put(h,raw,raw,generation);
+   return raw;
+  }
+  if(cacheable)memo.put(h,raw,next,generation);
+  return next;
  }
  public synchronized String applySigned(byte[]body,byte[]sig)throws Exception{
   Verified.signature(body,sig);Script next=Script.parse(body);
