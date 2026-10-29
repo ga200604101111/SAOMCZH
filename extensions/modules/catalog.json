@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "bundle_version": "1.5.1",
-  "bundle_sequence": 107,
+  "bundle_version": "1.6.0",
+  "bundle_sequence": 108,
   "runtime_api": 1,
   "minimum_runtime_version": "1.1.0",
   "rule_schema": 2,
@@ -12,16 +12,18 @@
   "modules": [
     {
       "id": "codex-creatures",
-      "version": "1.2.0",
-      "source_sha256": "3be76835ec79ce4f4290a20b7d8a0157220c634b1f0b90995d31e1ee1139994d",
+      "version": "1.6.0",
+      "source_sha256": "a18c3da51249026c6c468af4246f242c72853237e36283201f4a92071f49b23c",
       "dependencies": {
         "shared-terms": "1.0.0"
       },
-      "hook_count": 7,
+      "hook_count": 14,
       "coverage": [
         "圖鑑名稱、描述、分類、掉落名稱",
         "透過動態翻譯模組共同處理生物名稱；特殊外部圖鑑尚未全覆蓋",
-        "Direct domain text display entries discovered by javap from SAOUI 2.41.2; exact dictionary translation only."
+        "Direct domain text display entries discovered by javap from SAOUI 2.41.2; exact dictionary translation only.",
+        "Codex category, entry hint and lore UI read sites verified from SAOUI 2.41.2 bytecode; preserve discovery state, date and source IDs.",
+        "Opt-in local untranslated-text observation: codex domain; bounded asynchronous writer, no chat, no automatic upload; requires external Runtime1.2."
       ]
     },
     {
@@ -50,18 +52,19 @@
     },
     {
       "id": "guild-social",
-      "version": "1.0.1",
-      "source_sha256": "cc7e2062c55ff3e8b6105f6e4679ac006e332489990f2cb7ab86d4ed9d45e4bd",
+      "version": "1.6.0",
+      "source_sha256": "acb5211c29da78c126385e854bb872a13a5c0a781462e05ef2e18a806120501d",
       "dependencies": {},
-      "hook_count": 2,
+      "hook_count": 3,
       "coverage": [
-        "公會成員階級與階級選單；不改玩家名稱、UUID、職級 ID 或操作封包"
+        "公會成員階級與階級選單；不改玩家名稱、UUID、職級 ID 或操作封包",
+        "Guild member detail shows localized rank from explicit rank field; player name, UUID and membership permissions unchanged."
       ]
     },
     {
       "id": "items-economy",
-      "version": "1.4.0",
-      "source_sha256": "c38443703b14351cf2e02e0976d81086901d1031d4b901dc214ccc5a62fc1d7d",
+      "version": "1.6.0",
+      "source_sha256": "0b360a697bc547e75497cdca152551ef263810021e5cd467c197f66ce9d33855",
       "dependencies": {
         "shared-terms": "1.0.0"
       },
@@ -72,20 +75,23 @@
         "拍賣商品若使用 ItemLangClient 會共享此模組；排版未在此輪處理",
         "大廳選樓層物品名稱與分色提示，既有物品顯示入口不需更換核心",
         "詳細規格物品名稱與來源；取得來源在共用分行前翻譯，價格保留。",
-        "Direct domain text display entries discovered by javap from SAOUI 2.41.2; exact dictionary translation only."
+        "Direct domain text display entries discovered by javap from SAOUI 2.41.2; exact dictionary translation only.",
+        "Opt-in local untranslated-text observation: item domain; bounded asynchronous writer, no chat, no automatic upload; requires external Runtime1.2."
       ]
     },
     {
       "id": "quests-objectives",
-      "version": "1.1.1",
-      "source_sha256": "27dc0072bc2630b2d9f041a26a9b9017f380c334ee756eec4208f6e3adbed981",
+      "version": "1.6.0",
+      "source_sha256": "364ae1dd23786dfba9e42ac03a78d5323a6ff1b9e98f3a6a59f8460dd4a9a95f",
       "dependencies": {
         "shared-terms": "1.0.0"
       },
-      "hook_count": 5,
+      "hook_count": 19,
       "coverage": [
         "任務描述、目標文字與既有翻譯結果",
-        "追蹤 HUD 標題／說明；已建立行列表的完整快取重排仍需另外介接"
+        "追蹤 HUD 標題／說明；已建立行列表的完整快取重排仍需另外介接",
+        "Quest journal row text, HUD model read, objective caption and compass local display paths; only display text is transformed, not Quest model or server packet.",
+        "Opt-in local untranslated-text observation: quest domain; bounded asynchronous writer, no chat, no automatic upload; requires external Runtime1.2."
       ]
     },
     {
@@ -100,15 +106,17 @@
     },
     {
       "id": "skills-progression",
-      "version": "1.1.2",
-      "source_sha256": "baa2ee30c74836e996fffd6a7c7fac1f67f77b0e343d9a9d9bb4a944763204fe",
+      "version": "1.6.0",
+      "source_sha256": "a865338b0705fc04ceca74ee45c0d6bb8a2198d97396913ad4afec49d253f268",
       "dependencies": {
         "shared-terms": "1.0.0"
       },
-      "hook_count": 7,
+      "hook_count": 12,
       "coverage": [
         "技能詳情名稱、描述原文、數值說明欄位",
-        "技能樹原有功能仍由外部相容模組提供；非本輪已完全拆開"
+        "技能樹原有功能仍由外部相容模組提供；非本輪已完全拆開",
+        "SAOJob skill detail and tree descriptions translated before text splitting; no skill activation/cost/data changes.",
+        "Opt-in local untranslated-text observation: skill domain; bounded asynchronous writer, no chat, no automatic upload; requires external Runtime1.2."
       ]
     },
     {
@@ -129,8 +137,8 @@
     },
     {
       "id": "worlds-locations",
-      "version": "1.2.0",
-      "source_sha256": "f54d190ec13501a5dee733195839a10f6a6351ef94020e13f4889a78311d5d85",
+      "version": "1.6.0",
+      "source_sha256": "1fa2996507e41f002d3f0f8fb9c13ab0de9e12ca8715c83fe1b96db54c7043f7",
       "dependencies": {
         "shared-terms": "1.0.0"
       },
@@ -138,9 +146,11 @@
       "coverage": [
         "跨服世界名稱、傳送點標籤與相同標籤的量測",
         "地圖與所有區域 HUD 尚未全部介接",
-        "Direct domain text display entries discovered by javap from SAOUI 2.41.2; exact dictionary translation only."
+        "Direct domain text display entries discovered by javap from SAOUI 2.41.2; exact dictionary translation only.",
+        "Opt-in local untranslated-text observation: world domain; bounded asynchronous writer, no chat, no automatic upload; requires external Runtime1.2."
       ]
     }
   ],
-  "notes": "Locale-neutral modules, translations only languages/zh_tw. Generic SAOUI text renderer restricted to system/message translations to avoid translating player names. No Agent update required."
+  "notes": "Version 1.6.0: domain-specific text interception and 31 opt-in local unknown-text sources. All translations and whitespace shortcut rules are in languages/zh_tw. Runtime1.1 ignores capture metadata, Runtime1.2 safely collects it.",
+  "capture_minimum_runtime_version": "1.2.0"
 }

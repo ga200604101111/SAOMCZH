@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "locale": "zh_tw",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "min_client_protocol": 1,
   "translation": {
     "path": "languages/zh_tw/translations.json",
@@ -11,7 +11,7 @@
   "resource_pack_source": "SAOMCZHPACK/pack-version.json",
   "hook_text_rules": {
     "path": "languages/zh_tw/hook_text_rules.json",
-    "size_bytes": 37650,
-    "sha256": "f6af4ef47d8a995d327a7e8199af238976a793cc59e2e3f76fdf9bb44856af27"
+    "size_bytes": 16120,
+    "sha256": "7de33a3a437559500397fa3e304c260ce7de93a9481af8567327d52bc4b95088"
   }
 }

@@ -1,10 +1,11 @@
 {
   "schema_version": 1,
   "id": "guild-social",
-  "version": "1.0.1",
+  "version": "1.6.0",
   "dependencies": {},
   "coverage": [
-    "公會成員階級與階級選單；不改玩家名稱、UUID、職級 ID 或操作封包"
+    "公會成員階級與階級選單；不改玩家名稱、UUID、職級 ID 或操作封包",
+    "Guild member detail shows localized rank from explicit rank field; player name, UUID and membership permissions unchanged."
   ],
   "hooks": [
     {
@@ -28,6 +29,18 @@
       "section": "names",
       "member_class": "fr/sao/guild/screen/MembersPage$Role",
       "member": "name",
+      "member_descriptor": "Ljava/lang/String;",
+      "sites": 1
+    },
+    {
+      "id": "member-detail-rank",
+      "class": "fr/sao/guild/screen/MembersPage",
+      "method": "drawMemberDetail",
+      "descriptor": "(Lnet/minecraft/class_332;IILfr/sao/guild/screen/MembersPage$Member;F)V",
+      "kind": "field",
+      "section": "names",
+      "member_class": "fr/sao/guild/screen/MembersPage$Member",
+      "member": "rank",
       "member_descriptor": "Ljava/lang/String;",
       "sites": 1
     }

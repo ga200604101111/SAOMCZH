@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "codex-creatures",
-  "version": "1.2.0",
+  "version": "1.6.0",
   "name": "圖鑑與生物",
   "enabled": true,
   "dependencies": {
@@ -10,7 +10,9 @@
   "coverage": [
     "圖鑑名稱、描述、分類、掉落名稱",
     "透過動態翻譯模組共同處理生物名稱；特殊外部圖鑑尚未全覆蓋",
-    "Direct domain text display entries discovered by javap from SAOUI 2.41.2; exact dictionary translation only."
+    "Direct domain text display entries discovered by javap from SAOUI 2.41.2; exact dictionary translation only.",
+    "Codex category, entry hint and lore UI read sites verified from SAOUI 2.41.2 bytecode; preserve discovery state, date and source IDs.",
+    "Opt-in local untranslated-text observation: codex domain; bounded asynchronous writer, no chat, no automatic upload; requires external Runtime1.2."
   ],
   "hooks": [
     {
@@ -19,7 +21,8 @@
       "method": "localName",
       "descriptor": "(Lfr/sao/codex/CodexClient$Entry;)Ljava/lang/String;",
       "kind": "return",
-      "section": "names"
+      "section": "names",
+      "capture": "codex"
     },
     {
       "id": "entry-lore",
@@ -27,7 +30,8 @@
       "method": "localLore",
       "descriptor": "(Lfr/sao/codex/CodexClient$Entry;)Ljava/lang/String;",
       "kind": "return",
-      "section": "lines"
+      "section": "lines",
+      "capture": "codex"
     },
     {
       "id": "universe",
@@ -80,6 +84,95 @@
       "descriptor": "(Lfr/sao/codex/CodexClient$Entry;)Ljava/lang/String;",
       "kind": "return",
       "section": "lines"
+    },
+    {
+      "id": "codex-group-name",
+      "class": "fr/sao/codex/CodexScreen",
+      "method": "drawSheet",
+      "descriptor": "(Lnet/minecraft/class_332;F)V",
+      "kind": "call",
+      "section": "names",
+      "member_class": "fr/sao/codex/CodexClient$Group",
+      "member": "name",
+      "member_descriptor": "()Ljava/lang/String;",
+      "sites": 1,
+      "capture": "codex"
+    },
+    {
+      "id": "codex-entry-hint",
+      "class": "fr/sao/codex/CodexScreen",
+      "method": "drawSheet",
+      "descriptor": "(Lnet/minecraft/class_332;F)V",
+      "kind": "call",
+      "section": "lines",
+      "member_class": "fr/sao/codex/CodexClient$Entry",
+      "member": "hint",
+      "member_descriptor": "()Ljava/lang/String;",
+      "sites": 1
+    },
+    {
+      "id": "codex-body-hint",
+      "class": "fr/sao/codex/CodexScreen",
+      "method": "drawSheetBody",
+      "descriptor": "(Lfr/sao/codex/CodexClient$Entry;)V",
+      "kind": "call",
+      "section": "lines",
+      "member_class": "fr/sao/codex/CodexClient$Entry",
+      "member": "hint",
+      "member_descriptor": "()Ljava/lang/String;",
+      "sites": 3,
+      "capture": "codex"
+    },
+    {
+      "id": "codex-display-hint",
+      "class": "fr/sao/codex/CodexScreen",
+      "method": "drawSheetBody",
+      "descriptor": "(Lfr/sao/codex/CodexClient$Entry;)V",
+      "kind": "call",
+      "section": "lines",
+      "member_class": "fr/sao/codex/CodexScreen$Local",
+      "member": "hint",
+      "member_descriptor": "()Ljava/lang/String;",
+      "sites": 2,
+      "capture": "codex"
+    },
+    {
+      "id": "codex-display-lore",
+      "class": "fr/sao/codex/CodexScreen",
+      "method": "drawSheetBody",
+      "descriptor": "(Lfr/sao/codex/CodexClient$Entry;)V",
+      "kind": "call",
+      "section": "lines",
+      "member_class": "fr/sao/codex/CodexScreen$Local",
+      "member": "lore",
+      "member_descriptor": "()Ljava/lang/String;",
+      "sites": 1,
+      "capture": "codex"
+    },
+    {
+      "id": "codex-category-display",
+      "class": "fr/sao/codex/CodexScreen",
+      "method": "drawCategories",
+      "descriptor": "()V",
+      "kind": "call",
+      "section": "names",
+      "member_class": "fr/sao/codex/CodexScreen$CatText",
+      "member": "name",
+      "member_descriptor": "()Ljava/lang/String;",
+      "sites": 1
+    },
+    {
+      "id": "codex-sheet-name",
+      "class": "fr/sao/codex/CodexScreen",
+      "method": "drawSheet",
+      "descriptor": "(Lnet/minecraft/class_332;F)V",
+      "kind": "call",
+      "section": "names",
+      "member_class": "fr/sao/codex/CodexScreen$Local",
+      "member": "name",
+      "member_descriptor": "()Ljava/lang/String;",
+      "sites": 1,
+      "capture": "codex"
     }
   ]
 }

@@ -15,7 +15,7 @@ METHOD=re.compile(r'^[A-Za-z_$][A-Za-z0-9_$]*$')
 TOKEN=re.compile(r'%(?:[0-9]+\$)?[-+#0 ,(]*[0-9]*(?:\.[0-9]+)?[a-zA-Z]|%%|\{[^{}\r\n]{1,80}\}')
 SECTIONS=('names','items','lines','messages')
 PROTECTED=('java/','javax/','jdk/','sun/','sao/zh/','org/objectweb/','net/fabricmc/','org/spongepowered/')
-HOOK_FIELDS={'id','class','method','descriptor','kind','argument','sites','member_class','member','member_descriptor','locale','section','exact','operations','measure','context_fields','cache_fields'}
+HOOK_FIELDS={'id','class','method','descriptor','kind','argument','sites','member_class','member','member_descriptor','locale','section','exact','operations','measure','context_fields','cache_fields','capture'}
 MAX_BYTES=2*1024*1024
 
 def load_json(text:str)->Any:
@@ -90,6 +90,20 @@ def checked_hook(h:Any,module_id:str,terms:dict[str,dict[str,str]])->dict[str,An
  h['locale']=locale;section=h.get('section','names')
  if section not in SECTIONS:raise ModuleError('Invalid section')
  h['section']=section
+ capture=h.get('capture')
+ if capture is not None:
+  families={
+   'quest':('quests-objectives',('fr/sao/questtracker/screen/','fr/sao/questtracker/hud/')),
+   'codex':('codex-creatures',('fr/sao/codex/',)),
+   'skill':('skills-progression',('com/eighteen/saojob/skills/','com/eighteen/saojob/skilltree/')),
+   'item':('items-economy',('fr/sao/iteminfo/','fr/sao/tooltip/','fr/sao/daily/','fr/sao/itemlang/')),
+   'world':('worlds-locations',('fr/sao/teleport/','fr/sao/interlink/','fr/sao/saoui/mob/BossHud')),
+   'system':('combat-feedback',('fr/sao/saoui/hud/actionbar/ActionBarTranslator',))
+  }
+  if not isinstance(capture,str) or capture not in families:raise ModuleError('Unknown capture origin')
+  module,owners=families[capture]
+  if module_id!=module or kind not in ('return','argument','call','field') or not any(h['class'].startswith(o) for o in owners):
+   raise ModuleError('Capture target not allowlisted for its domain')
  mapped=dict(terms.get(section,{}));mapped.update(entries(h.get('exact',{})));h['exact']=dict(sorted(mapped.items()))
  ops=h.get('operations',[])
  if not isinstance(ops,list) or len(ops)>8:raise ModuleError('Instruction budget exceeded')

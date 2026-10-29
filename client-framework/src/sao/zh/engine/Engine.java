@@ -5,13 +5,14 @@ import java.io.*;import java.nio.file.*;import java.nio.charset.StandardCharsets
 public final class Engine {
  private final LayoutSupport layout=new LayoutSupport();private volatile Map<String,Script.Hook>refreshGuards=Map.of();
  private final Instrumentation inst;private final Path root,store;private final RuleTransformer transformer=new RuleTransformer();
+ private final UnknownCollector unknownCollector;
  private volatile Script current=Script.empty(),previous;private volatile byte[]currentBytes,currentSig,previousBytes,previousSig;
  private final AtomicLong epoch=new AtomicLong();private volatile Map<String,Map<String,String>>dictionary=Map.of();
  private final ScheduledExecutorService worker=Executors.newSingleThreadScheduledExecutor(r->{Thread t=new Thread(r,"SAO-ZH-Extensions");t.setDaemon(true);return t;});
  private final ExecutorService downloads=Executors.newSingleThreadExecutor(r->{Thread t=new Thread(r,"SAO-ZH-Download");t.setDaemon(true);return t;});private final AtomicBoolean fetching=new AtomicBoolean();private volatile long controlEpoch;private long nextBinaryCheck;
  private final List<JarFile>held=new ArrayList<>();private final Set<String>logged=ConcurrentHashMap.newKeySet();private volatile long highWater;private long nextNetwork;
  private final Path engineJar;private long candidateStamp=-1,dictStamp=-1,controlStamp=-1;private volatile boolean updatesPaused;private String remoteDigest="";private final boolean fixture;private boolean nativeTest;
- private Engine(Instrumentation i,Path root,Path jar,boolean fixture){inst=i;this.root=root;store=root.resolve("SAO_ZH_Extensions");engineJar=jar;this.fixture=fixture;}
+ private Engine(Instrumentation i,Path root,Path jar,boolean fixture){inst=i;this.root=root;store=root.resolve("SAO_ZH_Extensions");engineJar=jar;this.fixture=fixture;unknownCollector=new UnknownCollector(root);}
  public static Engine start(Instrumentation inst,Path root,Path jar,String args)throws Exception{
   Engine e=new Engine(inst,root,jar,args.equals("fixture")||args.equals("watch-test"));e.nativeTest=args.equals("native-test")||args.equals("watch-test");e.installApi();
   if(!e.fixture)e.installCompatibility();
@@ -61,7 +62,7 @@ public final class Engine {
   String result=h.literal(raw);if(!result.equals(raw))return result;
   Map<String,Map<String,String>>data=dictionary;String next=data.getOrDefault(h.section,Map.of()).get(raw);
   if(next==null&&h.section.equals("items"))for(String section:new String[]{"names","lines"}){next=data.getOrDefault(section,Map.of()).get(raw);if(next!=null)break;}
-  return next==null||next.length()>16384?raw:next;
+  if(next==null||next.length()>16384){if(!h.capture.isEmpty())unknownCollector.offer(h.capture,h.section,h.id,raw);return raw;}return next;
  }
  public synchronized String applySigned(byte[]body,byte[]sig)throws Exception{
   Verified.signature(body,sig);Script next=Script.parse(body);

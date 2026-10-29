@@ -111,8 +111,12 @@ class CentralLocale(unittest.TestCase):
         overlays=json.loads((W/'languages/zh_tw/hook_text_rules.json').read_text('utf8'))
         ids={m['id']+':'+h['id'] for p in (W/'extensions/modules').glob('*/module.json') for m in [json.loads(p.read_text('utf8'))] for h in m['hooks']}
         self.assertTrue(set(overlays['hooks'])<=ids)
-        for v in overlays['hooks'].values():
-            self.assertTrue(set(v)<=set(['exact','operations']))
+        self.assertIn(overlays['schema_version'],(1,2))
+        from compose_localized import compile_scoped_text
+        for id,v in overlays['hooks'].items():
+            self.assertTrue(set(v)<=set(['use','exact','padded_exact','operations']))
+            resolved=compile_scoped_text(v,overlays.get('rule_sets',{}),id)
+            self.assertTrue(set(resolved)<=set(['exact','operations']))
     def test_input_locale_manifest_present(self):
         manifest=json.loads((W/'languages/locales.json').read_text('utf8'))
         self.assertEqual(manifest['available'],['zh_tw'])

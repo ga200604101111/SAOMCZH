@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "worlds-locations",
-  "version": "1.2.0",
+  "version": "1.6.0",
   "name": "世界與地點",
   "enabled": true,
   "dependencies": {
@@ -10,7 +10,8 @@
   "coverage": [
     "跨服世界名稱、傳送點標籤與相同標籤的量測",
     "地圖與所有區域 HUD 尚未全部介接",
-    "Direct domain text display entries discovered by javap from SAOUI 2.41.2; exact dictionary translation only."
+    "Direct domain text display entries discovered by javap from SAOUI 2.41.2; exact dictionary translation only.",
+    "Opt-in local untranslated-text observation: world domain; bounded asynchronous writer, no chat, no automatic upload; requires external Runtime1.2."
   ],
   "hooks": [
     {
@@ -44,7 +45,8 @@
       "member_class": "fr/sao/teleport/TeleportClient$Point",
       "member": "name",
       "member_descriptor": "()Ljava/lang/String;",
-      "sites": 1
+      "sites": 1,
+      "capture": "world"
     },
     {
       "id": "rift-draw",
@@ -76,7 +78,8 @@
       "member_class": "fr/sao/teleport/TeleportClient$Point",
       "member": "name",
       "member_descriptor": "()Ljava/lang/String;",
-      "sites": 1
+      "sites": 1,
+      "capture": "world"
     },
     {
       "id": "transfer-header-here",
@@ -153,7 +156,8 @@
       "method": "plain",
       "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
       "kind": "return",
-      "section": "names"
+      "section": "names",
+      "capture": "world"
     },
     {
       "id": "boss-visible-text",

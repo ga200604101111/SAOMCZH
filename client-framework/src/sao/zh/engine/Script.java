@@ -27,13 +27,13 @@ final class Script {
   Object expiry=root.get("expires");if(!(expiry instanceof Number)||((Number)expiry).longValue()<System.currentTimeMillis()/1000)throw new IllegalArgumentException("Script expired");
   if(!(root.get("hooks") instanceof List))throw new IllegalArgumentException("Hooks must be array");List<?>rows=(List<?>)root.get("hooks");if(rows.size()>128)throw new IllegalArgumentException("Too many hooks");
   Map<String,Hook>all=new TreeMap<>();Set<String>sites=new HashSet<>();
-  for(Object row:rows){Hook hook=new Hook(obj(row));if(schema==1&&(hook.kind.equals("wrap")||hook.kind.equals("refresh")))throw new IllegalArgumentException("Layout capabilities require schema 2");if(all.put(hook.id,hook)!=null)throw new IllegalArgumentException("Duplicate hook id");if(!sites.add(hook.shape().substring(hook.id.length()+1)))throw new IllegalArgumentException("Ambiguous double hook site");}
+  for(Object row:rows){Hook hook=new Hook(obj(row));if(schema==1&&!hook.capture.isEmpty())throw new IllegalArgumentException("Capture requires schema 2");if(schema==1&&(hook.kind.equals("wrap")||hook.kind.equals("refresh")))throw new IllegalArgumentException("Layout capabilities require schema 2");if(all.put(hook.id,hook)!=null)throw new IllegalArgumentException("Duplicate hook id");if(!sites.add(hook.shape().substring(hook.id.length()+1)))throw new IllegalArgumentException("Ambiguous double hook site");}
   Script next=new Script(version,sequence,all);
   Object samples=root.get("tests");if(samples instanceof List){if(((List<?>)samples).size()>512)throw new IllegalArgumentException("Too many tests");for(Object sample:(List<?>)samples){Map<?,?>s=obj(sample);Hook hook=all.get(str(s,"hook"));if(hook==null||!str(s,"expect").equals(hook.literal(str(s,"input"))))throw new IllegalArgumentException("Script self-test failed");}}
   return next;
  }
  static final class Hook {
-  final String id,owner,method,descriptor,kind,memberOwner,memberName,memberDescriptor,locale,section;final int argument,sites;
+  final String id,owner,method,descriptor,kind,memberOwner,memberName,memberDescriptor,locale,section,capture;final int argument,sites;
   final Map<String,String>exact;final List<Operation>ops;final AtomicInteger failures=new AtomicInteger();
   final String measure;final Map<String,String>contextFields;final List<CacheField>cacheFields;
   Hook(Map<?,?>m){
@@ -61,11 +61,13 @@ final class Script {
    }
    locale=m.get("locale") instanceof String?(String)m.get("locale"):"zh_tw";if(!locale.equals("*")&&!locale.matches("[a-z]{2,3}_[a-z]{2,4}"))throw new IllegalArgumentException("Invalid locale");
    section=m.get("section") instanceof String?(String)m.get("section"):"names";if(!Set.of("names","items","lines","messages").contains(section))throw new IllegalArgumentException("Unknown dictionary section");
+   Object captureInput=m.get("capture");capture=captureInput==null?"":captureInput instanceof String?(String)captureInput:"!invalid!";
+   if(!capture.isEmpty()&&!UnknownCollector.permitted(owner,kind,capture))throw new IllegalArgumentException("Capture is not approved for this owner/kind/origin");
    Map<String,String>map=new HashMap<>();Object entries=m.get("exact");if(entries instanceof Map){if(((Map<?,?>)entries).size()>10000)throw new IllegalArgumentException("Too many replacements");for(Map.Entry<?,?>e:((Map<?,?>)entries).entrySet()){
     if(!(e.getKey() instanceof String)||!(e.getValue() instanceof String)||((String)e.getKey()).isEmpty()||((String)e.getKey()).length()>8192||((String)e.getValue()).length()>16384)throw new IllegalArgumentException("Invalid literal replacement");map.put((String)e.getKey(),(String)e.getValue());}}
    exact=Map.copyOf(map);List<Operation>operations=new ArrayList<>();Object a=m.get("operations");if(a instanceof List){if(((List<?>)a).size()>8)throw new IllegalArgumentException("Instruction budget exceeded");for(Object v:(List<?>)a)operations.add(new Operation(obj(v)));}ops=List.copyOf(operations);
   }
-  String shape(){return id+'|'+owner+'|'+method+'|'+descriptor+'|'+kind+'|'+argument+'|'+memberOwner+'|'+memberName+'|'+memberDescriptor+'|'+sites+'|'+measure+'|'+contextFields+'|'+cacheFields;}
+  String shape(){return id+'|'+owner+'|'+method+'|'+descriptor+'|'+kind+'|'+argument+'|'+memberOwner+'|'+memberName+'|'+memberDescriptor+'|'+sites+'|'+measure+'|'+contextFields+'|'+cacheFields+'|'+capture;}
   String literal(String s){if(s==null||s.length()>8192)return s;String v=exact.getOrDefault(s,s);for(Operation op:ops){v=op.apply(v);if(v.length()>16384)return s;}return v;}
  }
  static final class CacheField {

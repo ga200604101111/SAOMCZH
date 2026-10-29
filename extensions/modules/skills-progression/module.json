@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "skills-progression",
-  "version": "1.1.2",
+  "version": "1.6.0",
   "name": "技能與成長",
   "enabled": true,
   "dependencies": {
@@ -9,7 +9,9 @@
   },
   "coverage": [
     "技能詳情名稱、描述原文、數值說明欄位",
-    "技能樹原有功能仍由外部相容模組提供；非本輪已完全拆開"
+    "技能樹原有功能仍由外部相容模組提供；非本輪已完全拆開",
+    "SAOJob skill detail and tree descriptions translated before text splitting; no skill activation/cost/data changes.",
+    "Opt-in local untranslated-text observation: skill domain; bounded asynchronous writer, no chat, no automatic upload; requires external Runtime1.2."
   ],
   "hooks": [
     {
@@ -22,7 +24,8 @@
       "member_class": "com/eighteen/saojob/skills/SkillsData$SkillEntry",
       "member": "name",
       "member_descriptor": "Ljava/lang/String;",
-      "sites": 1
+      "sites": 1,
+      "capture": "skill"
     },
     {
       "id": "skill-description",
@@ -34,7 +37,8 @@
       "member_class": "com/eighteen/saojob/skills/SkillsData$SkillEntry",
       "member": "description",
       "member_descriptor": "Ljava/lang/String;",
-      "sites": 3
+      "sites": 3,
+      "capture": "skill"
     },
     {
       "id": "skill-stat-name",
@@ -89,6 +93,64 @@
       "kind": "argument",
       "argument": 0,
       "section": "names"
+    },
+    {
+      "id": "skilltree-description-before-split",
+      "class": "com/eighteen/saojob/skilltree/NodeHoverPopup",
+      "method": "splitDescription",
+      "descriptor": "(Ljava/lang/String;)Ljava/util/List;",
+      "kind": "argument",
+      "section": "lines",
+      "argument": 0,
+      "capture": "skill"
+    },
+    {
+      "id": "skilltree-line-text",
+      "class": "com/eighteen/saojob/skilltree/NodeHoverPopup",
+      "method": "drawLine",
+      "descriptor": "(Lnet/minecraft/class_332;Lnet/minecraft/class_327;Lnet/minecraft/class_2561;DIIIIIZ)F",
+      "kind": "argument",
+      "section": "lines",
+      "argument": 2
+    },
+    {
+      "id": "skilltree-title-read",
+      "class": "com/eighteen/saojob/skilltree/NodeHoverPopup",
+      "method": "render",
+      "descriptor": "(Lnet/minecraft/class_332;Lnet/minecraft/class_437;Lnet/minecraft/class_327;Lcom/eighteen/saojob/skilltree/MapNode;IIZ)V",
+      "kind": "field",
+      "section": "names",
+      "member_class": "com/eighteen/saojob/skilltree/MapNode",
+      "member": "displayName",
+      "member_descriptor": "Ljava/lang/String;",
+      "sites": 3,
+      "capture": "skill"
+    },
+    {
+      "id": "skilltree-category-read",
+      "class": "com/eighteen/saojob/skilltree/NodeHoverPopup",
+      "method": "render",
+      "descriptor": "(Lnet/minecraft/class_332;Lnet/minecraft/class_437;Lnet/minecraft/class_327;Lcom/eighteen/saojob/skilltree/MapNode;IIZ)V",
+      "kind": "field",
+      "section": "names",
+      "member_class": "com/eighteen/saojob/skilltree/MapNode",
+      "member": "category",
+      "member_descriptor": "Ljava/lang/String;",
+      "sites": 3,
+      "capture": "skill"
+    },
+    {
+      "id": "skilltree-lore-read",
+      "class": "com/eighteen/saojob/skilltree/NodeHoverPopup",
+      "method": "render",
+      "descriptor": "(Lnet/minecraft/class_332;Lnet/minecraft/class_437;Lnet/minecraft/class_327;Lcom/eighteen/saojob/skilltree/MapNode;IIZ)V",
+      "kind": "field",
+      "section": "lines",
+      "member_class": "com/eighteen/saojob/skilltree/MapNode",
+      "member": "description",
+      "member_descriptor": "Ljava/lang/String;",
+      "sites": 1,
+      "capture": "skill"
     }
   ]
 }

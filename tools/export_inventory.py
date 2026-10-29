@@ -5,11 +5,14 @@ import argparse,collections,datetime,hashlib,json,os,re,shutil,tempfile,unicoded
 from pathlib import Path
 SECTIONS=('names','items','lines','messages')
 ORIGINS={'equipment_stat','skill_name','skill_desc','skill_stat','skill_lore','mob_name','bossbar_title','scoreboard_title','actionbar_system','item_name','item_lore','quest_title','quest_description','quest_objective','codex_name','codex_description','map_label','ui_label'}
-OBSERVATIONS={'missing_zh_tw.jsonl':ORIGINS,'item_seen.jsonl':{'SAOUI.ItemLangClient'},'ui_seen.jsonl':{'saojob.MapNode'},'daily_seen.jsonl':{'SAOUI.DailyModel.Reward.desc'}}
+CAPTURE_ORIGINS={'hook.quest','hook.codex','hook.skill','hook.item','hook.world','hook.system'}
+OBSERVATIONS={'missing_zh_tw.jsonl':ORIGINS,'item_seen.jsonl':{'SAOUI.ItemLangClient'},'ui_seen.jsonl':{'saojob.MapNode'},'daily_seen.jsonl':{'SAOUI.DailyModel.Reward.desc'},'hook_missing_zh_tw.jsonl':CAPTURE_ORIGINS}
 FORMAT=re.compile(r'(?i)(?:[§&]x(?:[§&][0-9a-f]){6}|[§&][0-9a-fk-or])')
 CJK=re.compile(r'[\u3400-\u9fff]');LATIN=re.compile(r'[A-Za-zÀ-ÿ]{2,}')
 PRIVATE=re.compile(r'(?:[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}|\b(?:\d{1,3}\.){3}\d{1,3}\b|\b[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}\b|https?://|(?:[A-Za-z]:\\|/Users/|/home/))',re.I)
 CHAT=re.compile(r'^\s*(?:<[^>]{1,32}>|\[[^]]{1,32}\]\s*[A-Za-z0-9_]{3,16}\s*[:：»›])')
+CAPTURE_CHAT=re.compile(r'^\s*(?:\[[^\]]{1,32}\]\s*)*[A-Za-z0-9_]{3,16}\s*[:：»›]',re.I)
+CAPTURE_USER=re.compile(r'^[A-Za-z0-9_]{3,16}$')
 TOKEN=re.compile(r'%(?:[0-9]+\$)?[-+#0 ,(]*[0-9]*(?:\.[0-9]+)?[a-zA-Z]|%%|\{[^{}\r\n]{1,80}\}')
 MAX_FILE=64*1024*1024;MAX_ENTRIES=150000;MAX_TEXT=65536
 
@@ -129,6 +132,12 @@ class Builder:
      try:d=loads(line)
      except (ValueError,TypeError):bad+=1;continue
      if not isinstance(d,dict) or d.get('origin') not in allowed:self.filtered['unapproved-origin']+=1;continue
+     if name=='hook_missing_zh_tw.jsonl':
+      source=d.get('source_key')
+      if d.get('schema_version')!=1 or d.get('locale')!='zh_tw' or not isinstance(source,str) or \
+          not 4<=len(source)<=480 or CAPTURE_CHAT.match(source) or CAPTURE_USER.fullmatch(source.strip()) or \
+          source.strip().lower().startswith(('www.','ftp.')) or not acceptable(source):
+       self.filtered['unsafe-capture-row']+=1;continue
      self.add(d.get('section'),d.get('source_key'),d.get('server_text'), 'review/'+name,d.get('origin'));n+=1
    self.sources.append({'source':'review/'+name,'kind':'observation','records':n})
    if bad:self.warning(name,'Skipped '+str(bad)+' malformed/incomplete append rows')

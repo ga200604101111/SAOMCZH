@@ -77,3 +77,7 @@ ASM 及 Noto 衍生圖集條款見 licenses。既有遊戲與模組的版權不�
 ### 1.5.1 Generic Renderer Guard
 
 Common PassCanvas/TextUtil projection now queries message-level translations, not item or player-name-like dictionary keys. Module-specific hooks still translate item names, quest strings, Codex labels and bosses. No new JAR or resource pack; previous signed rule bundle remains available for rollback.
+
+### v1.6.0: Scoped Original-Text Capture
+
+SAOUI 2.41.2 / SAOJob 1.1.3: 115 signed hooks, 31 optional source-tagged local unknown-text capture origins (Runtime 1.2.0). Translations and exact-space-preserving shared rule sets live under languages/zh_tw. Generic player chat and names are not captured or translated. See [release documentation](docs/coverage-capture-rules-1.6.0.md).

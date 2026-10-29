@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "quests-objectives",
-  "version": "1.1.1",
+  "version": "1.6.0",
   "name": "任務與追蹤",
   "enabled": true,
   "dependencies": {
@@ -9,7 +9,9 @@
   },
   "coverage": [
     "任務描述、目標文字與既有翻譯結果",
-    "追蹤 HUD 標題／說明；已建立行列表的完整快取重排仍需另外介接"
+    "追蹤 HUD 標題／說明；已建立行列表的完整快取重排仍需另外介接",
+    "Quest journal row text, HUD model read, objective caption and compass local display paths; only display text is transformed, not Quest model or server packet.",
+    "Opt-in local untranslated-text observation: quest domain; bounded asynchronous writer, no chat, no automatic upload; requires external Runtime1.2."
   ],
   "hooks": [
     {
@@ -18,7 +20,8 @@
       "method": "descriptionText",
       "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
       "kind": "return",
-      "section": "lines"
+      "section": "lines",
+      "capture": "quest"
     },
     {
       "id": "translated-text",
@@ -26,7 +29,8 @@
       "method": "translatedOf",
       "descriptor": "(ZLjava/lang/String;)Lnet/minecraft/class_2561;",
       "kind": "return",
-      "section": "lines"
+      "section": "lines",
+      "capture": "quest"
     },
     {
       "id": "objective",
@@ -55,6 +59,147 @@
       "descriptor": "(Lfr/sao/questtracker/model/QuestTrackerData$Panel;)Lnet/minecraft/class_2561;",
       "kind": "return",
       "section": "names"
+    },
+    {
+      "id": "quest-row-title",
+      "class": "fr/sao/questtracker/screen/QuestMenuScreen",
+      "method": "twoLines",
+      "descriptor": "(FLjava/lang/String;Ljava/lang/String;Ljava/lang/String;III)V",
+      "kind": "argument",
+      "section": "names",
+      "argument": 1,
+      "capture": "quest"
+    },
+    {
+      "id": "quest-row-status",
+      "class": "fr/sao/questtracker/screen/QuestMenuScreen",
+      "method": "twoLines",
+      "descriptor": "(FLjava/lang/String;Ljava/lang/String;Ljava/lang/String;III)V",
+      "kind": "argument",
+      "section": "lines",
+      "argument": 2,
+      "capture": "quest"
+    },
+    {
+      "id": "quest-row-objective",
+      "class": "fr/sao/questtracker/screen/QuestMenuScreen",
+      "method": "twoLines",
+      "descriptor": "(FLjava/lang/String;Ljava/lang/String;Ljava/lang/String;III)V",
+      "kind": "argument",
+      "section": "lines",
+      "argument": 3,
+      "capture": "quest"
+    },
+    {
+      "id": "quest-detail-heading",
+      "class": "fr/sao/questtracker/screen/QuestMenuScreen",
+      "method": "heading",
+      "descriptor": "(Ljava/lang/String;F)V",
+      "kind": "argument",
+      "section": "names",
+      "argument": 0
+    },
+    {
+      "id": "hud-original-title",
+      "class": "fr/sao/questtracker/hud/QuestTrackerRenderer",
+      "method": "buildContent",
+      "descriptor": "(Lfr/sao/questtracker/model/QuestTrackerData$Panel;ILnet/minecraft/class_327;)Lfr/sao/questtracker/hud/QuestTrackerRenderer$Content;",
+      "kind": "call",
+      "section": "names",
+      "member_class": "fr/sao/questtracker/model/QuestTrackerData$Quest",
+      "member": "title",
+      "member_descriptor": "()Lnet/minecraft/class_2561;",
+      "sites": 3,
+      "capture": "quest"
+    },
+    {
+      "id": "hud-original-objective",
+      "class": "fr/sao/questtracker/hud/QuestTrackerRenderer",
+      "method": "buildContent",
+      "descriptor": "(Lfr/sao/questtracker/model/QuestTrackerData$Panel;ILnet/minecraft/class_327;)Lfr/sao/questtracker/hud/QuestTrackerRenderer$Content;",
+      "kind": "call",
+      "section": "lines",
+      "member_class": "fr/sao/questtracker/model/QuestTrackerData$Objective",
+      "member": "label",
+      "member_descriptor": "()Lnet/minecraft/class_2561;",
+      "sites": 1,
+      "capture": "quest"
+    },
+    {
+      "id": "hud-objective-label",
+      "class": "fr/sao/questtracker/hud/QuestTrackerRenderer",
+      "method": "objectiveLabel",
+      "descriptor": "(Lnet/minecraft/class_2561;)Lnet/minecraft/class_2561;",
+      "kind": "argument",
+      "section": "lines",
+      "argument": 0,
+      "capture": "quest"
+    },
+    {
+      "id": "hud-tab-source",
+      "class": "fr/sao/questtracker/hud/QuestTrackerRenderer",
+      "method": "tabLabel",
+      "descriptor": "(Lnet/minecraft/class_2561;)Ljava/util/List;",
+      "kind": "argument",
+      "section": "names",
+      "argument": 0
+    },
+    {
+      "id": "compass-visible-title",
+      "class": "fr/sao/questtracker/hud/QuestCompassRenderer",
+      "method": "drawTitle",
+      "descriptor": "(Lnet/minecraft/class_332;Lnet/minecraft/class_327;Lnet/minecraft/class_2561;F)V",
+      "kind": "argument",
+      "section": "names",
+      "argument": 2,
+      "capture": "quest"
+    },
+    {
+      "id": "compass-top-line",
+      "class": "fr/sao/questtracker/hud/QuestCompassRenderer",
+      "method": "drawInfoBarContent",
+      "descriptor": "(Lnet/minecraft/class_332;Lnet/minecraft/class_327;Lnet/minecraft/class_2561;Lnet/minecraft/class_2561;F)V",
+      "kind": "argument",
+      "section": "lines",
+      "argument": 2,
+      "capture": "quest"
+    },
+    {
+      "id": "compass-bottom-line",
+      "class": "fr/sao/questtracker/hud/QuestCompassRenderer",
+      "method": "drawInfoBarContent",
+      "descriptor": "(Lnet/minecraft/class_332;Lnet/minecraft/class_327;Lnet/minecraft/class_2561;Lnet/minecraft/class_2561;F)V",
+      "kind": "argument",
+      "section": "lines",
+      "argument": 3,
+      "capture": "quest"
+    },
+    {
+      "id": "compass-split-top",
+      "class": "fr/sao/questtracker/hud/QuestCompassRenderer",
+      "method": "splitInfo",
+      "descriptor": "(Lnet/minecraft/class_2561;Lnet/minecraft/class_2561;)V",
+      "kind": "argument",
+      "section": "lines",
+      "argument": 0
+    },
+    {
+      "id": "compass-split-bottom",
+      "class": "fr/sao/questtracker/hud/QuestCompassRenderer",
+      "method": "splitInfo",
+      "descriptor": "(Lnet/minecraft/class_2561;Lnet/minecraft/class_2561;)V",
+      "kind": "argument",
+      "section": "lines",
+      "argument": 1
+    },
+    {
+      "id": "compass-rendered-text",
+      "class": "fr/sao/questtracker/hud/QuestCompassRenderer",
+      "method": "text",
+      "descriptor": "(Lnet/minecraft/class_332;Lnet/minecraft/class_327;Lnet/minecraft/class_2561;FFI)V",
+      "kind": "argument",
+      "section": "lines",
+      "argument": 2
     }
   ]
 }
