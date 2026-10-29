@@ -8,26 +8,27 @@ import argparse,json,time,hashlib,subprocess,os,base64
 from cryptography.hazmat.primitives import serialization
 
 def main():
- p=argparse.ArgumentParser(description=__doc__);p.add_argument('rules',type=Path);p.add_argument('--root',type=Path,default=Path(__file__).resolve().parents[2]);p.add_argument('--key',type=Path);p.add_argument('--repo',type=Path);p.add_argument('--install-local',action='store_true');p.add_argument('--publish',action='store_true');p.add_argument('--java',default='java');p.add_argument('--mod',type=Path,action='append',default=[]);a=p.parse_args()
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('rules',type=Path);p.add_argument('--root',type=Path,default=Path(__file__).resolve().parents[2]);p.add_argument('--key',type=Path);p.add_argument('--repo',type=Path);p.add_argument('--install-local',action='store_true');p.add_argument('--publish',action='store_true');p.add_argument('--runtime',type=Path);p.add_argument('--java',default='java');p.add_argument('--mod',type=Path,action='append',default=[]);a=p.parse_args()
  workspace=Path(__file__).resolve().parents[1];artifacts=workspace/'artifacts';raw=a.rules.read_bytes();assert len(raw)<2*1024*1024
  rules=json.loads(raw);assert isinstance(rules,dict);assert 'sequence' in rules and 'version' in rules
  rules.setdefault('expires',int(time.time())+180*86400)
  body=(json.dumps(rules,ensure_ascii=False,indent=2)+'\n').encode('utf8')
  out=workspace/'publication';out.mkdir(exist_ok=True);candidate=out/'unsigned-candidate.json';candidate.write_bytes(body)
- cp=os.pathsep.join([str(artifacts/'SAO_ZH_Runtime_1.0.0.jar'),str(artifacts/'SAO_ZH_Agent_v16.jar')])
+ cp=os.pathsep.join([str(a.runtime or artifacts/('SAO_ZH_Runtime_1.1.0.jar' if rules.get('schema_version')==2 else 'SAO_ZH_Runtime_1.0.0.jar')),str(artifacts/'SAO_ZH_Agent_v16.jar')])
  r=subprocess.run([a.java,'-cp',cp,'sao.zh.engine.ValidateRules',str(candidate)]+[str(f) for f in a.mod],capture_output=True,timeout=45)
  print((r.stdout+r.stderr).decode('utf8','replace'));assert r.returncode==0,'Rules were not signed because validation failed'
  keyfile=a.key or a.root/'.sao_zh_signing/extension-ed25519.pk8';key=serialization.load_der_private_key(keyfile.read_bytes(),password=None)
  public=key.public_key().public_bytes(serialization.Encoding.DER,serialization.PublicFormat.SubjectPublicKeyInfo)
  expected=base64.b64decode((workspace/'PUBLIC_KEY.txt').read_text('ascii').strip());assert public==expected,'Wrong maintainer signing key'
  signature=key.sign(body);name='rules-'+rules['version'];digest=hashlib.sha256(body).hexdigest()
+ channel='v2' if rules.get('schema_version')==2 else 'v1'
  if a.repo:
-  dest=a.repo/'extensions/v1';dest.mkdir(parents=True,exist_ok=True)
+  dest=a.repo/('extensions/'+channel);dest.mkdir(parents=True,exist_ok=True)
   existing=dest/(name+'.json')
   if existing.exists() and existing.read_bytes()!=body:raise RuntimeError('Never overwrite an already-published rule version; increment version and sequence')
  else:dest=out
  (dest/(name+'.json')).write_bytes(body);(dest/(name+'.sig')).write_bytes(signature)
- index=('api=1\nversion='+rules['version']+'\nexpires='+str(rules['expires'])+'\nsha256='+digest+'\nbytes='+str(len(body))+'\nurl=https://raw.githubusercontent.com/ga200604101111/SAOMCZH/main/extensions/v1/'+name+'.json\nsignature_url=https://raw.githubusercontent.com/ga200604101111/SAOMCZH/main/extensions/v1/'+name+'.sig\n').encode()
+ index=('api=1\nversion='+rules['version']+'\nexpires='+str(rules['expires'])+'\nsha256='+digest+'\nbytes='+str(len(body))+'\nurl=https://raw.githubusercontent.com/ga200604101111/SAOMCZH/main/extensions/'+channel+'/'+name+'.json\nsignature_url=https://raw.githubusercontent.com/ga200604101111/SAOMCZH/main/extensions/'+channel+'/'+name+'.sig\n').encode()
  (dest/'stable.properties').write_bytes(index);(dest/'stable.sig').write_bytes(key.sign(index))
  if a.install_local:
   local=a.root/'SAO_ZH_Extensions/rules';local.mkdir(parents=True,exist_ok=True)
@@ -36,7 +37,7 @@ def main():
   print('LOCAL_SIGNED_CANDIDATE_INSTALLED',local)
  if a.publish:
   assert a.repo and (a.repo/'.git').exists(),'--publish requires --repo'
-  files=['extensions/v1/'+x for x in [name+'.json',name+'.sig','stable.properties','stable.sig']]
+  files=['extensions/'+channel+'/'+x for x in [name+'.json',name+'.sig','stable.properties','stable.sig']]
   env=dict(os.environ,GIT_TERMINAL_PROMPT='0',GCM_INTERACTIVE='Never')
   def git(*args):
    x=subprocess.run(['git',*args],cwd=a.repo,env=env,capture_output=True,timeout=60)

@@ -21,13 +21,13 @@ final class Script {
  }
  static Script parse(byte[]data){
   if(data.length>LIMIT)throw new IllegalArgumentException("Script too large");Map<?,?>root=obj(MiniJson.parse(new String(data,StandardCharsets.UTF_8)));
-  if(number(root,"schema_version",0)!=1)throw new IllegalArgumentException("Unsupported script schema");
+  int schema=number(root,"schema_version",0);if(schema!=1&&schema!=2)throw new IllegalArgumentException("Unsupported script schema");
   String version=str(root,"version");if(!version.matches("[0-9]+\\.[0-9]+\\.[0-9]+(?:-[A-Za-z0-9.-]+)?"))throw new IllegalArgumentException("Bad version");
   int sequence=number(root,"sequence",0);if(sequence<1)throw new IllegalArgumentException("Invalid sequence");
   Object expiry=root.get("expires");if(!(expiry instanceof Number)||((Number)expiry).longValue()<System.currentTimeMillis()/1000)throw new IllegalArgumentException("Script expired");
   if(!(root.get("hooks") instanceof List))throw new IllegalArgumentException("Hooks must be array");List<?>rows=(List<?>)root.get("hooks");if(rows.size()>128)throw new IllegalArgumentException("Too many hooks");
   Map<String,Hook>all=new TreeMap<>();Set<String>sites=new HashSet<>();
-  for(Object row:rows){Hook hook=new Hook(obj(row));if(all.put(hook.id,hook)!=null)throw new IllegalArgumentException("Duplicate hook id");if(!sites.add(hook.shape().substring(hook.id.length()+1)))throw new IllegalArgumentException("Ambiguous double hook site");}
+  for(Object row:rows){Hook hook=new Hook(obj(row));if(schema==1&&(hook.kind.equals("wrap")||hook.kind.equals("refresh")))throw new IllegalArgumentException("Layout capabilities require schema 2");if(all.put(hook.id,hook)!=null)throw new IllegalArgumentException("Duplicate hook id");if(!sites.add(hook.shape().substring(hook.id.length()+1)))throw new IllegalArgumentException("Ambiguous double hook site");}
   Script next=new Script(version,sequence,all);
   Object samples=root.get("tests");if(samples instanceof List){if(((List<?>)samples).size()>512)throw new IllegalArgumentException("Too many tests");for(Object sample:(List<?>)samples){Map<?,?>s=obj(sample);Hook hook=all.get(str(s,"hook"));if(hook==null||!str(s,"expect").equals(hook.literal(str(s,"input"))))throw new IllegalArgumentException("Script self-test failed");}}
   return next;
@@ -35,6 +35,7 @@ final class Script {
  static final class Hook {
   final String id,owner,method,descriptor,kind,memberOwner,memberName,memberDescriptor,locale,section;final int argument,sites;
   final Map<String,String>exact;final List<Operation>ops;final AtomicInteger failures=new AtomicInteger();
+  final String measure;final Map<String,String>contextFields;final List<CacheField>cacheFields;
   Hook(Map<?,?>m){
    id=str(m,"id");if(!id.matches("[a-zA-Z0-9_.:-]{1,100}"))throw new IllegalArgumentException("Invalid hook id");
    owner=owner(str(m,"class"));method=str(m,"method");if(!method.matches("[A-Za-z_$][A-Za-z0-9_$]*"))throw new IllegalArgumentException("Constructor/initializer hooks are not hot-safe");
@@ -43,7 +44,15 @@ final class Script {
    kind=str(m,"kind");argument=number(m,"argument",-1);sites=number(m,"sites",1);if(sites<1||sites>32)throw new IllegalArgumentException("Invalid site count");
    memberOwner=m.get("member_class") instanceof String?owner((String)m.get("member_class")):"";
    memberName=m.get("member") instanceof String?(String)m.get("member"):"";memberDescriptor=m.get("member_descriptor") instanceof String?(String)m.get("member_descriptor"):"";
+   measure=m.get("measure") instanceof String?(String)m.get("measure"):"";
+   Map<String,String>context=new TreeMap<>();Object rawContext=m.get("context_fields");
+   if(rawContext!=null){Map<?,?>cm=obj(rawContext);if(cm.size()>4)throw new IllegalArgumentException("Context budget");for(Map.Entry<?,?>e:cm.entrySet()){if(!(e.getKey() instanceof String)||!((String)e.getKey()).matches("[A-Za-z_$][A-Za-z0-9_$]*")||!Set.of(STR,"F","I","Z").contains(e.getValue()))throw new IllegalArgumentException("Invalid layout context field");context.put((String)e.getKey(),(String)e.getValue());}}
+   contextFields=Collections.unmodifiableMap(context);List<CacheField>fields=new ArrayList<>();Object rawFields=m.get("cache_fields");
+   if(rawFields!=null){if(!(rawFields instanceof List)||((List<?>)rawFields).size()>8)throw new IllegalArgumentException("Cache field budget");Set<String>seen=new HashSet<>();for(Object x:(List<?>)rawFields){CacheField f=new CacheField(obj(x));if(!seen.add(f.name))throw new IllegalArgumentException("Duplicate cache field");fields.add(f);}}
+   cacheFields=List.copyOf(fields);
    switch(kind){
+    case "wrap":if(!descriptor.equals("(Ljava/lang/String;FZFI)Ljava/util/List;")||!measure.matches("[A-Za-z_$][A-Za-z0-9_$]*")||!cacheFields.isEmpty())throw new IllegalArgumentException("Invalid bounded wrap contract");break;
+    case "refresh":if(ret.getSort()!=Type.VOID||cacheFields.isEmpty()||!contextFields.isEmpty())throw new IllegalArgumentException("Invalid display refresh contract");break;
     case "return":if(!valueType(ret.getDescriptor()))throw new IllegalArgumentException("Return is not supported text");break;
     case "argument":if(argument<0||argument>=args.length||!valueType(args[argument].getDescriptor()))throw new IllegalArgumentException("Argument is not supported text");break;
     case "field":if(memberOwner.isEmpty()||!memberName.matches("[A-Za-z_$][A-Za-z0-9_$]*")||!valueType(memberDescriptor))throw new IllegalArgumentException("Invalid field projection");break;
@@ -56,8 +65,13 @@ final class Script {
     if(!(e.getKey() instanceof String)||!(e.getValue() instanceof String)||((String)e.getKey()).isEmpty()||((String)e.getKey()).length()>8192||((String)e.getValue()).length()>16384)throw new IllegalArgumentException("Invalid literal replacement");map.put((String)e.getKey(),(String)e.getValue());}}
    exact=Map.copyOf(map);List<Operation>operations=new ArrayList<>();Object a=m.get("operations");if(a instanceof List){if(((List<?>)a).size()>8)throw new IllegalArgumentException("Instruction budget exceeded");for(Object v:(List<?>)a)operations.add(new Operation(obj(v)));}ops=List.copyOf(operations);
   }
-  String shape(){return id+'|'+owner+'|'+method+'|'+descriptor+'|'+kind+'|'+argument+'|'+memberOwner+'|'+memberName+'|'+memberDescriptor+'|'+sites;}
+  String shape(){return id+'|'+owner+'|'+method+'|'+descriptor+'|'+kind+'|'+argument+'|'+memberOwner+'|'+memberName+'|'+memberDescriptor+'|'+sites+'|'+measure+'|'+contextFields+'|'+cacheFields;}
   String literal(String s){if(s==null||s.length()>8192)return s;String v=exact.getOrDefault(s,s);for(Operation op:ops){v=op.apply(v);if(v.length()>16384)return s;}return v;}
+ }
+ static final class CacheField {
+  final String name,descriptor,action;
+  CacheField(Map<?,?>m){name=str(m,"name");descriptor=str(m,"descriptor");action=str(m,"action");if(!name.matches("[A-Za-z_$][A-Za-z0-9_$]*")||!(action.equals("clear_map")&&descriptor.equals("Ljava/util/Map;")||action.equals("reset_key")&&descriptor.equals(STR)))throw new IllegalArgumentException("Only explicit display Map caches or String cache keys can be invalidated");}
+  public String toString(){return name+":"+descriptor+":"+action;}
  }
  static final class Operation {
   final String op,from,to;

@@ -1,8 +1,10 @@
 {
   "schema_version": 1,
-  "bundle_version": "1.1.0",
-  "bundle_sequence": 101,
+  "bundle_version": "1.2.0",
+  "bundle_sequence": 102,
   "runtime_api": 1,
+  "minimum_runtime_version": "1.1.0",
+  "rule_schema": 2,
   "modules": [
     {
       "id": "codex-creatures",
@@ -81,6 +83,18 @@
       ]
     },
     {
+      "id": "ui-text-layout",
+      "version": "1.0.0",
+      "source_sha256": "dcb323141e8ca955dd67366aa5dec27372127f368164c11022b1b208aa2ab88e",
+      "dependencies": {},
+      "hook_count": 3,
+      "coverage": [
+        "共用 PassCanvas 中文自動分行，含拍賣行左側說明和任務描述",
+        "任務／圖鑑只刷新顯示文字快取，不關閉介面、不改搜尋、捲動、選中物品或送操作封包",
+        "需外部 Runtime 1.1.0；保留既有 7 個功能模組"
+      ]
+    },
+    {
       "id": "worlds-locations",
       "version": "1.0.0",
       "source_sha256": "fe7ee527d701de103648ab47244afa19bbac8eef02eed6b4cca7fb8944b8029f",
@@ -94,5 +108,5 @@
       ]
     }
   ],
-  "notes": "Functional modules, not one extension per screen. A release is applied atomically. Selective rollback is a newly signed higher-sequence bundle, preserving other modules."
+  "notes": "Eight functional modules. Schema 2 capabilities require external runtime 1.1.0; the fixed Agent V16 is unchanged. v1 channel remains compatible with runtime1.0."
 }

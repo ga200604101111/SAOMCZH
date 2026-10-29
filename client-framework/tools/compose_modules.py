@@ -15,7 +15,7 @@ METHOD=re.compile(r'^[A-Za-z_$][A-Za-z0-9_$]*$')
 TOKEN=re.compile(r'%(?:[0-9]+\$)?[-+#0 ,(]*[0-9]*(?:\.[0-9]+)?[a-zA-Z]|%%|\{[^{}\r\n]{1,80}\}')
 SECTIONS=('names','items','lines','messages')
 PROTECTED=('java/','javax/','jdk/','sun/','sao/zh/','org/objectweb/','net/fabricmc/','org/spongepowered/')
-HOOK_FIELDS={'id','class','method','descriptor','kind','argument','sites','member_class','member','member_descriptor','locale','section','exact','operations'}
+HOOK_FIELDS={'id','class','method','descriptor','kind','argument','sites','member_class','member','member_descriptor','locale','section','exact','operations','measure','context_fields','cache_fields'}
 MAX_BYTES=2*1024*1024
 
 def load_json(text:str)->Any:
@@ -62,7 +62,19 @@ def checked_hook(h:Any,module_id:str,terms:dict[str,dict[str,str]])->dict[str,An
  desc=h.get('descriptor')
  if not isinstance(desc,str) or len(desc)>1024 or not desc.startswith('(') or ')' not in desc:raise ModuleError('Invalid method descriptor')
  kind=h.get('kind')
- if kind not in ('return','argument','field','call'):raise ModuleError('Unsupported hook kind')
+ if kind not in ('return','argument','field','call','wrap','refresh'):raise ModuleError('Unsupported hook kind')
+ if kind=='wrap':
+  if desc!='(Ljava/lang/String;FZFI)Ljava/util/List;' or not isinstance(h.get('measure'),str) or not METHOD.fullmatch(h['measure']):raise ModuleError('Invalid bounded wrap contract')
+  context=h.get('context_fields',{})
+  if not isinstance(context,dict) or len(context)>4 or any(not isinstance(k,str) or not METHOD.fullmatch(k) or v not in ('Ljava/lang/String;','F','I','Z') for k,v in context.items()):raise ModuleError('Invalid layout context')
+ if kind=='refresh':
+  fields=h.get('cache_fields')
+  if not desc.endswith(')V') or not isinstance(fields,list) or not 1<=len(fields)<=8:raise ModuleError('Invalid cache refresh contract')
+  seen=set()
+  for f in fields:
+   if not isinstance(f,dict) or set(f)!={'name','descriptor','action'} or not isinstance(f['name'],str) or not METHOD.fullmatch(f['name']):raise ModuleError('Invalid cache field')
+   if f['name'] in seen or (f['descriptor'],f['action']) not in (('Ljava/util/Map;','clear_map'),('Ljava/lang/String;','reset_key')):raise ModuleError('Unsafe cache field/type')
+   seen.add(f['name'])
  texttypes=('Ljava/lang/String;','Lnet/minecraft/class_2561;')
  if kind=='return' and desc.split(')',1)[1] not in texttypes:raise ModuleError('Only String/Text return projection is supported')
  if kind=='argument' and (type(h.get('argument')) is not int or not 0<=h['argument']<=254):raise ModuleError('Invalid argument index')
@@ -146,7 +158,7 @@ def compose(modules:list[dict],*,version:str,sequence:int,expires:int)->dict:
    if name not in all_ids or len(test['input'])>8192 or len(test['expect'])>16384:raise ModuleError('Invalid self-test target/text')
    tests.append(dict(test,hook=name))
  if len(hooks)>128 or len(tests)>512:raise ModuleError('Compiled bundle exceeds runtime budget')
- result={'schema_version':1,'version':version,'sequence':sequence,'expires':expires,'module_catalog':catalog,'hooks':hooks,'tests':tests}
+ result={'schema_version':2 if any(h['kind'] in ('wrap','refresh') for h in hooks) else 1,'version':version,'sequence':sequence,'expires':expires,'module_catalog':catalog,'hooks':hooks,'tests':tests}
  if len(json.dumps(result,ensure_ascii=False).encode('utf8'))>MAX_BYTES:raise ModuleError('Compiled bundle exceeds 2 MiB')
  return result
 

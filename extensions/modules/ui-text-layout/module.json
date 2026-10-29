@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "id": "ui-text-layout",
+  "version": "1.0.0",
+  "dependencies": {},
+  "coverage": [
+    "共用 PassCanvas 中文自動分行，含拍賣行左側說明和任務描述",
+    "任務／圖鑑只刷新顯示文字快取，不關閉介面、不改搜尋、捲動、選中物品或送操作封包",
+    "需外部 Runtime 1.1.0；保留既有 7 個功能模組"
+  ],
+  "hooks": [
+    {
+      "id": "measured-cjk-wrap",
+      "class": "fr/sao/pass/screen/PassCanvas",
+      "method": "wrap",
+      "descriptor": "(Ljava/lang/String;FZFI)Ljava/util/List;",
+      "kind": "wrap",
+      "measure": "width",
+      "context_fields": {
+        "font": "Ljava/lang/String;",
+        "scale": "F"
+      },
+      "locale": "zh_tw",
+      "section": "lines"
+    },
+    {
+      "id": "quest-text-cache",
+      "class": "fr/sao/questtracker/screen/QuestMenuScreen",
+      "method": "method_25394",
+      "descriptor": "(Lnet/minecraft/class_332;IIF)V",
+      "kind": "refresh",
+      "locale": "zh_tw",
+      "cache_fields": [
+        {
+          "name": "rowTexts",
+          "descriptor": "Ljava/util/Map;",
+          "action": "clear_map"
+        },
+        {
+          "name": "translated",
+          "descriptor": "Ljava/util/Map;",
+          "action": "clear_map"
+        },
+        {
+          "name": "descOf",
+          "descriptor": "Ljava/lang/String;",
+          "action": "reset_key"
+        }
+      ]
+    },
+    {
+      "id": "codex-text-cache",
+      "class": "fr/sao/codex/CodexScreen",
+      "method": "method_25394",
+      "descriptor": "(Lnet/minecraft/class_332;IIF)V",
+      "kind": "refresh",
+      "locale": "zh_tw",
+      "cache_fields": [
+        {
+          "name": "locals",
+          "descriptor": "Ljava/util/Map;",
+          "action": "clear_map"
+        },
+        {
+          "name": "refs",
+          "descriptor": "Ljava/util/Map;",
+          "action": "clear_map"
+        },
+        {
+          "name": "rowValues",
+          "descriptor": "Ljava/util/Map;",
+          "action": "clear_map"
+        },
+        {
+          "name": "catTexts",
+          "descriptor": "Ljava/util/Map;",
+          "action": "clear_map"
+        }
+      ]
+    }
+  ]
+}

@@ -3,6 +3,7 @@ import sao.zh.boot.*;import sao.zh.api.Dispatch;
 import java.io.*;import java.nio.file.*;import java.nio.charset.StandardCharsets;import java.lang.instrument.*;import java.lang.reflect.*;import java.util.*;import java.util.concurrent.*;import java.util.concurrent.atomic.*;import java.util.jar.*;
 /** External runtime. The installed kernel never names Minecraft classes or implements translation. */
 public final class Engine {
+ private final LayoutSupport layout=new LayoutSupport();private volatile Map<String,Script.Hook>refreshGuards=Map.of();
  private final Instrumentation inst;private final Path root,store;private final RuleTransformer transformer=new RuleTransformer();
  private volatile Script current=Script.empty(),previous;private volatile byte[]currentBytes,currentSig,previousBytes,previousSig;
  private final AtomicLong epoch=new AtomicLong();private volatile Map<String,Map<String,String>>dictionary=Map.of();
@@ -44,7 +45,17 @@ public final class Engine {
   Script snapshot=current;Script.Hook h=snapshot.byId.get(id);if(h==null||h.failures.get()>=3||!TextProjection.locale(owner,h.locale))return value;
   try{return TextProjection.apply(value,owner,text->translate(h,text));}
   catch(Exception|LinkageError error){if(h.failures.incrementAndGet()<=3)once("hook-fault-"+snapshot.sequence+"-"+id,"HOOK_FAIL_OPEN "+id+" "+error.getClass().getSimpleName());return value;}
- },epoch.get());}
+ },epoch.get());
+ Dispatch.bindSupport((id,receiver,owner,text,size,bold,width,limit,original)->{
+  if(text==null||text.length()>8192||!Float.isFinite(size)||size<=0||size>1024||!Float.isFinite(width)||width<=0||width>1000000||limit<1||limit>64)return null;
+  Script.Hook h=current.byId.get(id);if(h==null||!h.kind.equals("wrap")||h.failures.get()>=3||!TextProjection.locale(owner,h.locale))return null;
+  try{return layout.wrap(h,receiver,owner,translate(h,text),size,bold,width,limit,epoch.get());}
+  catch(Exception|LinkageError error){if(h.failures.incrementAndGet()<=3)once("wrap-fault-"+current.sequence+"-"+id,"WRAP_KEEP_ORIGINAL "+id+" "+error.getClass().getSimpleName());return null;}
+ },(id,receiver,owner)->{
+  Script.Hook h=refreshGuards.get(id);if(h==null||h.failures.get()>=3)return;
+  try{layout.refresh(h,receiver,owner,epoch.get());}
+  catch(Exception|LinkageError error){if(h.failures.incrementAndGet()<=3)once("refresh-fault-"+current.sequence+"-"+id,"REFRESH_KEEP_SCREEN "+id+" "+error.getClass().getSimpleName());}
+ });}
  private String translate(Script.Hook h,String raw){
   if(raw==null||raw.length()>8192)return raw;
   String result=h.literal(raw);if(!result.equals(raw))return result;
@@ -61,20 +72,25 @@ public final class Engine {
   persist();return "APPLIED "+next.version;
  }
  private void transition(Script next)throws Exception{
-  Script old=current;boolean shapeChanged=!old.shape.equals(next.shape);
+  Script old=current,oldPlan=transformer.plan;
+  Map<String,Script.Hook>guards=new TreeMap<>(refreshGuards);for(Script.Hook h:next.byId.values())if(h.kind.equals("refresh"))guards.put(h.id,h);
+  if(guards.size()>128)throw new IllegalArgumentException("Retired refresh guard budget");
+  Map<String,Script.Hook>physical=new TreeMap<>(next.byId);
+  for(Script.Hook h:guards.values()){if(physical.containsKey(h.id)&&!physical.get(h.id).kind.equals("refresh"))throw new IllegalArgumentException("Refresh guard id cannot be reused");physical.putIfAbsent(h.id,h);}
+  Script plan=new Script(next.version,next.sequence,physical);boolean shapeChanged=!oldPlan.shape.equals(plan.shape);
   if(shapeChanged){
-   Set<String>owners=new HashSet<>(old.byClass.keySet());owners.addAll(next.byClass.keySet());List<Class<?>>loaded=new ArrayList<>();
+   Set<String>owners=new HashSet<>(oldPlan.byClass.keySet());owners.addAll(plan.byClass.keySet());List<Class<?>>loaded=new ArrayList<>();
    for(Class<?>c:inst.getAllLoadedClasses())if(owners.contains(c.getName().replace('.','/'))){if(!inst.isModifiableClass(c))throw new IllegalArgumentException("Unmodifiable target "+c.getName());loaded.add(c);}
-   transformer.errors.clear();transformer.plan=next;
+   transformer.errors.clear();transformer.plan=plan;
    try{
     if(!loaded.isEmpty())inst.retransformClasses(loaded.toArray(new Class<?>[0]));
     if(!transformer.errors.isEmpty())throw new IllegalArgumentException(String.join("; ",transformer.errors));
    }catch(Throwable failure){
-    transformer.plan=old;transformer.errors.clear();try{if(!loaded.isEmpty())inst.retransformClasses(loaded.toArray(new Class<?>[0]));}catch(Throwable restore){Agent.log("RETRANSFORM_RECOVERY_FAILED_NEW_HANDLERS_DISABLED "+restore.getClass().getSimpleName());}
+    transformer.plan=oldPlan;transformer.errors.clear();try{if(!loaded.isEmpty())inst.retransformClasses(loaded.toArray(new Class<?>[0]));}catch(Throwable restore){Agent.log("RETRANSFORM_RECOVERY_FAILED_NEW_HANDLERS_DISABLED "+restore.getClass().getSimpleName());}
     if(failure instanceof Exception)throw (Exception)failure;throw new IllegalArgumentException("Transformer update rejected",failure);
    }
   }
-  previous=old;current=next;epoch.incrementAndGet();bind();
+  previous=old;current=next;refreshGuards=Map.copyOf(guards);epoch.incrementAndGet();bind();
   Agent.log("EXTENSION_GENERATION_ACTIVE version="+next.version+" sequence="+next.sequence+" hooks="+next.byId.size()+" retransform="+shapeChanged);
  }
  public synchronized String rollback()throws Exception{
@@ -83,7 +99,7 @@ public final class Engine {
  }
  public void checkRemoteNow(){remoteUpdate(controlEpoch);}
  public long transformCount(){return transformer.count.get();}
- public String status(){return "version="+current.version+" sequence="+current.sequence+" hooks="+current.byId.size()+" epoch="+epoch.get()+" transforms="+transformer.count.get()+" fail_open="+Dispatch.faults();}
+ public String status(){return "version="+current.version+" sequence="+current.sequence+" hooks="+current.byId.size()+" epoch="+epoch.get()+" wrap_hits="+layout.wrapHits.get()+" cache_refreshes="+layout.refreshes.get()+" transforms="+transformer.count.get()+" fail_open="+Dispatch.faults();}
  private void persist(){
   try{
    Path dir=store.resolve("rules");if(currentBytes!=null){String h=Verified.hash(currentBytes);Verified.atomic(dir.resolve(h+".json"),currentBytes);Verified.atomic(dir.resolve(h+".sig"),currentSig);Verified.atomic(dir.resolve("active.txt"),h.getBytes(StandardCharsets.US_ASCII));}
@@ -107,7 +123,7 @@ public final class Engine {
    Path local=root.resolve("SAO_TW_Dynamic/zh_tw.json");if(!Files.isRegularFile(local))return;long stamp=Files.getLastModifiedTime(local).toMillis();Path cloud=root.resolve("SAO_TW_Dynamic/github-cache/zh_tw.state.json");if(Files.isRegularFile(cloud))stamp+=Files.getLastModifiedTime(cloud).toMillis();Path overrides=root.resolve("SAO_TW_Dynamic/local-overrides.json");if(Files.isRegularFile(overrides))stamp+=Files.getLastModifiedTime(overrides).toMillis();if(stamp==dictStamp)return;
    Map<String,Map<String,String>>result=new HashMap<>();merge(result,Verified.read(local,8*1024*1024));
    if(Files.isRegularFile(cloud)){Map<?,?>state=Script.obj(MiniJson.parse(new String(Verified.read(cloud,65536),StandardCharsets.UTF_8)));String hash=String.valueOf(state.get("sha256"));if(hash.matches("[a-f0-9]{64}")){Path blob=cloud.resolveSibling("zh_tw."+hash+".json");byte[]bytes=Verified.read(blob,8*1024*1024);if(Verified.hash(bytes).equals(hash))merge(result,bytes);}}
-   if(Files.isRegularFile(overrides))merge(result,Verified.read(overrides,2*1024*1024));Map<String,Map<String,String>>immutable=new HashMap<>();result.forEach((k,v)->immutable.put(k,Map.copyOf(v)));dictionary=Map.copyOf(immutable);dictStamp=stamp;
+   if(Files.isRegularFile(overrides))merge(result,Verified.read(overrides,2*1024*1024));Map<String,Map<String,String>>immutable=new HashMap<>();result.forEach((k,v)->immutable.put(k,Map.copyOf(v)));dictionary=Map.copyOf(immutable);dictStamp=stamp;epoch.incrementAndGet();
   }catch(Exception e){once("dict-failed","EXTERNAL_DICTIONARY_KEEP_PREVIOUS "+e.getClass().getSimpleName());}
  }
  private static void merge(Map<String,Map<String,String>>dst,byte[]bytes){Map<?,?>m=Script.obj(MiniJson.parse(new String(bytes,StandardCharsets.UTF_8)));for(String section:new String[]{"names","messages","lines","items"})if(m.get(section) instanceof Map){Map<String,String>out=dst.computeIfAbsent(section,k->new HashMap<>());for(Map.Entry<?,?>e:((Map<?,?>)m.get(section)).entrySet())if(e.getKey() instanceof String&&e.getValue() instanceof String&&((String)e.getKey()).length()<=8192&&((String)e.getValue()).length()<=16384)out.put((String)e.getKey(),(String)e.getValue());}}
@@ -128,7 +144,7 @@ public final class Engine {
  }
  private void remoteUpdate(long token){
   try{
-   String base="https://raw.githubusercontent.com/ga200604101111/SAOMCZH/main/extensions/v1/stable";
+   String base="https://raw.githubusercontent.com/ga200604101111/SAOMCZH/main/extensions/v2/stable";
    byte[]body=Verified.fetch(base+".properties",65536),sig=Verified.fetch(base+".sig",4096);Map<String,String>m=Verified.descriptor(body,sig);
    String hash=m.get("sha256");if(hash==null||!hash.matches("[a-f0-9]{64}"))throw new SecurityException("Invalid remote rule digest");if(hash.equals(remoteDigest))return;
    int size=Integer.parseInt(m.get("bytes"));if(size<1||size>Script.LIMIT)throw new SecurityException("Rule size exceeds budget");byte[]rules=Verified.fetch(m.get("url"),size),signature=Verified.fetch(m.get("signature_url"),4096);
