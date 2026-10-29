@@ -45,7 +45,17 @@ final class RuleTransformer implements ClassFileTransformer {
       if(op==Opcodes.ARETURN)for(Script.Hook h:selected){
        if(h.kind.equals("return"))dispatch(h,Type.getReturnType(desc).getDescriptor());
        if(h.kind.equals("wrap")){super.visitLdcInsn(h.id);super.visitVarInsn(Opcodes.ALOAD,0);super.visitLdcInsn(Type.getObjectType(cls));super.visitVarInsn(Opcodes.ALOAD,1);super.visitVarInsn(Opcodes.FLOAD,2);super.visitVarInsn(Opcodes.ILOAD,3);super.visitVarInsn(Opcodes.FLOAD,4);super.visitVarInsn(Opcodes.ILOAD,5);super.visitMethodInsn(Opcodes.INVOKESTATIC,"sao/zh/api/Dispatch","wrap","(Ljava/util/List;Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Class;Ljava/lang/String;FZFI)Ljava/util/List;",false);found.merge(h.id,1,Integer::sum);}
-      }super.visitInsn(op);
+      }
+      if(op==Opcodes.RETURN)for(Script.Hook h:selected)if(h.kind.equals("armorstand_nameplate")){
+       // Only the ArmorStand-specific client render-state method, never the entity/server data.
+       // After superclass extraction, its nameplate Text is the superclass render-state field.
+       super.visitVarInsn(Opcodes.ALOAD,2);
+       super.visitInsn(Opcodes.DUP);
+       super.visitFieldInsn(Opcodes.GETFIELD,"net/minecraft/class_10017","field_53337",Script.TEXT);
+       dispatch(h,Script.TEXT);
+       super.visitFieldInsn(Opcodes.PUTFIELD,"net/minecraft/class_10017","field_53337",Script.TEXT);
+      }
+      super.visitInsn(op);
      }
      @Override public void visitFieldInsn(int op,String owner,String field,String d){super.visitFieldInsn(op,owner,field,d);if(op==Opcodes.GETFIELD||op==Opcodes.GETSTATIC)for(Script.Hook h:selected)if(h.kind.equals("field")&&h.memberOwner.equals(owner)&&h.memberName.equals(field)&&h.memberDescriptor.equals(d))dispatch(h,d);}
      @Override public void visitMethodInsn(int op,String owner,String method,String d,boolean iface){super.visitMethodInsn(op,owner,method,d,iface);for(Script.Hook h:selected)if(h.kind.equals("call")&&h.memberOwner.equals(owner)&&h.memberName.equals(method)&&h.memberDescriptor.equals(d))dispatch(h,Type.getReturnType(d).getDescriptor());}

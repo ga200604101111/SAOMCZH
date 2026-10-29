@@ -5084,7 +5084,10 @@
     "💨 Movement speed bonus during the bloom": "💨 綻放期間的移動速度加成",
     "💫 Stun duration in seconds": "💫 暈眩時間（秒）",
     "🛡 Dodge rate in percent": "🛡 閃避率（%）",
-    "The brigands got the better of you. Come back to the hideout to try the ambush again.": "盜匪擊敗了你。返回藏身處，再次嘗試伏擊。"
+    "The brigands got the better of you. Come back to the hideout to try the ambush again.": "盜匪擊敗了你。返回藏身處，再次嘗試伏擊。",
+    "Jump and Run (Easy)": "跳躍跑酷（簡單）",
+    "(Respect if you finish it)": "（成功通關者值得敬佩）",
+    "Jump and Run (Easy)\n(Respect if you finish it)": "跳躍跑酷（簡單）\n（成功通關者值得敬佩）"
   },
   "items": {
     "Stamina Shard": "耐力碎片",

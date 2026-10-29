@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "worlds-locations",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "name": "世界與地點",
   "enabled": true,
   "dependencies": {
@@ -11,7 +11,10 @@
     "跨服世界名稱、傳送點標籤與相同標籤的量測",
     "地圖與所有區域 HUD 尚未全部介接",
     "Direct domain text display entries discovered by javap from SAOUI 2.41.2; exact dictionary translation only.",
-    "Opt-in local untranslated-text observation: world domain; bounded asynchronous writer, no chat, no automatic upload; requires external Runtime1.2."
+    "Opt-in local untranslated-text observation: world domain; bounded asynchronous writer, no chat, no automatic upload; requires external Runtime1.2.",
+    "World text: vanilla 1.21.4 TextDisplay pre-wrap projection and epoch-only refresh of its cached lines; does not modify server/entity metadata.",
+    "SAOJob hologram: parseLegacySectionFormatting String input and styled Text result, ahead of font measurement; unknown entities/player names remain unchanged.",
+    "ArmorStand hologram-like nametags: project only field_53337 of its client render-state after superclass extraction; never touch player or server entities."
   ],
   "hooks": [
     {
@@ -166,6 +169,55 @@
       "descriptor": "(Lnet/minecraft/class_332;DLjava/lang/String;[IFFFIF)V",
       "kind": "argument",
       "argument": 2,
+      "section": "lines"
+    },
+    {
+      "id": "text-display-cache-refresh",
+      "class": "net/minecraft/class_8113$class_8123",
+      "method": "method_48905",
+      "descriptor": "(Lnet/minecraft/class_8113$class_8123$class_8127;)Lnet/minecraft/class_8113$class_8123$class_8125;",
+      "kind": "refresh",
+      "section": "lines",
+      "cache_fields": [
+        {
+          "name": "field_42442",
+          "descriptor": "Lnet/minecraft/class_8113$class_8123$class_8125;",
+          "action": "reset_display_lines"
+        }
+      ]
+    },
+    {
+      "id": "text-display-before-native-wrap",
+      "class": "net/minecraft/class_8138$class_8141",
+      "method": "method_49057",
+      "descriptor": "(Lnet/minecraft/class_2561;I)Lnet/minecraft/class_8113$class_8123$class_8125;",
+      "kind": "argument",
+      "section": "lines",
+      "argument": 0
+    },
+    {
+      "id": "saojob-hologram-preformat",
+      "class": "com/eighteen/saojob/hologram/HologramRenderer",
+      "method": "parseLegacySectionFormatting",
+      "descriptor": "(Ljava/lang/String;)Lnet/minecraft/class_2561;",
+      "kind": "argument",
+      "section": "lines",
+      "argument": 0
+    },
+    {
+      "id": "saojob-hologram-styled-text",
+      "class": "com/eighteen/saojob/hologram/HologramRenderer",
+      "method": "parseLegacySectionFormatting",
+      "descriptor": "(Ljava/lang/String;)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "section": "lines"
+    },
+    {
+      "id": "armorstand-nameplate",
+      "class": "net/minecraft/class_877",
+      "method": "method_62375",
+      "descriptor": "(Lnet/minecraft/class_1531;Lnet/minecraft/class_9998;F)V",
+      "kind": "armorstand_nameplate",
       "section": "lines"
     }
   ]

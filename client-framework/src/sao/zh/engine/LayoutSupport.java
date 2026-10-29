@@ -39,7 +39,7 @@ final class LayoutSupport {
   for(int i=0;i<a.caches.size();i++){Object v=a.caches.get(i).get(receiver);Script.CacheField spec=hook.cacheFields.get(i);if(spec.action.equals("clear_map")&&v!=null){if(!(v instanceof Map)||((Map<?,?>)v).size()>65536||!v.getClass().getName().startsWith("java.util."))throw new IllegalArgumentException("Display cache guard failed");}values.add(v);}
   // Called from the instrumented render method itself, never the download worker.
   for(int i=0;i<a.caches.size();i++){Script.CacheField spec=hook.cacheFields.get(i);Object v=values.get(i);if(spec.action.equals("clear_map")){if(v!=null)((Map<?,?>)v).clear();}else a.caches.get(i).set(receiver,null);}
-  synchronized(seen){Map<String,Stamp>states=seen.get(lookup);if(states==null){states=new HashMap<>();seen.put(new Identity(receiver,queue),states);}states.put(hook.id,next);while(seen.size()>256)seen.remove(seen.keySet().iterator().next());}
+  synchronized(seen){Map<String,Stamp>states=seen.get(lookup);if(states==null){states=new HashMap<>();seen.put(new Identity(receiver,queue),states);}states.put(hook.id,next);/* World TextDisplays may outnumber open GUI objects: keep bounded weak per-entity stamps. */while(seen.size()>2048)seen.remove(seen.keySet().iterator().next());}
   refreshes.incrementAndGet();
  }
  private static final class Env {Method lang,font;Env(Class<?>o){try{lang=o.getClassLoader().loadClass("fr.sao.util.LanguageWatch").getMethod("current");}catch(Exception ignored){}try{font=o.getClassLoader().loadClass("fr.sao.font.FontChoice").getMethod("get");}catch(Exception ignored){}}}

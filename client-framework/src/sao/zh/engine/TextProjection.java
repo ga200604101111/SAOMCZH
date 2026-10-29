@@ -18,8 +18,41 @@ final class TextProjection {
   if(expected.equals("*"))return true;if(owner==null)return false;try{Access a=access.get(owner);return a.lang!=null&&expected.equalsIgnoreCase(String.valueOf(a.lang.invoke(null)));}catch(Exception ignored){return false;}
  }
  static Object apply(Object original,Class<?>owner,Function<String,String>translate)throws Exception{
+  return apply(original,owner,translate,false);
+ }
+ static Object apply(Object original,Class<?>owner,Function<String,String>translate,boolean wholeFirst)throws Exception{
+  if(original==null)return null;
   if(original instanceof String)return translate.apply((String)original);
-  if(owner==null)return original;Access a=access.get(owner);if(a.plainType==null)return original;return tree(original,a,translate,0,new int[]{0});
+  if(owner==null)return original;Access a=access.get(owner);if(a.plainType==null)return original;
+  // Only approved domain call sites pay the cost of full-text reconstruction.
+  // Reassemble BEFORE the native renderer splits/measures; leave the source untouched.
+  if(wholeFirst){
+   String full=uniformLiteral(original,a);
+   if(full!=null){String mapped=translate.apply(full);
+    if(mapped!=null&&!mapped.equals(full)&&mapped.length()<=16384){
+     Object copy=a.literal.invoke(null,mapped);a.setStyle.invoke(copy,a.style.invoke(original));return copy;
+    }
+   }
+  }
+  return tree(original,a,translate,0,new int[]{0});
+ }
+ private static String uniformLiteral(Object root,Access a)throws Exception{
+  List<?>children=(List<?>)a.siblings.invoke(root);if(children.isEmpty()||children.size()>128)return null;
+  StringBuilder out=new StringBuilder();Object style=a.style.invoke(root);int[]budget={0};
+  return appendUniform(root,a,style,out,0,budget)?out.toString():null;
+ }
+ private static boolean appendUniform(Object node,Access a,Object style,StringBuilder out,int depth,int[]count)throws Exception{
+  if(depth>24||++count[0]>128||!Objects.equals(style,a.style.invoke(node)))return false;
+  Object content=a.content.invoke(node);if(!a.plainType.isInstance(content))return false;
+  String part=(String)a.plain.invoke(content);
+  for(int at=0;at<part.length();){
+   int cp=part.codePointAt(at);at+=Character.charCount(cp);
+   if(cp==0xa7||Character.getType(cp)==Character.PRIVATE_USE)return false;
+  }
+  if(out.length()+part.length()>8192)return false;out.append(part);
+  List<?>children=(List<?>)a.siblings.invoke(node);if(children.size()>128)return false;
+  for(Object child:children)if(!appendUniform(child,a,style,out,depth+1,count))return false;
+  return true;
  }
  private static Object tree(Object source,Access a,Function<String,String>f,int depth,int[]count)throws Exception{
   if(depth>24||++count[0]>128)return source;Object contents=a.content.invoke(source);

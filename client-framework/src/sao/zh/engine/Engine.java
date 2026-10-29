@@ -64,7 +64,7 @@ public final class Engine {
  }
  private void bind(){Dispatch.bind((id,value,owner)->{
   Script snapshot=current;Script.Hook h=snapshot.byId.get(id);if(h==null||h.failures.get()>=3||!TextProjection.locale(owner,h.locale))return value;
-  try{return TextProjection.apply(value,owner,text->translate(h,text));}
+  try{return TextProjection.apply(value,owner,text->translate(h,text),RenderTextPipeline.wholeFirst(h));}
   catch(Exception|LinkageError error){if(h.failures.incrementAndGet()<=3)once("hook-fault-"+snapshot.sequence+"-"+id,"HOOK_FAIL_OPEN "+id+" "+error.getClass().getSimpleName());return value;}
  },epoch.get());
  Dispatch.bindSupport((id,receiver,owner,text,size,bold,width,limit,original)->{
@@ -84,18 +84,19 @@ public final class Engine {
   long generation=epoch.get();boolean cacheable=raw.length()<=256;
   TranslationMemo memo=cacheable?translationMemo.get():null;
   if(cacheable){String hit=memo.get(h,raw,generation);if(hit!=null)return hit;}
-  String result=h.literal(raw);
-  if(!result.equals(raw)){if(cacheable)memo.put(h,raw,result,generation);return result;}
-  Map<String,Map<String,String>>data=dictionary;String next=data.getOrDefault(h.section,Map.of()).get(raw);
-  if(next==null&&h.section.equals("items"))for(String section:new String[]{"names","lines"}){next=data.getOrDefault(section,Map.of()).get(raw);if(next!=null)break;}
-  if(next==null||next.length()>16384){
-   if(!h.capture.isEmpty())unknownCollector.offer(h.capture,h.section,h.id,raw);
-   // Capture-enabled misses must remain retryable when the asynchronous queue is full.
-   if(cacheable&&h.capture.isEmpty())memo.put(h,raw,raw,generation);
-   return raw;
+  String result=RenderTextPipeline.resolve(h,raw,dictionary);
+  if(!result.equals(raw)){
+   // Confirm the world-text path without ever logging server text or player data.
+   if(h.id.equals("worlds-locations:text-display-before-native-wrap")
+       ||h.id.equals("worlds-locations:saojob-hologram-preformat")
+       ||h.id.equals("worlds-locations:saojob-hologram-styled-text"))
+    once("world-text-success-"+h.id,"WORLD_TEXT_TRANSLATED hook="+h.id);
+   if(cacheable)memo.put(h,raw,result,generation);return result;
   }
-  if(cacheable)memo.put(h,raw,next,generation);
-  return next;
+  if(!h.capture.isEmpty())unknownCollector.offer(h.capture,h.section,h.id,raw);
+  // Capture-enabled misses must remain retryable when the asynchronous queue is full.
+  if(cacheable&&h.capture.isEmpty())memo.put(h,raw,raw,generation);
+  return raw;
  }
  public synchronized String applySigned(byte[]body,byte[]sig)throws Exception{
   Verified.signature(body,sig);Script next=Script.parse(body);

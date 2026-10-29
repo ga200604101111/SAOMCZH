@@ -62,19 +62,28 @@ def checked_hook(h:Any,module_id:str,terms:dict[str,dict[str,str]])->dict[str,An
  desc=h.get('descriptor')
  if not isinstance(desc,str) or len(desc)>1024 or not desc.startswith('(') or ')' not in desc:raise ModuleError('Invalid method descriptor')
  kind=h.get('kind')
- if kind not in ('return','argument','field','call','wrap','refresh'):raise ModuleError('Unsupported hook kind')
+ if kind not in ('return','argument','field','call','wrap','refresh','armorstand_nameplate'):raise ModuleError('Unsupported hook kind')
+ if kind=='armorstand_nameplate':
+  if module_id!='worlds-locations' or h['class']!='net/minecraft/class_877' or h['method']!='method_62375' or desc!='(Lnet/minecraft/class_1531;Lnet/minecraft/class_9998;F)V' or h.get('section')!='lines' or h.get('capture'):
+   raise ModuleError('ArmorStand hook only permits client render-state label projection')
  if kind=='wrap':
   if desc!='(Ljava/lang/String;FZFI)Ljava/util/List;' or not isinstance(h.get('measure'),str) or not METHOD.fullmatch(h['measure']):raise ModuleError('Invalid bounded wrap contract')
   context=h.get('context_fields',{})
   if not isinstance(context,dict) or len(context)>4 or any(not isinstance(k,str) or not METHOD.fullmatch(k) or v not in ('Ljava/lang/String;','F','I','Z') for k,v in context.items()):raise ModuleError('Invalid layout context')
  if kind=='refresh':
   fields=h.get('cache_fields')
-  if not desc.endswith(')V') or not isinstance(fields,list) or not 1<=len(fields)<=8:raise ModuleError('Invalid cache refresh contract')
+  display_cache=(h['class']=='net/minecraft/class_8113$class_8123'
+                 and h['method']=='method_48905'
+                 and desc=='(Lnet/minecraft/class_8113$class_8123$class_8127;)Lnet/minecraft/class_8113$class_8123$class_8125;')
+  if not (desc.endswith(')V') or display_cache) or not isinstance(fields,list) or not 1<=len(fields)<=8:raise ModuleError('Invalid cache refresh contract')
   seen=set()
   for f in fields:
    if not isinstance(f,dict) or set(f)!={'name','descriptor','action'} or not isinstance(f['name'],str) or not METHOD.fullmatch(f['name']):raise ModuleError('Invalid cache field')
-   if f['name'] in seen or (f['descriptor'],f['action']) not in (('Ljava/util/Map;','clear_map'),('Ljava/lang/String;','reset_key')):raise ModuleError('Unsafe cache field/type')
+   safe=(f['descriptor'],f['action']) in (('Ljava/util/Map;','clear_map'),('Ljava/lang/String;','reset_key'))
+   display_safe=(display_cache and f=={'name':'field_42442','descriptor':'Lnet/minecraft/class_8113$class_8123$class_8125;','action':'reset_display_lines'})
+   if f['name'] in seen or not (safe or display_safe):raise ModuleError('Unsafe cache field/type')
    seen.add(f['name'])
+  if display_cache and (len(fields)!=1 or not display_safe):raise ModuleError('World TextDisplay cache must be the sole refresh field')
  texttypes=('Ljava/lang/String;','Lnet/minecraft/class_2561;')
  if kind=='return' and desc.split(')',1)[1] not in texttypes:raise ModuleError('Only String/Text return projection is supported')
  if kind=='argument' and (type(h.get('argument')) is not int or not 0<=h['argument']<=254):raise ModuleError('Invalid argument index')

@@ -50,9 +50,22 @@ final class Script {
    contextFields=Collections.unmodifiableMap(context);List<CacheField>fields=new ArrayList<>();Object rawFields=m.get("cache_fields");
    if(rawFields!=null){if(!(rawFields instanceof List)||((List<?>)rawFields).size()>8)throw new IllegalArgumentException("Cache field budget");Set<String>seen=new HashSet<>();for(Object x:(List<?>)rawFields){CacheField f=new CacheField(obj(x));if(!seen.add(f.name))throw new IllegalArgumentException("Duplicate cache field");fields.add(f);}}
    cacheFields=List.copyOf(fields);
+   // An explicitly allowlisted vanilla TextDisplay layout cache, not general entity state.
+   boolean displayLines=owner.equals("net/minecraft/class_8113$class_8123")
+      &&method.equals("method_48905")
+      &&descriptor.equals("(Lnet/minecraft/class_8113$class_8123$class_8127;)Lnet/minecraft/class_8113$class_8123$class_8125;");
+   for(CacheField f:cacheFields)if(f.action.equals("reset_display_lines")
+      &&(!displayLines||!f.name.equals("field_42442")))throw new IllegalArgumentException("World display cache target is not allowlisted");
+   if(displayLines&&kind.equals("refresh")&&(cacheFields.size()!=1
+      ||!cacheFields.get(0).action.equals("reset_display_lines")))throw new IllegalArgumentException("TextDisplay refresh must only reset its own line cache");
    switch(kind){
     case "wrap":if(!descriptor.equals("(Ljava/lang/String;FZFI)Ljava/util/List;")||!measure.matches("[A-Za-z_$][A-Za-z0-9_$]*")||!cacheFields.isEmpty())throw new IllegalArgumentException("Invalid bounded wrap contract");break;
-    case "refresh":if(ret.getSort()!=Type.VOID||cacheFields.isEmpty()||!contextFields.isEmpty())throw new IllegalArgumentException("Invalid display refresh contract");break;
+    case "refresh":if((ret.getSort()!=Type.VOID&&!displayLines)||cacheFields.isEmpty()||!contextFields.isEmpty())throw new IllegalArgumentException("Invalid display refresh contract");break;
+    case "armorstand_nameplate":
+     if(!owner.equals("net/minecraft/class_877")||!method.equals("method_62375")
+       ||!descriptor.equals("(Lnet/minecraft/class_1531;Lnet/minecraft/class_9998;F)V"))
+      throw new IllegalArgumentException("Not a dedicated ArmorStand nameplate render state");
+     break;
     case "return":if(!valueType(ret.getDescriptor()))throw new IllegalArgumentException("Return is not supported text");break;
     case "argument":if(argument<0||argument>=args.length||!valueType(args[argument].getDescriptor()))throw new IllegalArgumentException("Argument is not supported text");break;
     case "field":if(memberOwner.isEmpty()||!memberName.matches("[A-Za-z_$][A-Za-z0-9_$]*")||!valueType(memberDescriptor))throw new IllegalArgumentException("Invalid field projection");break;
@@ -60,7 +73,7 @@ final class Script {
     default:throw new IllegalArgumentException("Unknown operation kind: "+kind);
    }
    locale=m.get("locale") instanceof String?(String)m.get("locale"):"zh_tw";if(!locale.equals("*")&&!locale.matches("[a-z]{2,3}_[a-z]{2,4}"))throw new IllegalArgumentException("Invalid locale");
-   section=m.get("section") instanceof String?(String)m.get("section"):"names";if(!Set.of("names","items","lines","messages").contains(section))throw new IllegalArgumentException("Unknown dictionary section");
+   section=m.get("section") instanceof String?(String)m.get("section"):"names";if(!Set.of("names","items","lines","messages").contains(section))throw new IllegalArgumentException("Unknown dictionary section");if(kind.equals("armorstand_nameplate")&&!section.equals("lines"))throw new IllegalArgumentException("ArmorStand labels require lines dictionary");
    Object captureInput=m.get("capture");capture=captureInput==null?"":captureInput instanceof String?(String)captureInput:"!invalid!";
    if(!capture.isEmpty()&&!UnknownCollector.permitted(owner,kind,capture))throw new IllegalArgumentException("Capture is not approved for this owner/kind/origin");
    Map<String,String>map=new HashMap<>();Object entries=m.get("exact");if(entries instanceof Map){if(((Map<?,?>)entries).size()>10000)throw new IllegalArgumentException("Too many replacements");for(Map.Entry<?,?>e:((Map<?,?>)entries).entrySet()){
@@ -72,7 +85,7 @@ final class Script {
  }
  static final class CacheField {
   final String name,descriptor,action;
-  CacheField(Map<?,?>m){name=str(m,"name");descriptor=str(m,"descriptor");action=str(m,"action");if(!name.matches("[A-Za-z_$][A-Za-z0-9_$]*")||!(action.equals("clear_map")&&descriptor.equals("Ljava/util/Map;")||action.equals("reset_key")&&descriptor.equals(STR)))throw new IllegalArgumentException("Only explicit display Map caches or String cache keys can be invalidated");}
+  CacheField(Map<?,?>m){name=str(m,"name");descriptor=str(m,"descriptor");action=str(m,"action");if(!name.matches("[A-Za-z_$][A-Za-z0-9_$]*")||!(action.equals("clear_map")&&descriptor.equals("Ljava/util/Map;")||action.equals("reset_key")&&descriptor.equals(STR)||action.equals("reset_display_lines")&&descriptor.equals("Lnet/minecraft/class_8113$class_8123$class_8125;")))throw new IllegalArgumentException("Only explicit display Map caches or String cache keys can be invalidated");}
   public String toString(){return name+":"+descriptor+":"+action;}
  }
  static final class Operation {
