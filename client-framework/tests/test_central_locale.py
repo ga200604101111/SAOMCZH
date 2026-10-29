@@ -102,7 +102,10 @@ class CentralLocale(unittest.TestCase):
             for w in words:
                 prior=engine(old,w,OLD_DICT)
                 current=engine(n,w,d)
-                if prior!=w:self.assertEqual(prior,current,(old['id'],w))
+                if old['id'] in ('items-economy:reward-name','items-economy:reward-cached-name') and w.strip(' ') in ('Healing Shard x2','治療碎片 x2'):
+                    left=w[:len(w)-len(w.lstrip(' '))];right=w[len(w.rstrip(' ')):]
+                    self.assertEqual(current,left+'治療碎片'+right,(old['id'],w))
+                elif prior!=w:self.assertEqual(prior,current,(old['id'],w))
     def test_bundle_much_smaller_without_inline_glossary(self):
         b=rules()
         self.assertLess(len(json.dumps(b,ensure_ascii=False).encode('utf8')),230000)

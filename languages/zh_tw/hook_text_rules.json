@@ -128,7 +128,11 @@
           "from": "Halloween Key x",
           "to": "萬聖節鑰匙 x"
         }
-      ]
+      ],
+      "padded_exact": {
+        "Healing Shard x2": "治療碎片",
+        "治療碎片 x2": "治療碎片"
+      }
     },
     "compass_goal": {
       "operations": [
