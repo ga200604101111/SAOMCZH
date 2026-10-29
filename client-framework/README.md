@@ -73,3 +73,7 @@ ASM 及 Noto 衍生圖集條款見 licenses。既有遊戲與模組的版權不�
 ## Locale-first 1.5.0
 
 模組只含可更新的攔截點。繁中詞庫、翻譯例外、版本放在 languages/zh_tw；以 compose_localized.py 指定語言編譯簽章規則。詳見 [語言集中說明](docs/language-first-1.5.0.md)。舊客戶端的 languages/zh_tw 下載路徑不變；新攔截點不代表已覆蓋所有 UI 或玩家聊天。
+
+### 1.5.1 Generic Renderer Guard
+
+Common PassCanvas/TextUtil projection now queries message-level translations, not item or player-name-like dictionary keys. Module-specific hooks still translate item names, quest strings, Codex labels and bosses. No new JAR or resource pack; previous signed rule bundle remains available for rollback.

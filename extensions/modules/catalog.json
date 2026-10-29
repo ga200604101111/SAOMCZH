@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "bundle_version": "1.5.0",
-  "bundle_sequence": 106,
+  "bundle_version": "1.5.1",
+  "bundle_sequence": 107,
   "runtime_api": 1,
   "minimum_runtime_version": "1.1.0",
   "rule_schema": 2,
@@ -113,8 +113,8 @@
     },
     {
       "id": "ui-text-layout",
-      "version": "1.3.0",
-      "source_sha256": "ee6f85627789455af04886c871f5b107bb13141254531eba804e268e9ca17a9b",
+      "version": "1.3.1",
+      "source_sha256": "5a7a996f7305eee312f3feac83124bb85c305ec02c0992dc18572c09aeb58026",
       "dependencies": {
         "shared-terms": "1.1.0"
       },
@@ -123,7 +123,8 @@
         "共用 PassCanvas 中文自動分行，含拍賣行左側說明和任務描述",
         "任務／圖鑑只刷新顯示文字快取，不關閉介面、不改搜尋、捲動、選中物品或送操作封包",
         "需外部 Runtime 1.1.0；保留既有 7 個功能模組",
-        "Shared PassCanvas/TextUtil String/Text display and early ellipsize inputs; exact-lookup only, no arbitrary substring rewriting."
+        "Shared PassCanvas/TextUtil String/Text display and early ellipsize inputs; exact-lookup only, no arbitrary substring rewriting.",
+        "Safety: generic renderer hooks look up system/message text only, avoiding item/name glossary collisions with player IDs. Domain hooks handle names and lore."
       ]
     },
     {
@@ -141,5 +142,5 @@
       ]
     }
   ],
-  "notes": "Locale-neutral functional hooks, translations under languages/zh_tw only; no player chat translation."
+  "notes": "Locale-neutral modules, translations only languages/zh_tw. Generic SAOUI text renderer restricted to system/message translations to avoid translating player names. No Agent update required."
 }

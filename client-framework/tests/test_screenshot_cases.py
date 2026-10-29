@@ -1,6 +1,6 @@
 from pathlib import Path
 import json,unittest,os,re
-W=Path(__file__).parents[1];P=Path(os.environ.get('SAO_RULES_TEST',str(W.parent/'SAO_TW_GitHub_Export/extensions/v2/rules-1.2.0.json')))
+W=Path(__file__).parents[1];P=Path(os.environ.get('SAO_RULES_TEST',str(W.parent/'extensions/v2/rules-1.4.0.json')))
 B=json.loads(P.read_text('utf8'));H={h['id']:h for h in B['hooks']}
 def render(id,s):
  if id not in H:raise AssertionError('Missing dedicated display hook: '+id)

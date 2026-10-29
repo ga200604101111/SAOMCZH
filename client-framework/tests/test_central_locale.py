@@ -61,10 +61,12 @@ class CentralLocale(unittest.TestCase):
     def test_shared_ui_exact_fallback_without_player_chat_rewrite(self):
         hook={h['id']:h for h in rules()['hooks']}['ui-text-layout:canvas-mid-text']
         dictionary=json.loads((W/'languages/zh_tw/translations.json').read_text('utf8'))
-        self.assertEqual(engine(hook,'Aincrad',dictionary),'艾恩葛朗特')
-        self.assertEqual(engine(hook,'TRAINING PAVISE',dictionary),'訓練用大盾')
-        for private in ['Player_One: HI','TW_Babycat999: Sorry','null','old']:
+        self.assertEqual(engine(hook,'Physical Damage +3%',dictionary),'物傷 +3%')
+        for private in ['Aincrad','Leader','Assassin','Pumba','TRAINING PAVISE','Player_One: HI','TW_Babycat999: Sorry','null','old']:
             self.assertEqual(engine(hook,private,dictionary),private)
+        names={h['id']:h for h in rules()['hooks']}
+        self.assertEqual(engine(names['codex-creatures:universe'],'Aincrad',dictionary),'艾恩葛朗特')
+        self.assertEqual(engine(names['items-economy:detail-visible-title'],'TRAINING PAVISE',dictionary),'訓練用大盾')
     def test_single_language_file_strict_placeholders(self):
         module=W/'tools' if (W/'tools/compose_localized.py').is_file() else W/'client-framework/tools'
         sys.path.insert(0,str(W/'tools'))

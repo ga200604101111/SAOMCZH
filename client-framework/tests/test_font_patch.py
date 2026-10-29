@@ -1,7 +1,8 @@
 from pathlib import Path
 import unittest,zipfile,json,os,io
 from fontTools.ttLib import TTFont
-R=Path('D:/翻譯');P=Path(os.environ.get('SAO_PACK_TEST',str(R/'SAO_ZH_Font_Public_Build/SAO_ZH_Pack_v1.0.5_font_reload_repair.zip')))
+R=Path(__file__).resolve().parents[3];P=Path(os.environ.get('SAO_PACK_TEST',str(R/'SAO_ZH_Font_Public_Build/SAO_ZH_Pack_v1.0.6_cjk_fallback_and_labels.zip')))
+@unittest.skipUnless(P.is_file(), 'Resource pack is released separately in SAOMCZHPACK; set SAO_PACK_TEST to verify it')
 class FontRepair(unittest.TestCase):
  def test_affected_characters_use_complete_fallback(self):
   with zipfile.ZipFile(P) as z:

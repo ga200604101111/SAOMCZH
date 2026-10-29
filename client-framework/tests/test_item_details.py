@@ -1,6 +1,6 @@
 from pathlib import Path
 import unittest,json,os,re
-W=Path(__file__).parents[1];R=W.parent;rules=Path(os.environ.get('SAO_ITEM_RULES',str(R/'SAO_TW_GitHub_Export/extensions/v2/rules-1.3.1.json')));dictionary=Path(os.environ.get('SAO_ITEM_DICT',str(R/'SAO_TW_Dynamic/zh_tw.json')));B=json.loads(rules.read_text('utf8'));D=json.loads(dictionary.read_text('utf8'));H={h['id']:h for h in B['hooks']}
+W=Path(__file__).parents[1];R=W.parent;rules=Path(os.environ.get('SAO_ITEM_RULES',str(R/'extensions/v2/rules-1.4.0.json')));dictionary=Path(os.environ.get('SAO_ITEM_DICT',str(R/'languages/zh_tw/translations.json')));B=json.loads(rules.read_text('utf8'));D=json.loads(dictionary.read_text('utf8'));H={h['id']:h for h in B['hooks']}
 def render(key,s):
  if key not in H:raise AssertionError('Missing verified item-detail hook '+key)
  h=H[key];v=h.get('exact',{}).get(s,D.get(h.get('section','names'),{}).get(s,s))
