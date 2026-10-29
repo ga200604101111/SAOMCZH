@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "items-economy",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "name": "物品與經濟",
   "enabled": true,
   "dependencies": {
@@ -21,7 +21,49 @@
       "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
       "kind": "return",
       "locale": "zh_tw",
-      "section": "items"
+      "section": "items",
+      "operations": [
+        {
+          "op": "replace_literal",
+          "from": "Class: assassin",
+          "to": "職業：刺客"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Class: warrior",
+          "to": "職業：戰士"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Minimum Level:",
+          "to": "最低等級："
+        },
+        {
+          "op": "replace_literal",
+          "from": "Guard Durability:",
+          "to": "格擋耐久："
+        },
+        {
+          "op": "replace_literal",
+          "from": "Movement Speed",
+          "to": "移動速度"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Attack Damage",
+          "to": "攻擊傷害"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Attack Speed",
+          "to": "攻擊速度"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Life Steal",
+          "to": "吸血"
+        }
+      ]
     },
     {
       "id": "item-plain",
@@ -30,7 +72,49 @@
       "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
       "kind": "return",
       "locale": "zh_tw",
-      "section": "items"
+      "section": "items",
+      "operations": [
+        {
+          "op": "replace_literal",
+          "from": "Class: assassin",
+          "to": "職業：刺客"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Class: warrior",
+          "to": "職業：戰士"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Minimum Level:",
+          "to": "最低等級："
+        },
+        {
+          "op": "replace_literal",
+          "from": "Guard Durability:",
+          "to": "格擋耐久："
+        },
+        {
+          "op": "replace_literal",
+          "from": "Movement Speed",
+          "to": "移動速度"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Attack Damage",
+          "to": "攻擊傷害"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Attack Speed",
+          "to": "攻擊速度"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Life Steal",
+          "to": "吸血"
+        }
+      ]
     },
     {
       "id": "item-translate",
@@ -39,7 +123,49 @@
       "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
       "kind": "return",
       "locale": "zh_tw",
-      "section": "items"
+      "section": "items",
+      "operations": [
+        {
+          "op": "replace_literal",
+          "from": "Class: assassin",
+          "to": "職業：刺客"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Class: warrior",
+          "to": "職業：戰士"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Minimum Level:",
+          "to": "最低等級："
+        },
+        {
+          "op": "replace_literal",
+          "from": "Guard Durability:",
+          "to": "格擋耐久："
+        },
+        {
+          "op": "replace_literal",
+          "from": "Movement Speed",
+          "to": "移動速度"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Attack Damage",
+          "to": "攻擊傷害"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Attack Speed",
+          "to": "攻擊速度"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Life Steal",
+          "to": "吸血"
+        }
+      ]
     },
     {
       "id": "item-name",
@@ -48,7 +174,49 @@
       "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
       "kind": "return",
       "locale": "zh_tw",
-      "section": "items"
+      "section": "items",
+      "operations": [
+        {
+          "op": "replace_literal",
+          "from": "Class: assassin",
+          "to": "職業：刺客"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Class: warrior",
+          "to": "職業：戰士"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Minimum Level:",
+          "to": "最低等級："
+        },
+        {
+          "op": "replace_literal",
+          "from": "Guard Durability:",
+          "to": "格擋耐久："
+        },
+        {
+          "op": "replace_literal",
+          "from": "Movement Speed",
+          "to": "移動速度"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Attack Damage",
+          "to": "攻擊傷害"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Attack Speed",
+          "to": "攻擊速度"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Life Steal",
+          "to": "吸血"
+        }
+      ]
     },
     {
       "id": "item-text",
@@ -57,7 +225,49 @@
       "descriptor": "(Lnet/minecraft/class_1799;Lnet/minecraft/class_2561;)Lnet/minecraft/class_2561;",
       "kind": "return",
       "locale": "zh_tw",
-      "section": "items"
+      "section": "items",
+      "operations": [
+        {
+          "op": "replace_literal",
+          "from": "Class: assassin",
+          "to": "職業：刺客"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Class: warrior",
+          "to": "職業：戰士"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Minimum Level:",
+          "to": "最低等級："
+        },
+        {
+          "op": "replace_literal",
+          "from": "Guard Durability:",
+          "to": "格擋耐久："
+        },
+        {
+          "op": "replace_literal",
+          "from": "Movement Speed",
+          "to": "移動速度"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Attack Damage",
+          "to": "攻擊傷害"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Attack Speed",
+          "to": "攻擊速度"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Life Steal",
+          "to": "吸血"
+        }
+      ]
     },
     {
       "id": "reward-description",
@@ -85,6 +295,136 @@
       "kind": "return",
       "locale": "zh_tw",
       "section": "items"
+    },
+    {
+      "id": "item-lookup",
+      "class": "fr/sao/itemlang/ItemLangClient",
+      "method": "lookup",
+      "descriptor": "(Ljava/lang/String;)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "items",
+      "operations": [
+        {
+          "op": "replace_literal",
+          "from": "Class: assassin",
+          "to": "職業：刺客"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Class: warrior",
+          "to": "職業：戰士"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Minimum Level:",
+          "to": "最低等級："
+        },
+        {
+          "op": "replace_literal",
+          "from": "Guard Durability:",
+          "to": "格擋耐久："
+        },
+        {
+          "op": "replace_literal",
+          "from": "Movement Speed",
+          "to": "移動速度"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Attack Damage",
+          "to": "攻擊傷害"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Attack Speed",
+          "to": "攻擊速度"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Life Steal",
+          "to": "吸血"
+        }
+      ]
+    },
+    {
+      "id": "native-item-name",
+      "class": "net/minecraft/class_1799",
+      "method": "method_7964",
+      "descriptor": "()Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "items"
+    },
+    {
+      "id": "tooltip-name",
+      "class": "fr/sao/tooltip/TipModel",
+      "method": "name",
+      "descriptor": "()Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "items"
+    },
+    {
+      "id": "tooltip-stat",
+      "class": "fr/sao/tooltip/TipModel$Stat",
+      "method": "label",
+      "descriptor": "()Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "items"
+    },
+    {
+      "id": "tooltip-display",
+      "class": "fr/sao/tooltip/ItemTip",
+      "method": "text",
+      "descriptor": "(Lfr/sao/pass/screen/PassCanvas;Ljava/lang/String;Ljava/lang/String;FFFI)V",
+      "kind": "argument",
+      "locale": "zh_tw",
+      "section": "items",
+      "operations": [
+        {
+          "op": "replace_literal",
+          "from": "Class: assassin",
+          "to": "職業：刺客"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Class: warrior",
+          "to": "職業：戰士"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Minimum Level:",
+          "to": "最低等級："
+        },
+        {
+          "op": "replace_literal",
+          "from": "Guard Durability:",
+          "to": "格擋耐久："
+        },
+        {
+          "op": "replace_literal",
+          "from": "Movement Speed",
+          "to": "移動速度"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Attack Damage",
+          "to": "攻擊傷害"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Attack Speed",
+          "to": "攻擊速度"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Life Steal",
+          "to": "吸血"
+        }
+      ],
+      "argument": 2
     }
   ]
 }

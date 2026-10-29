@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "worlds-locations",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "name": "世界與地點",
   "enabled": true,
   "dependencies": {
@@ -30,7 +30,19 @@
       "kind": "argument",
       "locale": "zh_tw",
       "section": "names",
-      "argument": 1
+      "argument": 1,
+      "operations": [
+        {
+          "op": "replace_literal",
+          "from": "FRACTURED UNDERWORLD",
+          "to": "破碎冥界"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Fractured Underworld",
+          "to": "破碎冥界"
+        }
+      ]
     },
     {
       "id": "point-measure",
@@ -70,6 +82,166 @@
       "member": "name",
       "member_descriptor": "()Ljava/lang/String;",
       "sites": 3
+    },
+    {
+      "id": "transfer-duration",
+      "class": "fr/sao/interlink/InterlinkScreen",
+      "method": "duration",
+      "descriptor": "(J)Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "names",
+      "operations": [
+        {
+          "op": "replace_literal",
+          "from": "s",
+          "to": " 秒"
+        },
+        {
+          "op": "replace_literal",
+          "from": "m",
+          "to": " 分鐘"
+        },
+        {
+          "op": "replace_literal",
+          "from": "h",
+          "to": " 小時"
+        }
+      ]
+    },
+    {
+      "id": "point-confirm",
+      "class": "fr/sao/teleport/TeleportScreen",
+      "method": "method_25406",
+      "descriptor": "(DDI)Z",
+      "kind": "call",
+      "locale": "zh_tw",
+      "section": "names",
+      "member_class": "fr/sao/teleport/TeleportClient$Point",
+      "member": "name",
+      "member_descriptor": "()Ljava/lang/String;",
+      "sites": 1
+    },
+    {
+      "id": "transfer-header-here",
+      "class": "fr/sao/interlink/InterlinkScreen",
+      "method": "method_25394",
+      "descriptor": "(Lnet/minecraft/class_332;IIF)V",
+      "kind": "call",
+      "locale": "zh_tw",
+      "section": "names",
+      "member_class": "fr/sao/interlink/InterlinkClient",
+      "member": "here",
+      "member_descriptor": "()Ljava/lang/String;",
+      "sites": 1
+    },
+    {
+      "id": "transfer-header-there",
+      "class": "fr/sao/interlink/InterlinkScreen",
+      "method": "method_25394",
+      "descriptor": "(Lnet/minecraft/class_332;IIF)V",
+      "kind": "call",
+      "locale": "zh_tw",
+      "section": "names",
+      "member_class": "fr/sao/interlink/InterlinkClient",
+      "member": "there",
+      "member_descriptor": "()Ljava/lang/String;",
+      "sites": 1
+    },
+    {
+      "id": "transfer-subtitle",
+      "class": "fr/sao/interlink/InterlinkScreen",
+      "method": "twoLines",
+      "descriptor": "(FFLjava/lang/String;Ljava/lang/String;FII)V",
+      "kind": "argument",
+      "locale": "zh_tw",
+      "section": "names",
+      "operations": [
+        {
+          "op": "replace_literal",
+          "from": "FRACTURED UNDERWORLD",
+          "to": "破碎冥界"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Fractured Underworld",
+          "to": "破碎冥界"
+        }
+      ],
+      "argument": 3
+    },
+    {
+      "id": "transfer-empty-line",
+      "class": "fr/sao/interlink/InterlinkScreen",
+      "method": "emptyRow",
+      "descriptor": "(FFLjava/lang/String;Ljava/lang/String;)V",
+      "kind": "argument",
+      "locale": "zh_tw",
+      "section": "names",
+      "operations": [
+        {
+          "op": "replace_literal",
+          "from": "FRACTURED UNDERWORLD",
+          "to": "破碎冥界"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Fractured Underworld",
+          "to": "破碎冥界"
+        }
+      ],
+      "argument": 3
+    },
+    {
+      "id": "compass-title",
+      "class": "fr/sao/questtracker/hud/QuestCompassRenderer",
+      "method": "render",
+      "descriptor": "(Lnet/minecraft/class_332;Lfr/sao/questtracker/model/QuestHudState;Lnet/minecraft/class_2561;Lnet/minecraft/class_2561;Lnet/minecraft/class_2561;F)V",
+      "kind": "argument",
+      "locale": "zh_tw",
+      "section": "lines",
+      "operations": [
+        {
+          "op": "replace_literal",
+          "from": "Se rendre là où résident les brigands",
+          "to": "前往盜匪的居所"
+        }
+      ],
+      "argument": 2
+    },
+    {
+      "id": "compass-objective",
+      "class": "fr/sao/questtracker/hud/QuestCompassRenderer",
+      "method": "render",
+      "descriptor": "(Lnet/minecraft/class_332;Lfr/sao/questtracker/model/QuestHudState;Lnet/minecraft/class_2561;Lnet/minecraft/class_2561;Lnet/minecraft/class_2561;F)V",
+      "kind": "argument",
+      "locale": "zh_tw",
+      "section": "lines",
+      "operations": [
+        {
+          "op": "replace_literal",
+          "from": "Se rendre là où résident les brigands",
+          "to": "前往盜匪的居所"
+        }
+      ],
+      "argument": 3
+    },
+    {
+      "id": "compass-extra",
+      "class": "fr/sao/questtracker/hud/QuestCompassRenderer",
+      "method": "render",
+      "descriptor": "(Lnet/minecraft/class_332;Lfr/sao/questtracker/model/QuestHudState;Lnet/minecraft/class_2561;Lnet/minecraft/class_2561;Lnet/minecraft/class_2561;F)V",
+      "kind": "argument",
+      "locale": "zh_tw",
+      "section": "lines",
+      "operations": [
+        {
+          "op": "replace_literal",
+          "from": "Se rendre là où résident les brigands",
+          "to": "前往盜匪的居所"
+        }
+      ],
+      "argument": 4
     }
   ]
 }

@@ -1,8 +1,10 @@
 {
   "schema_version": 1,
   "id": "ui-text-layout",
-  "version": "1.0.0",
-  "dependencies": {},
+  "version": "1.1.0",
+  "dependencies": {
+    "shared-terms": "1.1.0"
+  },
   "coverage": [
     "共用 PassCanvas 中文自動分行，含拍賣行左側說明和任務描述",
     "任務／圖鑑只刷新顯示文字快取，不關閉介面、不改搜尋、捲動、選中物品或送操作封包",

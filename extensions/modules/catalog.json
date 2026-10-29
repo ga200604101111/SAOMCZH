@@ -1,22 +1,33 @@
 {
   "schema_version": 1,
-  "bundle_version": "1.2.0",
-  "bundle_sequence": 102,
+  "bundle_version": "1.3.0",
+  "bundle_sequence": 103,
   "runtime_api": 1,
   "minimum_runtime_version": "1.1.0",
   "rule_schema": 2,
   "modules": [
     {
       "id": "codex-creatures",
-      "version": "1.0.0",
-      "source_sha256": "74dd3a543add6f20adfd4792ad9a588a39a61b889ee9354dca2159757f29ecad",
+      "version": "1.1.0",
+      "source_sha256": "4f0d24d4b6786e0f0c194a95979b1e3a9bbe1a5a6d0028b2934360d47ceb771a",
       "dependencies": {
         "shared-terms": "1.0.0"
       },
-      "hook_count": 5,
+      "hook_count": 6,
       "coverage": [
         "圖鑑名稱、描述、分類、掉落名稱",
         "透過動態翻譯模組共同處理生物名稱；特殊外部圖鑑尚未全覆蓋"
+      ]
+    },
+    {
+      "id": "combat-feedback",
+      "version": "1.0.0",
+      "source_sha256": "539689854d2c526648d40429571785395f3e37cd28791981e1fced6a98b96480",
+      "dependencies": {},
+      "hook_count": 2,
+      "coverage": [
+        "原模組動作列的單次傷害／總傷害措辭；保留交叉劍、數字、顏色與 DPS",
+        "不對玩家聊天或聊天中的 null/old 做全域刪改"
       ]
     },
     {
@@ -33,13 +44,23 @@
       ]
     },
     {
-      "id": "items-economy",
+      "id": "guild-social",
       "version": "1.0.0",
-      "source_sha256": "62417007b638245c86a92ef776cbdf6c5c191740e40f4d1e1c93d68c325d7fbf",
+      "source_sha256": "69db8b490046dfa7783fd228a6e09402b578cc72fe93e748b2479314302733fb",
+      "dependencies": {},
+      "hook_count": 2,
+      "coverage": [
+        "公會成員階級與階級選單；不改玩家名稱、UUID、職級 ID 或操作封包"
+      ]
+    },
+    {
+      "id": "items-economy",
+      "version": "1.1.0",
+      "source_sha256": "889a8fd1eaf6dcfcd803045e8454f0fe3bb2db6f2aac8c2b555b0478539d0cf2",
       "dependencies": {
         "shared-terms": "1.0.0"
       },
-      "hook_count": 8,
+      "hook_count": 13,
       "coverage": [
         "背包物品名稱／原生物品翻譯",
         "登入獎勵描述、裝備屬性、跨服物品清單",
@@ -48,8 +69,8 @@
     },
     {
       "id": "quests-objectives",
-      "version": "1.0.0",
-      "source_sha256": "5cedb16834649d244433692d73c5cf7607cb7f9cf6d1b9660ce278dc35ac318e",
+      "version": "1.1.0",
+      "source_sha256": "c4f2031f127750573b62610007c159014322f2e9137f84904924b2b36d552b29",
       "dependencies": {
         "shared-terms": "1.0.0"
       },
@@ -61,8 +82,8 @@
     },
     {
       "id": "shared-terms",
-      "version": "1.0.0",
-      "source_sha256": "59523c7963129d8a5d6a22d9b465b63558ba4dee0a84af9084b8b61db199d50e",
+      "version": "1.1.0",
+      "source_sha256": "d9a15113f86fe842beb9ac8b6507298b31bba6897535e24a7dfa22c4ff1015ca",
       "dependencies": {},
       "hook_count": 0,
       "coverage": [
@@ -71,12 +92,12 @@
     },
     {
       "id": "skills-progression",
-      "version": "1.0.0",
-      "source_sha256": "afa4396e46bfaf60cbb5494f5310404114eae0431bf4b9d6d5bee2878cbcf87b",
+      "version": "1.1.0",
+      "source_sha256": "72a6c7a21c1da1264904fbb7329dc87a2cd45003eb910f101c2e32f1135e1c59",
       "dependencies": {
         "shared-terms": "1.0.0"
       },
-      "hook_count": 3,
+      "hook_count": 5,
       "coverage": [
         "技能詳情名稱、描述原文、數值說明欄位",
         "技能樹原有功能仍由外部相容模組提供；非本輪已完全拆開"
@@ -84,9 +105,11 @@
     },
     {
       "id": "ui-text-layout",
-      "version": "1.0.0",
-      "source_sha256": "dcb323141e8ca955dd67366aa5dec27372127f368164c11022b1b208aa2ab88e",
-      "dependencies": {},
+      "version": "1.1.0",
+      "source_sha256": "70dcbab9929e51a318db9ec8b10dbb073920010ec82b44f0b643ebda7e7978b6",
+      "dependencies": {
+        "shared-terms": "1.1.0"
+      },
       "hook_count": 3,
       "coverage": [
         "共用 PassCanvas 中文自動分行，含拍賣行左側說明和任務描述",
@@ -96,17 +119,21 @@
     },
     {
       "id": "worlds-locations",
-      "version": "1.0.0",
-      "source_sha256": "fe7ee527d701de103648ab47244afa19bbac8eef02eed6b4cca7fb8944b8029f",
+      "version": "1.1.0",
+      "source_sha256": "382242566c18cf746c397276483b91b95b1825635928b45061f180a46592f900",
       "dependencies": {
         "shared-terms": "1.0.0"
       },
-      "hook_count": 4,
+      "hook_count": 13,
       "coverage": [
         "跨服世界名稱、傳送點標籤與相同標籤的量測",
         "地圖與所有區域 HUD 尚未全部介接"
       ]
     }
   ],
-  "notes": "Eight functional modules. Schema 2 capabilities require external runtime 1.1.0; the fixed Agent V16 is unchanged. v1 channel remains compatible with runtime1.0."
+  "verified_mod_versions": [
+    "SAOUI 2.41.2",
+    "SAOJob 1.1.3"
+  ],
+  "notes": "10 functional modules; 62 verified display hooks. No Agent/runtime binary update. No global player-chat rewriting."
 }

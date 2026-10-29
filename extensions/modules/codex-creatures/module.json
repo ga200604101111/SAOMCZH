@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "codex-creatures",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "name": "圖鑑與生物",
   "enabled": true,
   "dependencies": {
@@ -69,6 +69,19 @@
       "locale": "zh_tw",
       "section": "items",
       "member_class": "fr/sao/codex/CodexClient$Loot",
+      "member": "name",
+      "member_descriptor": "()Ljava/lang/String;",
+      "sites": 1
+    },
+    {
+      "id": "sheet-category",
+      "class": "fr/sao/codex/CodexScreen",
+      "method": "drawSheetBody",
+      "descriptor": "(Lfr/sao/codex/CodexClient$Entry;)V",
+      "kind": "call",
+      "locale": "zh_tw",
+      "section": "names",
+      "member_class": "fr/sao/codex/CodexClient$Category",
       "member": "name",
       "member_descriptor": "()Ljava/lang/String;",
       "sites": 1
