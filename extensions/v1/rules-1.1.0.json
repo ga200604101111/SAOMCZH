@@ -1,0 +1,777 @@
+{
+  "schema_version": 1,
+  "version": "1.1.0",
+  "sequence": 101,
+  "expires": 1808809376,
+  "module_catalog": [
+    {
+      "id": "codex-creatures",
+      "version": "1.0.0",
+      "source_sha256": "74dd3a543add6f20adfd4792ad9a588a39a61b889ee9354dca2159757f29ecad",
+      "dependencies": {
+        "shared-terms": "1.0.0"
+      },
+      "hook_count": 5,
+      "coverage": [
+        "圖鑑名稱、描述、分類、掉落名稱",
+        "透過動態翻譯模組共同處理生物名稱；特殊外部圖鑑尚未全覆蓋"
+      ]
+    },
+    {
+      "id": "dynamic-translation",
+      "version": "1.0.0",
+      "source_sha256": "bae6be26ac27666dda524944224b0863824069e9e4efc8da9ce1db9786fb6d6d",
+      "dependencies": {
+        "shared-terms": "1.0.0"
+      },
+      "hook_count": 13,
+      "coverage": [
+        "接原模組翻譯結果；同一入口可服務多種介面",
+        "系統訊息僅限原模組 messages，未接玩家聊天原始封包"
+      ]
+    },
+    {
+      "id": "items-economy",
+      "version": "1.0.0",
+      "source_sha256": "62417007b638245c86a92ef776cbdf6c5c191740e40f4d1e1c93d68c325d7fbf",
+      "dependencies": {
+        "shared-terms": "1.0.0"
+      },
+      "hook_count": 8,
+      "coverage": [
+        "背包物品名稱／原生物品翻譯",
+        "登入獎勵描述、裝備屬性、跨服物品清單",
+        "拍賣商品若使用 ItemLangClient 會共享此模組；排版未在此輪處理"
+      ]
+    },
+    {
+      "id": "quests-objectives",
+      "version": "1.0.0",
+      "source_sha256": "5cedb16834649d244433692d73c5cf7607cb7f9cf6d1b9660ce278dc35ac318e",
+      "dependencies": {
+        "shared-terms": "1.0.0"
+      },
+      "hook_count": 5,
+      "coverage": [
+        "任務描述、目標文字與既有翻譯結果",
+        "追蹤 HUD 標題／說明；已建立行列表的完整快取重排仍需另外介接"
+      ]
+    },
+    {
+      "id": "shared-terms",
+      "version": "1.0.0",
+      "source_sha256": "59523c7963129d8a5d6a22d9b465b63558ba4dee0a84af9084b8b61db199d50e",
+      "dependencies": {},
+      "hook_count": 0,
+      "coverage": [
+        "多個功能模組共用術語；不直接攔截任何介面"
+      ]
+    },
+    {
+      "id": "skills-progression",
+      "version": "1.0.0",
+      "source_sha256": "afa4396e46bfaf60cbb5494f5310404114eae0431bf4b9d6d5bee2878cbcf87b",
+      "dependencies": {
+        "shared-terms": "1.0.0"
+      },
+      "hook_count": 3,
+      "coverage": [
+        "技能詳情名稱、描述原文、數值說明欄位",
+        "技能樹原有功能仍由外部相容模組提供；非本輪已完全拆開"
+      ]
+    },
+    {
+      "id": "worlds-locations",
+      "version": "1.0.0",
+      "source_sha256": "fe7ee527d701de103648ab47244afa19bbac8eef02eed6b4cca7fb8944b8029f",
+      "dependencies": {
+        "shared-terms": "1.0.0"
+      },
+      "hook_count": 4,
+      "coverage": [
+        "跨服世界名稱、傳送點標籤與相同標籤的量測",
+        "地圖與所有區域 HUD 尚未全部介接"
+      ]
+    }
+  ],
+  "hooks": [
+    {
+      "id": "codex-creatures:category-name",
+      "class": "fr/sao/codex/CodexScreen",
+      "method": "catText",
+      "descriptor": "(Lfr/sao/codex/CodexClient$Category;)Lfr/sao/codex/CodexScreen$CatText;",
+      "kind": "call",
+      "locale": "zh_tw",
+      "section": "names",
+      "member_class": "fr/sao/codex/CodexClient$Category",
+      "member": "name",
+      "member_descriptor": "()Ljava/lang/String;",
+      "sites": 1,
+      "exact": {
+        "Black Dire Wolf": "黑色恐狼",
+        "Equipment": "裝備",
+        "FRACTURED UNDERWORLD": "破碎冥界",
+        "Fractured Underworld": "破碎冥界",
+        "Monsters": "怪物",
+        "Monstres": "怪物",
+        "Regions": "區域",
+        "Régions": "區域",
+        "White Dire Wolf": "白色恐狼",
+        "Équipements": "裝備"
+      }
+    },
+    {
+      "id": "codex-creatures:entry-lore",
+      "class": "fr/sao/codex/CodexScreen",
+      "method": "localLore",
+      "descriptor": "(Lfr/sao/codex/CodexClient$Entry;)Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "lines",
+      "exact": {
+        "Minimum Level": "最低等級",
+        "Two-Handed Weapon": "雙手武器"
+      }
+    },
+    {
+      "id": "codex-creatures:entry-name",
+      "class": "fr/sao/codex/CodexScreen",
+      "method": "localName",
+      "descriptor": "(Lfr/sao/codex/CodexClient$Entry;)Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "names",
+      "exact": {
+        "Black Dire Wolf": "黑色恐狼",
+        "Equipment": "裝備",
+        "FRACTURED UNDERWORLD": "破碎冥界",
+        "Fractured Underworld": "破碎冥界",
+        "Monsters": "怪物",
+        "Monstres": "怪物",
+        "Regions": "區域",
+        "Régions": "區域",
+        "White Dire Wolf": "白色恐狼",
+        "Équipements": "裝備"
+      }
+    },
+    {
+      "id": "codex-creatures:loot-name",
+      "class": "fr/sao/codex/CodexScreen",
+      "method": "drawSheetBody",
+      "descriptor": "(Lfr/sao/codex/CodexClient$Entry;)V",
+      "kind": "call",
+      "locale": "zh_tw",
+      "section": "items",
+      "member_class": "fr/sao/codex/CodexClient$Loot",
+      "member": "name",
+      "member_descriptor": "()Ljava/lang/String;",
+      "sites": 1,
+      "exact": {
+        "Beginner's Leggings": "新手護腿",
+        "Healing Shard": "治療碎片",
+        "Stamina Shard": "耐力碎片",
+        "Training Dagger": "訓練用匕首",
+        "Training Katana": "訓練用武士刀",
+        "Training Sword": "訓練用長劍"
+      }
+    },
+    {
+      "id": "codex-creatures:universe",
+      "class": "fr/sao/codex/CodexScreen",
+      "method": "universeName",
+      "descriptor": "()Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "names",
+      "exact": {
+        "Black Dire Wolf": "黑色恐狼",
+        "Equipment": "裝備",
+        "FRACTURED UNDERWORLD": "破碎冥界",
+        "Fractured Underworld": "破碎冥界",
+        "Monsters": "怪物",
+        "Monstres": "怪物",
+        "Regions": "區域",
+        "Régions": "區域",
+        "White Dire Wolf": "白色恐狼",
+        "Équipements": "裝備"
+      }
+    },
+    {
+      "id": "dynamic-translation:dialogue-text-9",
+      "class": "fr/sao/translate/TranslateClient",
+      "method": "dialogue",
+      "descriptor": "(Lnet/minecraft/class_2561;)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "lines",
+      "exact": {
+        "Minimum Level": "最低等級",
+        "Two-Handed Weapon": "雙手武器"
+      }
+    },
+    {
+      "id": "dynamic-translation:display-text-10",
+      "class": "fr/sao/translate/TranslateClient",
+      "method": "display",
+      "descriptor": "(Lnet/minecraft/class_2561;)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "lines",
+      "exact": {
+        "Minimum Level": "最低等級",
+        "Two-Handed Weapon": "雙手武器"
+      }
+    },
+    {
+      "id": "dynamic-translation:entityName-text-12",
+      "class": "fr/sao/translate/TranslateClient",
+      "method": "entityName",
+      "descriptor": "(Lnet/minecraft/class_1297;Lnet/minecraft/class_2561;)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "names",
+      "exact": {
+        "Equipment": "裝備",
+        "Monsters": "怪物",
+        "Monstres": "怪物",
+        "Regions": "區域",
+        "Régions": "區域",
+        "Équipements": "裝備"
+      }
+    },
+    {
+      "id": "dynamic-translation:lines-text-7",
+      "class": "fr/sao/translate/TranslateClient",
+      "method": "lines",
+      "descriptor": "(Lnet/minecraft/class_2561;Z)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "lines",
+      "exact": {
+        "Minimum Level": "最低等級",
+        "Two-Handed Weapon": "雙手武器"
+      }
+    },
+    {
+      "id": "dynamic-translation:linesLoose-text-8",
+      "class": "fr/sao/translate/TranslateClient",
+      "method": "linesLoose",
+      "descriptor": "(Lnet/minecraft/class_2561;Z)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "lines",
+      "exact": {
+        "Minimum Level": "最低等級",
+        "Two-Handed Weapon": "雙手武器"
+      }
+    },
+    {
+      "id": "dynamic-translation:messages-text-11",
+      "class": "fr/sao/translate/TranslateClient",
+      "method": "messages",
+      "descriptor": "(Lnet/minecraft/class_2561;)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "messages",
+      "exact": {}
+    },
+    {
+      "id": "dynamic-translation:names-string",
+      "class": "fr/sao/translate/TranslateClient",
+      "method": "names",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "names",
+      "exact": {
+        "Equipment": "裝備",
+        "Monsters": "怪物",
+        "Monstres": "怪物",
+        "Regions": "區域",
+        "Régions": "區域",
+        "Équipements": "裝備"
+      }
+    },
+    {
+      "id": "dynamic-translation:names-text-4",
+      "class": "fr/sao/translate/TranslateClient",
+      "method": "names",
+      "descriptor": "(Lnet/minecraft/class_2561;)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "names",
+      "exact": {
+        "Equipment": "裝備",
+        "Monsters": "怪物",
+        "Monstres": "怪物",
+        "Regions": "區域",
+        "Régions": "區域",
+        "Équipements": "裝備"
+      }
+    },
+    {
+      "id": "dynamic-translation:names-text-5",
+      "class": "fr/sao/translate/TranslateClient",
+      "method": "names",
+      "descriptor": "(Lnet/minecraft/class_2561;Z)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "names",
+      "exact": {
+        "Equipment": "裝備",
+        "Monsters": "怪物",
+        "Monstres": "怪物",
+        "Regions": "區域",
+        "Régions": "區域",
+        "Équipements": "裝備"
+      }
+    },
+    {
+      "id": "dynamic-translation:system-message",
+      "class": "fr/sao/translate/TranslateClient",
+      "method": "messageLegacy",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "messages",
+      "exact": {}
+    },
+    {
+      "id": "dynamic-translation:title-string",
+      "class": "fr/sao/translate/TranslateClient",
+      "method": "title",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "names",
+      "exact": {
+        "Equipment": "裝備",
+        "Monsters": "怪物",
+        "Monstres": "怪物",
+        "Regions": "區域",
+        "Régions": "區域",
+        "Équipements": "裝備"
+      }
+    },
+    {
+      "id": "dynamic-translation:titleText-text-6",
+      "class": "fr/sao/translate/TranslateClient",
+      "method": "titleText",
+      "descriptor": "(Lnet/minecraft/class_2561;Z)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "names",
+      "exact": {
+        "Equipment": "裝備",
+        "Monsters": "怪物",
+        "Monstres": "怪物",
+        "Regions": "區域",
+        "Régions": "區域",
+        "Équipements": "裝備"
+      }
+    },
+    {
+      "id": "dynamic-translation:wholeName-string",
+      "class": "fr/sao/translate/TranslateClient",
+      "method": "wholeName",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "names",
+      "exact": {
+        "Equipment": "裝備",
+        "Monsters": "怪物",
+        "Monstres": "怪物",
+        "Regions": "區域",
+        "Régions": "區域",
+        "Équipements": "裝備"
+      }
+    },
+    {
+      "id": "items-economy:equipment-stat",
+      "class": "fr/sao/equipment/EquipmentClient$Stat",
+      "method": "name",
+      "descriptor": "()Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "names",
+      "exact": {
+        "Equipment": "裝備",
+        "Monsters": "怪物",
+        "Monstres": "怪物",
+        "Regions": "區域",
+        "Régions": "區域",
+        "Équipements": "裝備"
+      }
+    },
+    {
+      "id": "items-economy:item-knownPlain",
+      "class": "fr/sao/itemlang/ItemLangClient",
+      "method": "knownPlain",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "items",
+      "exact": {
+        "Beginner's Leggings": "新手護腿",
+        "Healing Shard": "治療碎片",
+        "Stamina Shard": "耐力碎片",
+        "Training Dagger": "訓練用匕首",
+        "Training Katana": "訓練用武士刀",
+        "Training Sword": "訓練用長劍"
+      }
+    },
+    {
+      "id": "items-economy:item-name",
+      "class": "fr/sao/itemlang/ItemLangClient",
+      "method": "name",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "items",
+      "exact": {
+        "Beginner's Leggings": "新手護腿",
+        "Healing Shard": "治療碎片",
+        "Stamina Shard": "耐力碎片",
+        "Training Dagger": "訓練用匕首",
+        "Training Katana": "訓練用武士刀",
+        "Training Sword": "訓練用長劍"
+      }
+    },
+    {
+      "id": "items-economy:item-plain",
+      "class": "fr/sao/itemlang/ItemLangClient",
+      "method": "plain",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "items",
+      "exact": {
+        "Beginner's Leggings": "新手護腿",
+        "Healing Shard": "治療碎片",
+        "Stamina Shard": "耐力碎片",
+        "Training Dagger": "訓練用匕首",
+        "Training Katana": "訓練用武士刀",
+        "Training Sword": "訓練用長劍"
+      }
+    },
+    {
+      "id": "items-economy:item-text",
+      "class": "fr/sao/itemlang/ItemLangClient",
+      "method": "name",
+      "descriptor": "(Lnet/minecraft/class_1799;Lnet/minecraft/class_2561;)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "items",
+      "exact": {
+        "Beginner's Leggings": "新手護腿",
+        "Healing Shard": "治療碎片",
+        "Stamina Shard": "耐力碎片",
+        "Training Dagger": "訓練用匕首",
+        "Training Katana": "訓練用武士刀",
+        "Training Sword": "訓練用長劍"
+      }
+    },
+    {
+      "id": "items-economy:item-translate",
+      "class": "fr/sao/itemlang/ItemLangClient",
+      "method": "translate",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "items",
+      "exact": {
+        "Beginner's Leggings": "新手護腿",
+        "Healing Shard": "治療碎片",
+        "Stamina Shard": "耐力碎片",
+        "Training Dagger": "訓練用匕首",
+        "Training Katana": "訓練用武士刀",
+        "Training Sword": "訓練用長劍"
+      }
+    },
+    {
+      "id": "items-economy:reward-description",
+      "class": "fr/sao/daily/DailyModel$Reward",
+      "method": "desc",
+      "descriptor": "()Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "lines",
+      "exact": {
+        "Minimum Level": "最低等級",
+        "Two-Handed Weapon": "雙手武器"
+      }
+    },
+    {
+      "id": "items-economy:transfer-item",
+      "class": "fr/sao/interlink/InterlinkScreen",
+      "method": "itemName",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "items",
+      "exact": {
+        "Beginner's Leggings": "新手護腿",
+        "Healing Shard": "治療碎片",
+        "Stamina Shard": "耐力碎片",
+        "Training Dagger": "訓練用匕首",
+        "Training Katana": "訓練用武士刀",
+        "Training Sword": "訓練用長劍"
+      }
+    },
+    {
+      "id": "quests-objectives:description-text",
+      "class": "fr/sao/questtracker/screen/QuestMenuScreen",
+      "method": "descriptionText",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "lines",
+      "exact": {
+        "A New World": "嶄新的世界",
+        "Explore the tunnels": "探索地道",
+        "Go back up and report to Harrold": "返回地面向哈羅德回報",
+        "Minimum Level": "最低等級",
+        "The Chamber Beneath the Fields": "田野下的密室",
+        "Too Many Boars": "野豬氾濫",
+        "Two-Handed Weapon": "雙手武器"
+      }
+    },
+    {
+      "id": "quests-objectives:hud-caption",
+      "class": "fr/sao/questtracker/hud/QuestTrackerRenderer",
+      "method": "captionOf",
+      "descriptor": "(Lfr/sao/questtracker/model/QuestTrackerData$Quest;)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "lines",
+      "exact": {
+        "A New World": "嶄新的世界",
+        "Explore the tunnels": "探索地道",
+        "Go back up and report to Harrold": "返回地面向哈羅德回報",
+        "Minimum Level": "最低等級",
+        "The Chamber Beneath the Fields": "田野下的密室",
+        "Too Many Boars": "野豬氾濫",
+        "Two-Handed Weapon": "雙手武器"
+      }
+    },
+    {
+      "id": "quests-objectives:hud-tab",
+      "class": "fr/sao/questtracker/hud/QuestTrackerRenderer",
+      "method": "tabTitle",
+      "descriptor": "(Lfr/sao/questtracker/model/QuestTrackerData$Panel;)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "names",
+      "exact": {
+        "A New World": "嶄新的世界",
+        "Equipment": "裝備",
+        "Monsters": "怪物",
+        "Monstres": "怪物",
+        "Regions": "區域",
+        "Régions": "區域",
+        "The Chamber Beneath the Fields": "田野下的密室",
+        "Too Many Boars": "野豬氾濫",
+        "Équipements": "裝備"
+      }
+    },
+    {
+      "id": "quests-objectives:objective",
+      "class": "fr/sao/questtracker/screen/QuestMenuScreen",
+      "method": "objective",
+      "descriptor": "(Lfr/sao/questtracker/model/QuestMenuModels$Objective;F)V",
+      "kind": "call",
+      "locale": "zh_tw",
+      "section": "lines",
+      "member_class": "fr/sao/questtracker/model/QuestMenuModels$Objective",
+      "member": "label",
+      "member_descriptor": "()Ljava/lang/String;",
+      "sites": 1,
+      "exact": {
+        "A New World": "嶄新的世界",
+        "Explore the tunnels": "探索地道",
+        "Go back up and report to Harrold": "返回地面向哈羅德回報",
+        "Minimum Level": "最低等級",
+        "The Chamber Beneath the Fields": "田野下的密室",
+        "Too Many Boars": "野豬氾濫",
+        "Two-Handed Weapon": "雙手武器"
+      }
+    },
+    {
+      "id": "quests-objectives:translated-text",
+      "class": "fr/sao/questtracker/screen/QuestMenuScreen",
+      "method": "translatedOf",
+      "descriptor": "(ZLjava/lang/String;)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "lines",
+      "exact": {
+        "A New World": "嶄新的世界",
+        "Explore the tunnels": "探索地道",
+        "Go back up and report to Harrold": "返回地面向哈羅德回報",
+        "Minimum Level": "最低等級",
+        "The Chamber Beneath the Fields": "田野下的密室",
+        "Too Many Boars": "野豬氾濫",
+        "Two-Handed Weapon": "雙手武器"
+      }
+    },
+    {
+      "id": "skills-progression:skill-description",
+      "class": "com/eighteen/saojob/skills/SkillDetailPopup",
+      "method": "descLines",
+      "descriptor": "()Ljava/util/List;",
+      "kind": "field",
+      "locale": "zh_tw",
+      "section": "lines",
+      "member_class": "com/eighteen/saojob/skills/SkillsData$SkillEntry",
+      "member": "description",
+      "member_descriptor": "Ljava/lang/String;",
+      "sites": 3,
+      "exact": {
+        "Minimum Level": "最低等級",
+        "Two-Handed Weapon": "雙手武器"
+      }
+    },
+    {
+      "id": "skills-progression:skill-stat-name",
+      "class": "com/eighteen/saojob/skills/SkillDetailPopup",
+      "method": "renderStats",
+      "descriptor": "(Lnet/minecraft/class_332;)V",
+      "kind": "field",
+      "locale": "zh_tw",
+      "section": "messages",
+      "member_class": "com/eighteen/saojob/skills/SkillsData$SkillStat",
+      "member": "name",
+      "member_descriptor": "Ljava/lang/String;",
+      "sites": 1,
+      "exact": {}
+    },
+    {
+      "id": "skills-progression:skill-title",
+      "class": "com/eighteen/saojob/skills/SkillDetailPopup",
+      "method": "renderPopup",
+      "descriptor": "(Lnet/minecraft/class_332;II)V",
+      "kind": "field",
+      "locale": "zh_tw",
+      "section": "names",
+      "member_class": "com/eighteen/saojob/skills/SkillsData$SkillEntry",
+      "member": "name",
+      "member_descriptor": "Ljava/lang/String;",
+      "sites": 1,
+      "exact": {
+        "Equipment": "裝備",
+        "Monsters": "怪物",
+        "Monstres": "怪物",
+        "Regions": "區域",
+        "Régions": "區域",
+        "Équipements": "裝備"
+      }
+    },
+    {
+      "id": "worlds-locations:point-draw",
+      "class": "fr/sao/teleport/TeleportScreen",
+      "method": "drawPoint",
+      "descriptor": "(Lfr/sao/teleport/TeleportClient$Point;FFFF)V",
+      "kind": "call",
+      "locale": "zh_tw",
+      "section": "names",
+      "member_class": "fr/sao/teleport/TeleportClient$Point",
+      "member": "name",
+      "member_descriptor": "()Ljava/lang/String;",
+      "sites": 1,
+      "exact": {
+        "Equipment": "裝備",
+        "FRACTURED UNDERWORLD": "破碎冥界",
+        "Fractured Underworld": "破碎冥界",
+        "Jardin des Géants": "巨人庭園",
+        "Monsters": "怪物",
+        "Monstres": "怪物",
+        "Regions": "區域",
+        "Régions": "區域",
+        "Starting Town": "起始之城",
+        "Vallée des Loups": "群狼谷",
+        "Ville de Départ": "起始之城",
+        "Équipements": "裝備"
+      }
+    },
+    {
+      "id": "worlds-locations:point-measure",
+      "class": "fr/sao/teleport/TeleportScreen",
+      "method": "plate",
+      "descriptor": "(Lfr/sao/teleport/TeleportClient$Point;FFF)[F",
+      "kind": "call",
+      "locale": "zh_tw",
+      "section": "names",
+      "member_class": "fr/sao/teleport/TeleportClient$Point",
+      "member": "name",
+      "member_descriptor": "()Ljava/lang/String;",
+      "sites": 1,
+      "exact": {
+        "Equipment": "裝備",
+        "FRACTURED UNDERWORLD": "破碎冥界",
+        "Fractured Underworld": "破碎冥界",
+        "Jardin des Géants": "巨人庭園",
+        "Monsters": "怪物",
+        "Monstres": "怪物",
+        "Regions": "區域",
+        "Régions": "區域",
+        "Starting Town": "起始之城",
+        "Vallée des Loups": "群狼谷",
+        "Ville de Départ": "起始之城",
+        "Équipements": "裝備"
+      }
+    },
+    {
+      "id": "worlds-locations:rift-draw",
+      "class": "fr/sao/teleport/TeleportScreen",
+      "method": "drawRift",
+      "descriptor": "(Lfr/sao/teleport/TeleportClient$Point;FFFF)V",
+      "kind": "call",
+      "locale": "zh_tw",
+      "section": "names",
+      "member_class": "fr/sao/teleport/TeleportClient$Point",
+      "member": "name",
+      "member_descriptor": "()Ljava/lang/String;",
+      "sites": 3,
+      "exact": {
+        "Equipment": "裝備",
+        "FRACTURED UNDERWORLD": "破碎冥界",
+        "Fractured Underworld": "破碎冥界",
+        "Jardin des Géants": "巨人庭園",
+        "Monsters": "怪物",
+        "Monstres": "怪物",
+        "Regions": "區域",
+        "Régions": "區域",
+        "Starting Town": "起始之城",
+        "Vallée des Loups": "群狼谷",
+        "Ville de Départ": "起始之城",
+        "Équipements": "裝備"
+      }
+    },
+    {
+      "id": "worlds-locations:server-title",
+      "class": "fr/sao/interlink/InterlinkScreen",
+      "method": "title",
+      "descriptor": "(FLjava/lang/String;)V",
+      "kind": "argument",
+      "locale": "zh_tw",
+      "section": "names",
+      "argument": 1,
+      "exact": {
+        "Equipment": "裝備",
+        "FRACTURED UNDERWORLD": "破碎冥界",
+        "Fractured Underworld": "破碎冥界",
+        "Jardin des Géants": "巨人庭園",
+        "Monsters": "怪物",
+        "Monstres": "怪物",
+        "Regions": "區域",
+        "Régions": "區域",
+        "Starting Town": "起始之城",
+        "Vallée des Loups": "群狼谷",
+        "Ville de Départ": "起始之城",
+        "Équipements": "裝備"
+      }
+    }
+  ],
+  "tests": []
+}
