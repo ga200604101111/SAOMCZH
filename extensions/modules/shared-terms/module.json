@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "id": "shared-terms",
+  "version": "1.0.0",
+  "name": "共用術語",
+  "enabled": true,
+  "dependencies": {},
+  "coverage": [
+    "多個功能模組共用術語；不直接攔截任何介面"
+  ],
+  "dictionary": {
+    "names": {
+      "Équipements": "裝備",
+      "Monstres": "怪物",
+      "Régions": "區域",
+      "Equipment": "裝備",
+      "Monsters": "怪物",
+      "Regions": "區域"
+    },
+    "items": {
+      "Training Sword": "訓練用長劍",
+      "Training Dagger": "訓練用匕首",
+      "Training Katana": "訓練用武士刀",
+      "Beginner's Leggings": "新手護腿",
+      "Stamina Shard": "耐力碎片",
+      "Healing Shard": "治療碎片"
+    },
+    "lines": {
+      "Two-Handed Weapon": "雙手武器",
+      "Minimum Level": "最低等級"
+    }
+  },
+  "hooks": []
+}

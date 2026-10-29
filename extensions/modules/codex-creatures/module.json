@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "id": "codex-creatures",
+  "version": "1.0.0",
+  "name": "圖鑑與生物",
+  "enabled": true,
+  "dependencies": {
+    "shared-terms": "1.0.0"
+  },
+  "coverage": [
+    "圖鑑名稱、描述、分類、掉落名稱",
+    "透過動態翻譯模組共同處理生物名稱；特殊外部圖鑑尚未全覆蓋"
+  ],
+  "dictionary": {
+    "names": {
+      "White Dire Wolf": "白色恐狼",
+      "Black Dire Wolf": "黑色恐狼",
+      "FRACTURED UNDERWORLD": "破碎冥界",
+      "Fractured Underworld": "破碎冥界"
+    }
+  },
+  "hooks": [
+    {
+      "id": "entry-name",
+      "class": "fr/sao/codex/CodexScreen",
+      "method": "localName",
+      "descriptor": "(Lfr/sao/codex/CodexClient$Entry;)Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "names"
+    },
+    {
+      "id": "entry-lore",
+      "class": "fr/sao/codex/CodexScreen",
+      "method": "localLore",
+      "descriptor": "(Lfr/sao/codex/CodexClient$Entry;)Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "lines"
+    },
+    {
+      "id": "universe",
+      "class": "fr/sao/codex/CodexScreen",
+      "method": "universeName",
+      "descriptor": "()Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "names"
+    },
+    {
+      "id": "category-name",
+      "class": "fr/sao/codex/CodexScreen",
+      "method": "catText",
+      "descriptor": "(Lfr/sao/codex/CodexClient$Category;)Lfr/sao/codex/CodexScreen$CatText;",
+      "kind": "call",
+      "locale": "zh_tw",
+      "section": "names",
+      "member_class": "fr/sao/codex/CodexClient$Category",
+      "member": "name",
+      "member_descriptor": "()Ljava/lang/String;",
+      "sites": 1
+    },
+    {
+      "id": "loot-name",
+      "class": "fr/sao/codex/CodexScreen",
+      "method": "drawSheetBody",
+      "descriptor": "(Lfr/sao/codex/CodexClient$Entry;)V",
+      "kind": "call",
+      "locale": "zh_tw",
+      "section": "items",
+      "member_class": "fr/sao/codex/CodexClient$Loot",
+      "member": "name",
+      "member_descriptor": "()Ljava/lang/String;",
+      "sites": 1
+    }
+  ]
+}

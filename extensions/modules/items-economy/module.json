@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "id": "items-economy",
+  "version": "1.0.0",
+  "name": "物品與經濟",
+  "enabled": true,
+  "dependencies": {
+    "shared-terms": "1.0.0"
+  },
+  "coverage": [
+    "背包物品名稱／原生物品翻譯",
+    "登入獎勵描述、裝備屬性、跨服物品清單",
+    "拍賣商品若使用 ItemLangClient 會共享此模組；排版未在此輪處理"
+  ],
+  "dictionary": {},
+  "hooks": [
+    {
+      "id": "item-knownPlain",
+      "class": "fr/sao/itemlang/ItemLangClient",
+      "method": "knownPlain",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "items"
+    },
+    {
+      "id": "item-plain",
+      "class": "fr/sao/itemlang/ItemLangClient",
+      "method": "plain",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "items"
+    },
+    {
+      "id": "item-translate",
+      "class": "fr/sao/itemlang/ItemLangClient",
+      "method": "translate",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "items"
+    },
+    {
+      "id": "item-name",
+      "class": "fr/sao/itemlang/ItemLangClient",
+      "method": "name",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "items"
+    },
+    {
+      "id": "item-text",
+      "class": "fr/sao/itemlang/ItemLangClient",
+      "method": "name",
+      "descriptor": "(Lnet/minecraft/class_1799;Lnet/minecraft/class_2561;)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "items"
+    },
+    {
+      "id": "reward-description",
+      "class": "fr/sao/daily/DailyModel$Reward",
+      "method": "desc",
+      "descriptor": "()Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "lines"
+    },
+    {
+      "id": "equipment-stat",
+      "class": "fr/sao/equipment/EquipmentClient$Stat",
+      "method": "name",
+      "descriptor": "()Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "names"
+    },
+    {
+      "id": "transfer-item",
+      "class": "fr/sao/interlink/InterlinkScreen",
+      "method": "itemName",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "items"
+    }
+  ]
+}

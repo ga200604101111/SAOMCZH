@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "bundle_version": "1.1.0",
+  "bundle_sequence": 101,
+  "runtime_api": 1,
+  "modules": [
+    {
+      "id": "codex-creatures",
+      "version": "1.0.0",
+      "source_sha256": "74dd3a543add6f20adfd4792ad9a588a39a61b889ee9354dca2159757f29ecad",
+      "dependencies": {
+        "shared-terms": "1.0.0"
+      },
+      "hook_count": 5,
+      "coverage": [
+        "圖鑑名稱、描述、分類、掉落名稱",
+        "透過動態翻譯模組共同處理生物名稱；特殊外部圖鑑尚未全覆蓋"
+      ]
+    },
+    {
+      "id": "dynamic-translation",
+      "version": "1.0.0",
+      "source_sha256": "bae6be26ac27666dda524944224b0863824069e9e4efc8da9ce1db9786fb6d6d",
+      "dependencies": {
+        "shared-terms": "1.0.0"
+      },
+      "hook_count": 13,
+      "coverage": [
+        "接原模組翻譯結果；同一入口可服務多種介面",
+        "系統訊息僅限原模組 messages，未接玩家聊天原始封包"
+      ]
+    },
+    {
+      "id": "items-economy",
+      "version": "1.0.0",
+      "source_sha256": "62417007b638245c86a92ef776cbdf6c5c191740e40f4d1e1c93d68c325d7fbf",
+      "dependencies": {
+        "shared-terms": "1.0.0"
+      },
+      "hook_count": 8,
+      "coverage": [
+        "背包物品名稱／原生物品翻譯",
+        "登入獎勵描述、裝備屬性、跨服物品清單",
+        "拍賣商品若使用 ItemLangClient 會共享此模組；排版未在此輪處理"
+      ]
+    },
+    {
+      "id": "quests-objectives",
+      "version": "1.0.0",
+      "source_sha256": "5cedb16834649d244433692d73c5cf7607cb7f9cf6d1b9660ce278dc35ac318e",
+      "dependencies": {
+        "shared-terms": "1.0.0"
+      },
+      "hook_count": 5,
+      "coverage": [
+        "任務描述、目標文字與既有翻譯結果",
+        "追蹤 HUD 標題／說明；已建立行列表的完整快取重排仍需另外介接"
+      ]
+    },
+    {
+      "id": "shared-terms",
+      "version": "1.0.0",
+      "source_sha256": "59523c7963129d8a5d6a22d9b465b63558ba4dee0a84af9084b8b61db199d50e",
+      "dependencies": {},
+      "hook_count": 0,
+      "coverage": [
+        "多個功能模組共用術語；不直接攔截任何介面"
+      ]
+    },
+    {
+      "id": "skills-progression",
+      "version": "1.0.0",
+      "source_sha256": "afa4396e46bfaf60cbb5494f5310404114eae0431bf4b9d6d5bee2878cbcf87b",
+      "dependencies": {
+        "shared-terms": "1.0.0"
+      },
+      "hook_count": 3,
+      "coverage": [
+        "技能詳情名稱、描述原文、數值說明欄位",
+        "技能樹原有功能仍由外部相容模組提供；非本輪已完全拆開"
+      ]
+    },
+    {
+      "id": "worlds-locations",
+      "version": "1.0.0",
+      "source_sha256": "fe7ee527d701de103648ab47244afa19bbac8eef02eed6b4cca7fb8944b8029f",
+      "dependencies": {
+        "shared-terms": "1.0.0"
+      },
+      "hook_count": 4,
+      "coverage": [
+        "跨服世界名稱、傳送點標籤與相同標籤的量測",
+        "地圖與所有區域 HUD 尚未全部介接"
+      ]
+    }
+  ],
+  "notes": "Functional modules, not one extension per screen. A release is applied atomically. Selective rollback is a newly signed higher-sequence bundle, preserving other modules."
+}

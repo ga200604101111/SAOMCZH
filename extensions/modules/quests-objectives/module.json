@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "id": "quests-objectives",
+  "version": "1.0.0",
+  "name": "任務與追蹤",
+  "enabled": true,
+  "dependencies": {
+    "shared-terms": "1.0.0"
+  },
+  "coverage": [
+    "任務描述、目標文字與既有翻譯結果",
+    "追蹤 HUD 標題／說明；已建立行列表的完整快取重排仍需另外介接"
+  ],
+  "dictionary": {
+    "names": {
+      "Too Many Boars": "野豬氾濫",
+      "A New World": "嶄新的世界",
+      "The Chamber Beneath the Fields": "田野下的密室"
+    },
+    "lines": {
+      "Too Many Boars": "野豬氾濫",
+      "A New World": "嶄新的世界",
+      "The Chamber Beneath the Fields": "田野下的密室",
+      "Explore the tunnels": "探索地道",
+      "Go back up and report to Harrold": "返回地面向哈羅德回報"
+    }
+  },
+  "hooks": [
+    {
+      "id": "description-text",
+      "class": "fr/sao/questtracker/screen/QuestMenuScreen",
+      "method": "descriptionText",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "lines"
+    },
+    {
+      "id": "translated-text",
+      "class": "fr/sao/questtracker/screen/QuestMenuScreen",
+      "method": "translatedOf",
+      "descriptor": "(ZLjava/lang/String;)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "lines"
+    },
+    {
+      "id": "objective",
+      "class": "fr/sao/questtracker/screen/QuestMenuScreen",
+      "method": "objective",
+      "descriptor": "(Lfr/sao/questtracker/model/QuestMenuModels$Objective;F)V",
+      "kind": "call",
+      "locale": "zh_tw",
+      "section": "lines",
+      "member_class": "fr/sao/questtracker/model/QuestMenuModels$Objective",
+      "member": "label",
+      "member_descriptor": "()Ljava/lang/String;",
+      "sites": 1
+    },
+    {
+      "id": "hud-caption",
+      "class": "fr/sao/questtracker/hud/QuestTrackerRenderer",
+      "method": "captionOf",
+      "descriptor": "(Lfr/sao/questtracker/model/QuestTrackerData$Quest;)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "lines"
+    },
+    {
+      "id": "hud-tab",
+      "class": "fr/sao/questtracker/hud/QuestTrackerRenderer",
+      "method": "tabTitle",
+      "descriptor": "(Lfr/sao/questtracker/model/QuestTrackerData$Panel;)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "names"
+    }
+  ]
+}

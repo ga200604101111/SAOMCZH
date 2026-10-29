@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "id": "dynamic-translation",
+  "version": "1.0.0",
+  "name": "原生動態翻譯補強",
+  "enabled": true,
+  "dependencies": {
+    "shared-terms": "1.0.0"
+  },
+  "coverage": [
+    "接原模組翻譯結果；同一入口可服務多種介面",
+    "系統訊息僅限原模組 messages，未接玩家聊天原始封包"
+  ],
+  "dictionary": {},
+  "hooks": [
+    {
+      "id": "names-string",
+      "class": "fr/sao/translate/TranslateClient",
+      "method": "names",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "names"
+    },
+    {
+      "id": "wholeName-string",
+      "class": "fr/sao/translate/TranslateClient",
+      "method": "wholeName",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "names"
+    },
+    {
+      "id": "title-string",
+      "class": "fr/sao/translate/TranslateClient",
+      "method": "title",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "names"
+    },
+    {
+      "id": "system-message",
+      "class": "fr/sao/translate/TranslateClient",
+      "method": "messageLegacy",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "messages"
+    },
+    {
+      "id": "names-text-4",
+      "class": "fr/sao/translate/TranslateClient",
+      "method": "names",
+      "descriptor": "(Lnet/minecraft/class_2561;)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "names"
+    },
+    {
+      "id": "names-text-5",
+      "class": "fr/sao/translate/TranslateClient",
+      "method": "names",
+      "descriptor": "(Lnet/minecraft/class_2561;Z)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "names"
+    },
+    {
+      "id": "titleText-text-6",
+      "class": "fr/sao/translate/TranslateClient",
+      "method": "titleText",
+      "descriptor": "(Lnet/minecraft/class_2561;Z)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "names"
+    },
+    {
+      "id": "lines-text-7",
+      "class": "fr/sao/translate/TranslateClient",
+      "method": "lines",
+      "descriptor": "(Lnet/minecraft/class_2561;Z)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "lines"
+    },
+    {
+      "id": "linesLoose-text-8",
+      "class": "fr/sao/translate/TranslateClient",
+      "method": "linesLoose",
+      "descriptor": "(Lnet/minecraft/class_2561;Z)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "lines"
+    },
+    {
+      "id": "dialogue-text-9",
+      "class": "fr/sao/translate/TranslateClient",
+      "method": "dialogue",
+      "descriptor": "(Lnet/minecraft/class_2561;)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "lines"
+    },
+    {
+      "id": "display-text-10",
+      "class": "fr/sao/translate/TranslateClient",
+      "method": "display",
+      "descriptor": "(Lnet/minecraft/class_2561;)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "lines"
+    },
+    {
+      "id": "messages-text-11",
+      "class": "fr/sao/translate/TranslateClient",
+      "method": "messages",
+      "descriptor": "(Lnet/minecraft/class_2561;)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "messages"
+    },
+    {
+      "id": "entityName-text-12",
+      "class": "fr/sao/translate/TranslateClient",
+      "method": "entityName",
+      "descriptor": "(Lnet/minecraft/class_1297;Lnet/minecraft/class_2561;)Lnet/minecraft/class_2561;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "names"
+    }
+  ]
+}

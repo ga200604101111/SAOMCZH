@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "id": "worlds-locations",
+  "version": "1.0.0",
+  "name": "世界與地點",
+  "enabled": true,
+  "dependencies": {
+    "shared-terms": "1.0.0"
+  },
+  "coverage": [
+    "跨服世界名稱、傳送點標籤與相同標籤的量測",
+    "地圖與所有區域 HUD 尚未全部介接"
+  ],
+  "dictionary": {
+    "names": {
+      "Fractured Underworld": "破碎冥界",
+      "FRACTURED UNDERWORLD": "破碎冥界",
+      "Starting Town": "起始之城",
+      "Ville de Départ": "起始之城",
+      "Jardin des Géants": "巨人庭園",
+      "Vallée des Loups": "群狼谷"
+    }
+  },
+  "hooks": [
+    {
+      "id": "server-title",
+      "class": "fr/sao/interlink/InterlinkScreen",
+      "method": "title",
+      "descriptor": "(FLjava/lang/String;)V",
+      "kind": "argument",
+      "locale": "zh_tw",
+      "section": "names",
+      "argument": 1
+    },
+    {
+      "id": "point-measure",
+      "class": "fr/sao/teleport/TeleportScreen",
+      "method": "plate",
+      "descriptor": "(Lfr/sao/teleport/TeleportClient$Point;FFF)[F",
+      "kind": "call",
+      "locale": "zh_tw",
+      "section": "names",
+      "member_class": "fr/sao/teleport/TeleportClient$Point",
+      "member": "name",
+      "member_descriptor": "()Ljava/lang/String;",
+      "sites": 1
+    },
+    {
+      "id": "point-draw",
+      "class": "fr/sao/teleport/TeleportScreen",
+      "method": "drawPoint",
+      "descriptor": "(Lfr/sao/teleport/TeleportClient$Point;FFFF)V",
+      "kind": "call",
+      "locale": "zh_tw",
+      "section": "names",
+      "member_class": "fr/sao/teleport/TeleportClient$Point",
+      "member": "name",
+      "member_descriptor": "()Ljava/lang/String;",
+      "sites": 1
+    },
+    {
+      "id": "rift-draw",
+      "class": "fr/sao/teleport/TeleportScreen",
+      "method": "drawRift",
+      "descriptor": "(Lfr/sao/teleport/TeleportClient$Point;FFFF)V",
+      "kind": "call",
+      "locale": "zh_tw",
+      "section": "names",
+      "member_class": "fr/sao/teleport/TeleportClient$Point",
+      "member": "name",
+      "member_descriptor": "()Ljava/lang/String;",
+      "sites": 3
+    }
+  ]
+}

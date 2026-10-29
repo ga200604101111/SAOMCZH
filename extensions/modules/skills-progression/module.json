@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "id": "skills-progression",
+  "version": "1.0.0",
+  "name": "技能與成長",
+  "enabled": true,
+  "dependencies": {
+    "shared-terms": "1.0.0"
+  },
+  "coverage": [
+    "技能詳情名稱、描述原文、數值說明欄位",
+    "技能樹原有功能仍由外部相容模組提供；非本輪已完全拆開"
+  ],
+  "dictionary": {},
+  "hooks": [
+    {
+      "id": "skill-title",
+      "class": "com/eighteen/saojob/skills/SkillDetailPopup",
+      "method": "renderPopup",
+      "descriptor": "(Lnet/minecraft/class_332;II)V",
+      "kind": "field",
+      "locale": "zh_tw",
+      "section": "names",
+      "member_class": "com/eighteen/saojob/skills/SkillsData$SkillEntry",
+      "member": "name",
+      "member_descriptor": "Ljava/lang/String;",
+      "sites": 1
+    },
+    {
+      "id": "skill-description",
+      "class": "com/eighteen/saojob/skills/SkillDetailPopup",
+      "method": "descLines",
+      "descriptor": "()Ljava/util/List;",
+      "kind": "field",
+      "locale": "zh_tw",
+      "section": "lines",
+      "member_class": "com/eighteen/saojob/skills/SkillsData$SkillEntry",
+      "member": "description",
+      "member_descriptor": "Ljava/lang/String;",
+      "sites": 3
+    },
+    {
+      "id": "skill-stat-name",
+      "class": "com/eighteen/saojob/skills/SkillDetailPopup",
+      "method": "renderStats",
+      "descriptor": "(Lnet/minecraft/class_332;)V",
+      "kind": "field",
+      "locale": "zh_tw",
+      "section": "messages",
+      "member_class": "com/eighteen/saojob/skills/SkillsData$SkillStat",
+      "member": "name",
+      "member_descriptor": "Ljava/lang/String;",
+      "sites": 1
+    }
+  ]
+}
