@@ -12,7 +12,7 @@ public final class CjkLayout {
   for(int i=0;i<s.length();){int c=s.codePointAt(i);i+=Character.charCount(c);if(cjk(c))return true;}
   return false;
  }
- private static boolean cjk(int c){return (c>=0x2e80&&c<=0xa4cf)||(c>=0xf900&&c<=0xfaff)||(c>=0xff01&&c<=0xff60)||(c>=0x20000&&c<=0x323af)||(c>=0xe900&&c<=0xe902);}
+ private static boolean cjk(int c){return LiteralGlyphs.isAlias(c)||(c>=0x2e80&&c<=0xa4cf)||(c>=0xf900&&c<=0xfaff)||(c>=0xff01&&c<=0xff60)||(c>=0x20000&&c<=0x323af)||(c>=0xe900&&c<=0xe902);}
  private static boolean mark(int c){int t=Character.getType(c);return t==Character.NON_SPACING_MARK||t==Character.COMBINING_SPACING_MARK||t==Character.ENCLOSING_MARK||c==0xfe0e||c==0xfe0f||(c>=0x1f3fb&&c<=0x1f3ff);}
  private static int nextUnit(String s,int i){
   int c=s.codePointAt(i);i+=Character.charCount(c);

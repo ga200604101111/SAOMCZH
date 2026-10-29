@@ -67,6 +67,13 @@ public final class DirectAgent {
                     .invoke(null,logDirectory,legacy,legacySupport);
             Path pack = (Path)chosen.getClass().getField("main").get(chosen);
             Path support = (Path)chosen.getClass().getField("support").get(chosen);
+            try {
+                Class<?> literal=Class.forName("sao.zh.compat16.LiteralGlyphs",true,null);
+                Object aliases=literal.getMethod("configure",Path.class).invoke(null,pack);
+                log("LITERAL_CJK_ROUTING_READY aliases="+aliases);
+            } catch(Exception|LinkageError glyphFailure) {
+                log("LITERAL_CJK_ROUTING_KEEP_PREVIOUS "+glyphFailure.getClass().getSimpleName());
+            }
             if(pack==null){log("NO_PACK_KEEP_TRANSLATION_FEATURES");}
             if(pack!=null){
             Class<?> helper = Class.forName("sao.zh.compat16.PackBridge", true, null);

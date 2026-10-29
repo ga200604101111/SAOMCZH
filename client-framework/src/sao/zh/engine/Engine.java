@@ -62,7 +62,7 @@ public final class Engine {
    Agent.log("EXTERNAL_SAO_COMPATIBILITY_LOADED version="+spec.get("version"));
   }catch(Throwable bad){Agent.log("COMPATIBILITY_SKIPPED_KEEP_GAME "+bad.getClass().getSimpleName()+" "+String.valueOf(bad.getMessage()));}
  }
- private void bind(){Dispatch.bind((id,value,owner)->{
+ private void bind(){LiteralGlyphBridge.bind();Dispatch.bind((id,value,owner)->{
   Script snapshot=current;Script.Hook h=snapshot.byId.get(id);if(h==null||h.failures.get()>=3||!TextProjection.locale(owner,h.locale))return value;
   try{return TextProjection.apply(value,owner,text->translate(h,text),RenderTextPipeline.wholeFirst(h));}
   catch(Exception|LinkageError error){if(h.failures.incrementAndGet()<=3)once("hook-fault-"+snapshot.sequence+"-"+id,"HOOK_FAIL_OPEN "+id+" "+error.getClass().getSimpleName());return value;}
@@ -85,7 +85,15 @@ public final class Engine {
   TranslationMemo memo=cacheable?translationMemo.get():null;
   if(cacheable){String hit=memo.get(h,raw,generation);if(hit!=null)return hit;}
   String result=RenderTextPipeline.resolve(h,raw,dictionary);
+  if(result.equals(raw)){
+   String plain=LiteralGlyphBridge.readable(raw);
+   if(!plain.equals(raw)){
+    String retry=RenderTextPipeline.resolve(h,plain,dictionary);
+    if(!retry.equals(plain))result=retry;
+   }
+  }
   if(!result.equals(raw)){
+   result=LiteralGlyphBridge.encode(raw,result);
    // Confirm the world-text path without ever logging server text or player data.
    if(h.id.equals("worlds-locations:text-display-before-native-wrap")
        ||h.id.equals("worlds-locations:saojob-hologram-preformat")

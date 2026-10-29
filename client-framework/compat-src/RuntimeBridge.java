@@ -101,7 +101,7 @@ public final class RuntimeBridge {
   if("items".equals(section))value=itemReviewedLookup(text);
   else {Map<String,String>m=dictionary.get(section);value=m==null?null:m.get(text);}
   if(value==null)return text;
-  return value.replace('並','\ue900').replace('中','\ue901').replace('串','\ue902');
+  return LiteralGlyphs.active()?LiteralGlyphs.encodeTranslated(text,value):value.replace('並','\ue900').replace('中','\ue901').replace('串','\ue902');
  }
 
  private static final Pattern ITEM_FORMAT=Pattern.compile("(?i)(?:[§&]x(?:[§&][0-9a-f]){6}|[§&][0-9a-fk-or])");

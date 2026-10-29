@@ -5,7 +5,7 @@ public final class FontColorPolicy {
  private static volatile int[]bitmapHan;
  private FontColorPolicy(){}
  private static boolean han(int cp){return cp>=0x3400&&cp<=0x4dbf||cp>=0x4e00&&cp<=0x9fff||cp>=0xf900&&cp<=0xfaff||cp>=0x20000&&cp<=0x323af;}
- public static boolean correct(boolean original,int cp){int[]icons=bitmapHan;return !original||icons==null||!han(cp)?original:Arrays.binarySearch(icons,cp)>=0;}
+ public static boolean correct(boolean original,int cp){if(LiteralGlyphs.isAlias(cp))return false;int[]icons=bitmapHan;return !original||icons==null||!han(cp)?original:Arrays.binarySearch(icons,cp)>=0;}
  public static int configure(Path main,Path support,Path server)throws IOException {
   // A complete allowlist is built before publication. Failure leaves the original renderer untouched.
   if(main==null||!Files.isRegularFile(main))throw new IOException("No verified main pack for icon inventory");

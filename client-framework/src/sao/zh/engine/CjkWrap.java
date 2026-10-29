@@ -14,7 +14,7 @@ public final class CjkWrap {
   outer:for(String p:paragraphs){
    if(out.size()>=lines){truncated=true;break;}
    if(p.isEmpty()){out.add("");continue;}
-   int[]bounds=clusters(p);BreakIterator breaks=BreakIterator.getLineInstance(Locale.TRADITIONAL_CHINESE);breaks.setText(p);BitSet legal=new BitSet(p.length()+1);for(int j=breaks.first();j!=BreakIterator.DONE;j=breaks.next())legal.set(j);
+   int[]bounds=clusters(p);BreakIterator breaks=BreakIterator.getLineInstance(Locale.TRADITIONAL_CHINESE);String readable=LiteralGlyphBridge.readable(p);breaks.setText(readable.length()==p.length()?readable:p);BitSet legal=new BitSet(p.length()+1);for(int j=breaks.first();j!=BreakIterator.DONE;j=breaks.next())legal.set(j);
    int at=0;
    while(at<bounds.length-1){
     if(out.size()>=lines){truncated=true;break outer;}
