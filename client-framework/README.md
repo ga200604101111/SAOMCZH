@@ -69,3 +69,7 @@ ASM 及 Noto 衍生圖集條款見 licenses。既有遊戲與模組的版權不�
 新增共用文字排版模組（第八個模組），包括依實際字寬處理拍賣行／PassCanvas 中文換行，以及任務日誌與圖鑑的指定文字快取刷新。保留 V16 固定核心、目前 v1.0.5 材質包與原有七個功能模組。
 詳見 docs/layout-refresh.md。新外部引擎自動下載後在下次啟動載入，不需換 Agent；載入後相容規則／詞庫仍可熱更新。舊引擎讀 extensions/v1/stable，新引擎讀 extensions/v2/stable。
 這不是所有介面與翻譯已完成，也尚未通過真實遊戲圖形驗收。
+
+## Locale-first 1.5.0
+
+模組只含可更新的攔截點。繁中詞庫、翻譯例外、版本放在 languages/zh_tw；以 compose_localized.py 指定語言編譯簽章規則。詳見 [語言集中說明](docs/language-first-1.5.0.md)。舊客戶端的 languages/zh_tw 下載路徑不變；新攔截點不代表已覆蓋所有 UI 或玩家聊天。

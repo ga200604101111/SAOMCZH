@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "worlds-locations",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "name": "世界與地點",
   "enabled": true,
   "dependencies": {
@@ -9,18 +9,9 @@
   },
   "coverage": [
     "跨服世界名稱、傳送點標籤與相同標籤的量測",
-    "地圖與所有區域 HUD 尚未全部介接"
+    "地圖與所有區域 HUD 尚未全部介接",
+    "Direct domain text display entries discovered by javap from SAOUI 2.41.2; exact dictionary translation only."
   ],
-  "dictionary": {
-    "names": {
-      "Fractured Underworld": "破碎冥界",
-      "FRACTURED UNDERWORLD": "破碎冥界",
-      "Starting Town": "起始之城",
-      "Ville de Départ": "起始之城",
-      "Jardin des Géants": "巨人庭園",
-      "Vallée des Loups": "群狼谷"
-    }
-  },
   "hooks": [
     {
       "id": "server-title",
@@ -28,21 +19,8 @@
       "method": "title",
       "descriptor": "(FLjava/lang/String;)V",
       "kind": "argument",
-      "locale": "zh_tw",
       "section": "names",
-      "argument": 1,
-      "operations": [
-        {
-          "op": "replace_literal",
-          "from": "FRACTURED UNDERWORLD",
-          "to": "破碎冥界"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Fractured Underworld",
-          "to": "破碎冥界"
-        }
-      ]
+      "argument": 1
     },
     {
       "id": "point-measure",
@@ -50,7 +28,6 @@
       "method": "plate",
       "descriptor": "(Lfr/sao/teleport/TeleportClient$Point;FFF)[F",
       "kind": "call",
-      "locale": "zh_tw",
       "section": "names",
       "member_class": "fr/sao/teleport/TeleportClient$Point",
       "member": "name",
@@ -63,7 +40,6 @@
       "method": "drawPoint",
       "descriptor": "(Lfr/sao/teleport/TeleportClient$Point;FFFF)V",
       "kind": "call",
-      "locale": "zh_tw",
       "section": "names",
       "member_class": "fr/sao/teleport/TeleportClient$Point",
       "member": "name",
@@ -76,7 +52,6 @@
       "method": "drawRift",
       "descriptor": "(Lfr/sao/teleport/TeleportClient$Point;FFFF)V",
       "kind": "call",
-      "locale": "zh_tw",
       "section": "names",
       "member_class": "fr/sao/teleport/TeleportClient$Point",
       "member": "name",
@@ -89,25 +64,7 @@
       "method": "duration",
       "descriptor": "(J)Ljava/lang/String;",
       "kind": "return",
-      "locale": "zh_tw",
-      "section": "names",
-      "operations": [
-        {
-          "op": "replace_literal",
-          "from": "s",
-          "to": " 秒"
-        },
-        {
-          "op": "replace_literal",
-          "from": "m",
-          "to": " 分鐘"
-        },
-        {
-          "op": "replace_literal",
-          "from": "h",
-          "to": " 小時"
-        }
-      ]
+      "section": "names"
     },
     {
       "id": "point-confirm",
@@ -115,7 +72,6 @@
       "method": "method_25406",
       "descriptor": "(DDI)Z",
       "kind": "call",
-      "locale": "zh_tw",
       "section": "names",
       "member_class": "fr/sao/teleport/TeleportClient$Point",
       "member": "name",
@@ -128,7 +84,6 @@
       "method": "method_25394",
       "descriptor": "(Lnet/minecraft/class_332;IIF)V",
       "kind": "call",
-      "locale": "zh_tw",
       "section": "names",
       "member_class": "fr/sao/interlink/InterlinkClient",
       "member": "here",
@@ -141,7 +96,6 @@
       "method": "method_25394",
       "descriptor": "(Lnet/minecraft/class_332;IIF)V",
       "kind": "call",
-      "locale": "zh_tw",
       "section": "names",
       "member_class": "fr/sao/interlink/InterlinkClient",
       "member": "there",
@@ -154,20 +108,7 @@
       "method": "twoLines",
       "descriptor": "(FFLjava/lang/String;Ljava/lang/String;FII)V",
       "kind": "argument",
-      "locale": "zh_tw",
       "section": "names",
-      "operations": [
-        {
-          "op": "replace_literal",
-          "from": "FRACTURED UNDERWORLD",
-          "to": "破碎冥界"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Fractured Underworld",
-          "to": "破碎冥界"
-        }
-      ],
       "argument": 3
     },
     {
@@ -176,20 +117,7 @@
       "method": "emptyRow",
       "descriptor": "(FFLjava/lang/String;Ljava/lang/String;)V",
       "kind": "argument",
-      "locale": "zh_tw",
       "section": "names",
-      "operations": [
-        {
-          "op": "replace_literal",
-          "from": "FRACTURED UNDERWORLD",
-          "to": "破碎冥界"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Fractured Underworld",
-          "to": "破碎冥界"
-        }
-      ],
       "argument": 3
     },
     {
@@ -198,15 +126,7 @@
       "method": "render",
       "descriptor": "(Lnet/minecraft/class_332;Lfr/sao/questtracker/model/QuestHudState;Lnet/minecraft/class_2561;Lnet/minecraft/class_2561;Lnet/minecraft/class_2561;F)V",
       "kind": "argument",
-      "locale": "zh_tw",
       "section": "lines",
-      "operations": [
-        {
-          "op": "replace_literal",
-          "from": "Se rendre là où résident les brigands",
-          "to": "前往盜匪的居所"
-        }
-      ],
       "argument": 2
     },
     {
@@ -215,15 +135,7 @@
       "method": "render",
       "descriptor": "(Lnet/minecraft/class_332;Lfr/sao/questtracker/model/QuestHudState;Lnet/minecraft/class_2561;Lnet/minecraft/class_2561;Lnet/minecraft/class_2561;F)V",
       "kind": "argument",
-      "locale": "zh_tw",
       "section": "lines",
-      "operations": [
-        {
-          "op": "replace_literal",
-          "from": "Se rendre là où résident les brigands",
-          "to": "前往盜匪的居所"
-        }
-      ],
       "argument": 3
     },
     {
@@ -232,16 +144,25 @@
       "method": "render",
       "descriptor": "(Lnet/minecraft/class_332;Lfr/sao/questtracker/model/QuestHudState;Lnet/minecraft/class_2561;Lnet/minecraft/class_2561;Lnet/minecraft/class_2561;F)V",
       "kind": "argument",
-      "locale": "zh_tw",
       "section": "lines",
-      "operations": [
-        {
-          "op": "replace_literal",
-          "from": "Se rendre là où résident les brigands",
-          "to": "前往盜匪的居所"
-        }
-      ],
       "argument": 4
+    },
+    {
+      "id": "boss-plain",
+      "class": "fr/sao/saoui/mob/BossHud",
+      "method": "plain",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "kind": "return",
+      "section": "names"
+    },
+    {
+      "id": "boss-visible-text",
+      "class": "fr/sao/saoui/mob/BossHud",
+      "method": "saoText",
+      "descriptor": "(Lnet/minecraft/class_332;DLjava/lang/String;[IFFFIF)V",
+      "kind": "argument",
+      "argument": 2,
+      "section": "lines"
     }
   ]
 }

@@ -12,6 +12,11 @@ public final class NativeCoverageProbe {
   Path p=Path.of(System.getProperty("sao.zh.coverage.fixtures"));ClassLoader cl=NativeCoverageProbe.class.getClassLoader();
   List<String>targets=Files.readAllLines(p.resolve("targets.txt"));for(String n:targets)Class.forName(n,false,cl).getDeclaredMethods();
   Object engine=Class.forName("sao.zh.boot.Agent").getMethod("runtime").invoke(null);Method apply=engine.getClass().getMethod("applySigned",byte[].class,byte[].class);
+  // New locale-first bundles intentionally do NOT embed a duplicate 7k-entry dictionary.
+  Class<?> agent=Class.forName("sao.zh.boot.Agent");Path root=(Path)agent.getMethod("root").invoke(null);
+  Files.createDirectories(root.resolve("SAO_TW_Dynamic"));
+  Files.copy(p.resolve("translations.json"),root.resolve("SAO_TW_Dynamic/zh_tw.json"),StandardCopyOption.REPLACE_EXISTING);
+  Method reload=engine.getClass().getDeclaredMethod("reloadDictionary");reload.setAccessible(true);reload.invoke(engine);
   apply.invoke(engine,Files.readAllBytes(p.resolve("native-rules.json")),Files.readAllBytes(p.resolve("native-rules.sig")));
   Class<?>action=Class.forName("fr.sao.saoui.hud.actionbar.ActionBarTranslator");Method segment=action.getDeclaredMethod("translateSegment",String.class,List.class);segment.setAccessible(true);
   String raw="⚔ 打擊 21 | total 1009 | ~26 DPS";String result=(String)segment.invoke(null,raw,List.of());ok(result.equals("⚔ 單次傷害 21 | 總傷害 1009 | 約 26 DPS"),"Actual ActionBar label transformation failed: "+result);

@@ -1,32 +1,8 @@
 {
   "schema_version": 1,
   "id": "guild-social",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "dependencies": {},
-  "dictionary": {
-    "names": {
-      "Leader": "會長",
-      " Leader": " 會長",
-      "Leader ": "會長 ",
-      " Leader ": " 會長 ",
-      "Captain": "隊長",
-      " Captain": " 隊長",
-      "Captain ": "隊長 ",
-      " Captain ": " 隊長 ",
-      "Member": "成員",
-      " Member": " 成員",
-      "Member ": "成員 ",
-      " Member ": " 成員 ",
-      "Officer": "幹部",
-      " Officer": " 幹部",
-      "Officer ": "幹部 ",
-      " Officer ": " 幹部 ",
-      "Recruit": "新進成員",
-      " Recruit": " 新進成員",
-      "Recruit ": "新進成員 ",
-      " Recruit ": " 新進成員 "
-    }
-  },
   "coverage": [
     "公會成員階級與階級選單；不改玩家名稱、UUID、職級 ID 或操作封包"
   ],
@@ -37,7 +13,6 @@
       "method": "drawMemberRow",
       "descriptor": "(Lnet/minecraft/class_332;IILfr/sao/guild/screen/MembersPage$Member;FI)V",
       "kind": "field",
-      "locale": "zh_tw",
       "section": "names",
       "member_class": "fr/sao/guild/screen/MembersPage$Member",
       "member": "rank",
@@ -50,7 +25,6 @@
       "method": "drawRoleMenu",
       "descriptor": "(Lnet/minecraft/class_332;II)V",
       "kind": "field",
-      "locale": "zh_tw",
       "section": "names",
       "member_class": "fr/sao/guild/screen/MembersPage$Role",
       "member": "name",

@@ -1,28 +1,33 @@
 {
   "schema_version": 1,
-  "bundle_version": "1.4.0",
-  "bundle_sequence": 105,
+  "bundle_version": "1.5.0",
+  "bundle_sequence": 106,
   "runtime_api": 1,
   "minimum_runtime_version": "1.1.0",
   "rule_schema": 2,
+  "translation_root": "languages",
+  "available_locales": [
+    "zh_tw"
+  ],
   "modules": [
     {
       "id": "codex-creatures",
-      "version": "1.1.0",
-      "source_sha256": "4f0d24d4b6786e0f0c194a95979b1e3a9bbe1a5a6d0028b2934360d47ceb771a",
+      "version": "1.2.0",
+      "source_sha256": "3be76835ec79ce4f4290a20b7d8a0157220c634b1f0b90995d31e1ee1139994d",
       "dependencies": {
         "shared-terms": "1.0.0"
       },
-      "hook_count": 6,
+      "hook_count": 7,
       "coverage": [
         "圖鑑名稱、描述、分類、掉落名稱",
-        "透過動態翻譯模組共同處理生物名稱；特殊外部圖鑑尚未全覆蓋"
+        "透過動態翻譯模組共同處理生物名稱；特殊外部圖鑑尚未全覆蓋",
+        "Direct domain text display entries discovered by javap from SAOUI 2.41.2; exact dictionary translation only."
       ]
     },
     {
       "id": "combat-feedback",
-      "version": "1.0.0",
-      "source_sha256": "539689854d2c526648d40429571785395f3e37cd28791981e1fced6a98b96480",
+      "version": "1.0.1",
+      "source_sha256": "ab48b754daa36e9e30cf0a8372b34562d4241d5f740b11f69eaaa00d858262dd",
       "dependencies": {},
       "hook_count": 2,
       "coverage": [
@@ -32,8 +37,8 @@
     },
     {
       "id": "dynamic-translation",
-      "version": "1.0.0",
-      "source_sha256": "bae6be26ac27666dda524944224b0863824069e9e4efc8da9ce1db9786fb6d6d",
+      "version": "1.0.1",
+      "source_sha256": "061ac58c7f10f4f1005ca7894af47fdb10d80730c18fd702825a19466d74f735",
       "dependencies": {
         "shared-terms": "1.0.0"
       },
@@ -45,8 +50,8 @@
     },
     {
       "id": "guild-social",
-      "version": "1.0.0",
-      "source_sha256": "69db8b490046dfa7783fd228a6e09402b578cc72fe93e748b2479314302733fb",
+      "version": "1.0.1",
+      "source_sha256": "cc7e2062c55ff3e8b6105f6e4679ac006e332489990f2cb7ab86d4ed9d45e4bd",
       "dependencies": {},
       "hook_count": 2,
       "coverage": [
@@ -55,24 +60,25 @@
     },
     {
       "id": "items-economy",
-      "version": "1.3.0",
-      "source_sha256": "5ee5d8913531ff9961e92f2a9811199f16ac65d35817de97384c02dee056a2be",
+      "version": "1.4.0",
+      "source_sha256": "c38443703b14351cf2e02e0976d81086901d1031d4b901dc214ccc5a62fc1d7d",
       "dependencies": {
         "shared-terms": "1.0.0"
       },
-      "hook_count": 17,
+      "hook_count": 20,
       "coverage": [
         "背包物品名稱／原生物品翻譯",
         "登入獎勵描述、裝備屬性、跨服物品清單",
         "拍賣商品若使用 ItemLangClient 會共享此模組；排版未在此輪處理",
         "大廳選樓層物品名稱與分色提示，既有物品顯示入口不需更換核心",
-        "詳細規格物品名稱與來源；取得來源在共用分行前翻譯，價格保留。"
+        "詳細規格物品名稱與來源；取得來源在共用分行前翻譯，價格保留。",
+        "Direct domain text display entries discovered by javap from SAOUI 2.41.2; exact dictionary translation only."
       ]
     },
     {
       "id": "quests-objectives",
-      "version": "1.1.0",
-      "source_sha256": "c4f2031f127750573b62610007c159014322f2e9137f84904924b2b36d552b29",
+      "version": "1.1.1",
+      "source_sha256": "27dc0072bc2630b2d9f041a26a9b9017f380c334ee756eec4208f6e3adbed981",
       "dependencies": {
         "shared-terms": "1.0.0"
       },
@@ -84,18 +90,18 @@
     },
     {
       "id": "shared-terms",
-      "version": "1.1.1",
-      "source_sha256": "9f4d7457fc60344e3adfb8f76e7e097a9b729838d427729d5c312b1488252c5d",
+      "version": "1.1.2",
+      "source_sha256": "e3e67650bf28e3544959a4ccd269261a5857e1789ae33c9ba78ad6366b1fbb01",
       "dependencies": {},
       "hook_count": 0,
       "coverage": [
-        "多個功能模組共用術語；不直接攔截任何介面"
+        "Shared translation vocabulary moved to extensions/zh_tw; this module only declares inter-module dependency."
       ]
     },
     {
       "id": "skills-progression",
-      "version": "1.1.1",
-      "source_sha256": "579e249ad06b5570afa2676aa79cc0d53184d52526b9cb93556edfaa34db24ac",
+      "version": "1.1.2",
+      "source_sha256": "baa2ee30c74836e996fffd6a7c7fac1f67f77b0e343d9a9d9bb4a944763204fe",
       "dependencies": {
         "shared-terms": "1.0.0"
       },
@@ -107,35 +113,33 @@
     },
     {
       "id": "ui-text-layout",
-      "version": "1.2.0",
-      "source_sha256": "f0b3111bfb3449290a26ed82c164aa27edbb9ab88069266a7f4ec558e1e0f619",
+      "version": "1.3.0",
+      "source_sha256": "ee6f85627789455af04886c871f5b107bb13141254531eba804e268e9ca17a9b",
       "dependencies": {
         "shared-terms": "1.1.0"
       },
-      "hook_count": 3,
+      "hook_count": 17,
       "coverage": [
         "共用 PassCanvas 中文自動分行，含拍賣行左側說明和任務描述",
         "任務／圖鑑只刷新顯示文字快取，不關閉介面、不改搜尋、捲動、選中物品或送操作封包",
-        "需外部 Runtime 1.1.0；保留既有 7 個功能模組"
+        "需外部 Runtime 1.1.0；保留既有 7 個功能模組",
+        "Shared PassCanvas/TextUtil String/Text display and early ellipsize inputs; exact-lookup only, no arbitrary substring rewriting."
       ]
     },
     {
       "id": "worlds-locations",
-      "version": "1.1.0",
-      "source_sha256": "382242566c18cf746c397276483b91b95b1825635928b45061f180a46592f900",
+      "version": "1.2.0",
+      "source_sha256": "f54d190ec13501a5dee733195839a10f6a6351ef94020e13f4889a78311d5d85",
       "dependencies": {
         "shared-terms": "1.0.0"
       },
-      "hook_count": 13,
+      "hook_count": 15,
       "coverage": [
         "跨服世界名稱、傳送點標籤與相同標籤的量測",
-        "地圖與所有區域 HUD 尚未全部介接"
+        "地圖與所有區域 HUD 尚未全部介接",
+        "Direct domain text display entries discovered by javap from SAOUI 2.41.2; exact dictionary translation only."
       ]
     }
   ],
-  "verified_mod_versions": [
-    "SAOUI 2.41.2",
-    "SAOJob 1.1.3"
-  ],
-  "notes": "10 functional modules; 62 verified display hooks. No Agent/runtime binary update. No global player-chat rewriting."
+  "notes": "Locale-neutral functional hooks, translations under languages/zh_tw only; no player chat translation."
 }

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "combat-feedback",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "dependencies": {},
   "coverage": [
     "原模組動作列的單次傷害／總傷害措辭；保留交叉劍、數字、顏色與 DPS",
@@ -14,84 +14,7 @@
       "method": "translateSegment",
       "descriptor": "(Ljava/lang/String;Ljava/util/List;)Ljava/lang/String;",
       "kind": "return",
-      "locale": "zh_tw",
-      "section": "messages",
-      "exact": {
-        "Coup": "單次傷害",
-        " Coup": " 單次傷害",
-        "Coup ": "單次傷害 ",
-        " Coup ": " 單次傷害 ",
-        "Hit": "單次傷害",
-        " Hit": " 單次傷害",
-        "Hit ": "單次傷害 ",
-        " Hit ": " 單次傷害 ",
-        "打擊": "單次傷害",
-        " 打擊": " 單次傷害",
-        "打擊 ": "單次傷害 ",
-        " 打擊 ": " 單次傷害 ",
-        "total": "總傷害",
-        " total": " 總傷害",
-        "total ": "總傷害 ",
-        " total ": " 總傷害 ",
-        "Total": "總傷害",
-        " Total": " 總傷害",
-        "Total ": "總傷害 ",
-        " Total ": " 總傷害 ",
-        "total soigné": "總治療量",
-        " total soigné": " 總治療量",
-        "total soigné ": "總治療量 ",
-        " total soigné ": " 總治療量 ",
-        "total soigne": "總治療量",
-        " total soigne": " 總治療量",
-        "total soigne ": "總治療量 ",
-        " total soigne ": " 總治療量 ",
-        "total healed": "總治療量",
-        " total healed": " 總治療量",
-        "total healed ": "總治療量 ",
-        " total healed ": " 總治療量 "
-      },
-      "operations": [
-        {
-          "op": "replace_literal",
-          "from": "total soigné",
-          "to": "總治療量"
-        },
-        {
-          "op": "replace_literal",
-          "from": "total soigne",
-          "to": "總治療量"
-        },
-        {
-          "op": "replace_literal",
-          "from": "total healed",
-          "to": "總治療量"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Coup ",
-          "to": "單次傷害 "
-        },
-        {
-          "op": "replace_literal",
-          "from": "Hit ",
-          "to": "單次傷害 "
-        },
-        {
-          "op": "replace_literal",
-          "from": "打擊 ",
-          "to": "單次傷害 "
-        },
-        {
-          "op": "replace_literal",
-          "from": "total ",
-          "to": "總傷害 "
-        },
-        {
-          "op": "replace_literal",
-          "from": "~",
-          "to": "約 "
-        }
-      ]
+      "section": "messages"
     },
     {
       "id": "damage-text",
@@ -99,84 +22,7 @@
       "method": "translate",
       "descriptor": "(Lnet/minecraft/class_2561;)Lnet/minecraft/class_2561;",
       "kind": "return",
-      "locale": "zh_tw",
-      "section": "messages",
-      "exact": {
-        "Coup": "單次傷害",
-        " Coup": " 單次傷害",
-        "Coup ": "單次傷害 ",
-        " Coup ": " 單次傷害 ",
-        "Hit": "單次傷害",
-        " Hit": " 單次傷害",
-        "Hit ": "單次傷害 ",
-        " Hit ": " 單次傷害 ",
-        "打擊": "單次傷害",
-        " 打擊": " 單次傷害",
-        "打擊 ": "單次傷害 ",
-        " 打擊 ": " 單次傷害 ",
-        "total": "總傷害",
-        " total": " 總傷害",
-        "total ": "總傷害 ",
-        " total ": " 總傷害 ",
-        "Total": "總傷害",
-        " Total": " 總傷害",
-        "Total ": "總傷害 ",
-        " Total ": " 總傷害 ",
-        "total soigné": "總治療量",
-        " total soigné": " 總治療量",
-        "total soigné ": "總治療量 ",
-        " total soigné ": " 總治療量 ",
-        "total soigne": "總治療量",
-        " total soigne": " 總治療量",
-        "total soigne ": "總治療量 ",
-        " total soigne ": " 總治療量 ",
-        "total healed": "總治療量",
-        " total healed": " 總治療量",
-        "total healed ": "總治療量 ",
-        " total healed ": " 總治療量 "
-      },
-      "operations": [
-        {
-          "op": "replace_literal",
-          "from": "total soigné",
-          "to": "總治療量"
-        },
-        {
-          "op": "replace_literal",
-          "from": "total soigne",
-          "to": "總治療量"
-        },
-        {
-          "op": "replace_literal",
-          "from": "total healed",
-          "to": "總治療量"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Coup ",
-          "to": "單次傷害 "
-        },
-        {
-          "op": "replace_literal",
-          "from": "Hit ",
-          "to": "單次傷害 "
-        },
-        {
-          "op": "replace_literal",
-          "from": "打擊 ",
-          "to": "單次傷害 "
-        },
-        {
-          "op": "replace_literal",
-          "from": "total ",
-          "to": "總傷害 "
-        },
-        {
-          "op": "replace_literal",
-          "from": "~",
-          "to": "約 "
-        }
-      ]
+      "section": "messages"
     }
   ]
 }

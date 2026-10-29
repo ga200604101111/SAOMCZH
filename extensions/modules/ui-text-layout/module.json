@@ -1,14 +1,15 @@
 {
   "schema_version": 1,
   "id": "ui-text-layout",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "dependencies": {
     "shared-terms": "1.1.0"
   },
   "coverage": [
     "共用 PassCanvas 中文自動分行，含拍賣行左側說明和任務描述",
     "任務／圖鑑只刷新顯示文字快取，不關閉介面、不改搜尋、捲動、選中物品或送操作封包",
-    "需外部 Runtime 1.1.0；保留既有 7 個功能模組"
+    "需外部 Runtime 1.1.0；保留既有 7 個功能模組",
+    "Shared PassCanvas/TextUtil String/Text display and early ellipsize inputs; exact-lookup only, no arbitrary substring rewriting."
   ],
   "hooks": [
     {
@@ -22,35 +23,7 @@
         "font": "Ljava/lang/String;",
         "scale": "F"
       },
-      "locale": "zh_tw",
-      "section": "lines",
-      "operations": [
-        {
-          "op": "prefix",
-          "from": "Sold by ",
-          "to": "販售商人: "
-        },
-        {
-          "op": "prefix",
-          "from": "Vendu par ",
-          "to": "販售商人: "
-        },
-        {
-          "op": "replace_literal",
-          "from": "Starting Merchant",
-          "to": "起始商人"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Marchand de Départ",
-          "to": "起始商人"
-        },
-        {
-          "op": "replace_literal",
-          "from": " Cols)",
-          "to": " 珂爾)"
-        }
-      ]
+      "section": "lines"
     },
     {
       "id": "quest-text-cache",
@@ -58,7 +31,6 @@
       "method": "method_25394",
       "descriptor": "(Lnet/minecraft/class_332;IIF)V",
       "kind": "refresh",
-      "locale": "zh_tw",
       "cache_fields": [
         {
           "name": "rowTexts",
@@ -83,7 +55,6 @@
       "method": "method_25394",
       "descriptor": "(Lnet/minecraft/class_332;IIF)V",
       "kind": "refresh",
-      "locale": "zh_tw",
       "cache_fields": [
         {
           "name": "locals",
@@ -106,6 +77,132 @@
           "action": "clear_map"
         }
       ]
+    },
+    {
+      "id": "canvas-mid-text",
+      "class": "fr/sao/pass/screen/PassCanvas",
+      "method": "midText",
+      "descriptor": "(Ljava/lang/String;FFFIZLfr/sao/font/TextUtil$HAlign;)V",
+      "kind": "argument",
+      "argument": 0,
+      "section": "lines"
+    },
+    {
+      "id": "canvas-text-align",
+      "class": "fr/sao/pass/screen/PassCanvas",
+      "method": "text",
+      "descriptor": "(Ljava/lang/String;FFFIZLfr/sao/font/TextUtil$HAlign;)V",
+      "kind": "argument",
+      "argument": 0,
+      "section": "lines"
+    },
+    {
+      "id": "canvas-text-simple",
+      "class": "fr/sao/pass/screen/PassCanvas",
+      "method": "text",
+      "descriptor": "(Ljava/lang/String;FFFIZ)V",
+      "kind": "argument",
+      "argument": 0,
+      "section": "lines"
+    },
+    {
+      "id": "canvas-fig-align",
+      "class": "fr/sao/pass/screen/PassCanvas",
+      "method": "fig",
+      "descriptor": "(Ljava/lang/String;FFFIZLfr/sao/font/TextUtil$HAlign;)V",
+      "kind": "argument",
+      "argument": 0,
+      "section": "lines"
+    },
+    {
+      "id": "canvas-fig-simple",
+      "class": "fr/sao/pass/screen/PassCanvas",
+      "method": "fig",
+      "descriptor": "(Ljava/lang/String;FFFIZ)V",
+      "kind": "argument",
+      "argument": 0,
+      "section": "lines"
+    },
+    {
+      "id": "canvas-text-mid",
+      "class": "fr/sao/pass/screen/PassCanvas",
+      "method": "textMid",
+      "descriptor": "(Ljava/lang/String;FFFIZLfr/sao/font/TextUtil$HAlign;)V",
+      "kind": "argument",
+      "argument": 0,
+      "section": "lines"
+    },
+    {
+      "id": "canvas-box-text",
+      "class": "fr/sao/pass/screen/PassCanvas",
+      "method": "boxText",
+      "descriptor": "(Ljava/lang/String;FFFFFIZ)V",
+      "kind": "argument",
+      "argument": 0,
+      "section": "lines"
+    },
+    {
+      "id": "canvas-ellipsize",
+      "class": "fr/sao/pass/screen/PassCanvas",
+      "method": "ellipsize",
+      "descriptor": "(Ljava/lang/String;FZF)Ljava/lang/String;",
+      "kind": "argument",
+      "argument": 0,
+      "section": "lines"
+    },
+    {
+      "id": "canvas-wrap-source",
+      "class": "fr/sao/pass/screen/PassCanvas",
+      "method": "wrap",
+      "descriptor": "(Ljava/lang/String;FZFI)Ljava/util/List;",
+      "kind": "argument",
+      "argument": 0,
+      "section": "lines"
+    },
+    {
+      "id": "util-text-sized",
+      "class": "fr/sao/font/TextUtil",
+      "method": "drawTextSized",
+      "descriptor": "(Lnet/minecraft/class_332;Lnet/minecraft/class_327;Lnet/minecraft/class_2561;FFFILjava/lang/String;Lfr/sao/font/TextUtil$HAlign;Lfr/sao/font/TextUtil$VAlign;Z)V",
+      "kind": "argument",
+      "argument": 2,
+      "section": "lines"
+    },
+    {
+      "id": "util-draw-text",
+      "class": "fr/sao/font/TextUtil",
+      "method": "drawText",
+      "descriptor": "(Lnet/minecraft/class_332;Lnet/minecraft/class_327;Lnet/minecraft/class_2561;IIIZ)I",
+      "kind": "argument",
+      "argument": 2,
+      "section": "lines"
+    },
+    {
+      "id": "util-draw-string",
+      "class": "fr/sao/font/TextUtil",
+      "method": "drawString",
+      "descriptor": "(Lnet/minecraft/class_332;Lnet/minecraft/class_327;Ljava/lang/String;Ljava/lang/String;IIIZ)I",
+      "kind": "argument",
+      "argument": 2,
+      "section": "lines"
+    },
+    {
+      "id": "util-wrapped-wide",
+      "class": "fr/sao/font/TextUtil",
+      "method": "drawWrappedTextSized",
+      "descriptor": "(Lnet/minecraft/class_332;Lnet/minecraft/class_327;Lnet/minecraft/class_2561;FFFFFFILjava/lang/String;Lfr/sao/font/TextUtil$HAlign;Lfr/sao/font/TextUtil$VAlign;Z)V",
+      "kind": "argument",
+      "argument": 2,
+      "section": "lines"
+    },
+    {
+      "id": "util-wrapped-normal",
+      "class": "fr/sao/font/TextUtil",
+      "method": "drawWrappedTextSized",
+      "descriptor": "(Lnet/minecraft/class_332;Lnet/minecraft/class_327;Lnet/minecraft/class_2561;FFFFFILjava/lang/String;Lfr/sao/font/TextUtil$HAlign;Lfr/sao/font/TextUtil$VAlign;Z)V",
+      "kind": "argument",
+      "argument": 2,
+      "section": "lines"
     }
   ]
 }

@@ -165,6 +165,7 @@ def compose(modules:list[dict],*,version:str,sequence:int,expires:int)->dict:
 def encode(bundle:dict)->bytes:return (json.dumps(bundle,ensure_ascii=False,indent=2)+'\n').encode('utf8')
 def main()->int:
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('modules',type=Path);p.add_argument('--version',required=True);p.add_argument('--sequence',type=int,required=True);p.add_argument('--expires',type=int,required=True);p.add_argument('--out',type=Path,required=True);a=p.parse_args()
+ if (a.modules.parent.parent/'languages/locales.json').is_file():raise ModuleError('Locale-first repository: use compose_localized.py --locale <language> to avoid dropping scoped translations')
  files=sorted(a.modules.glob('*/module.json'))
  if not files:raise ModuleError('No module.json under supplied root')
  rows=[]

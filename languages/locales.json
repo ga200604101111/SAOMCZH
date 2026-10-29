@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "available": [
+    "zh_tw"
+  ],
+  "default_locale": "zh_tw",
+  "notes": "Add new locale directories and validated manifests when real translated content exists; other locales are not yet supported by the V16 client."
+}

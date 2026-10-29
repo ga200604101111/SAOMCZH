@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "items-economy",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "name": "物品與經濟",
   "enabled": true,
   "dependencies": {
@@ -12,9 +12,9 @@
     "登入獎勵描述、裝備屬性、跨服物品清單",
     "拍賣商品若使用 ItemLangClient 會共享此模組；排版未在此輪處理",
     "大廳選樓層物品名稱與分色提示，既有物品顯示入口不需更換核心",
-    "詳細規格物品名稱與來源；取得來源在共用分行前翻譯，價格保留。"
+    "詳細規格物品名稱與來源；取得來源在共用分行前翻譯，價格保留。",
+    "Direct domain text display entries discovered by javap from SAOUI 2.41.2; exact dictionary translation only."
   ],
-  "dictionary": {},
   "hooks": [
     {
       "id": "item-knownPlain",
@@ -22,50 +22,7 @@
       "method": "knownPlain",
       "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
       "kind": "return",
-      "locale": "zh_tw",
-      "section": "items",
-      "operations": [
-        {
-          "op": "replace_literal",
-          "from": "Class: assassin",
-          "to": "職業：刺客"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Class: warrior",
-          "to": "職業：戰士"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Minimum Level:",
-          "to": "最低等級："
-        },
-        {
-          "op": "replace_literal",
-          "from": "Guard Durability:",
-          "to": "格擋耐久："
-        },
-        {
-          "op": "replace_literal",
-          "from": "Movement Speed",
-          "to": "移動速度"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Attack Damage",
-          "to": "攻擊傷害"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Attack Speed",
-          "to": "攻擊速度"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Life Steal",
-          "to": "吸血"
-        }
-      ]
+      "section": "items"
     },
     {
       "id": "item-plain",
@@ -73,50 +30,7 @@
       "method": "plain",
       "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
       "kind": "return",
-      "locale": "zh_tw",
-      "section": "items",
-      "operations": [
-        {
-          "op": "replace_literal",
-          "from": "Class: assassin",
-          "to": "職業：刺客"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Class: warrior",
-          "to": "職業：戰士"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Minimum Level:",
-          "to": "最低等級："
-        },
-        {
-          "op": "replace_literal",
-          "from": "Guard Durability:",
-          "to": "格擋耐久："
-        },
-        {
-          "op": "replace_literal",
-          "from": "Movement Speed",
-          "to": "移動速度"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Attack Damage",
-          "to": "攻擊傷害"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Attack Speed",
-          "to": "攻擊速度"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Life Steal",
-          "to": "吸血"
-        }
-      ]
+      "section": "items"
     },
     {
       "id": "item-translate",
@@ -124,50 +38,7 @@
       "method": "translate",
       "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
       "kind": "return",
-      "locale": "zh_tw",
-      "section": "items",
-      "operations": [
-        {
-          "op": "replace_literal",
-          "from": "Class: assassin",
-          "to": "職業：刺客"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Class: warrior",
-          "to": "職業：戰士"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Minimum Level:",
-          "to": "最低等級："
-        },
-        {
-          "op": "replace_literal",
-          "from": "Guard Durability:",
-          "to": "格擋耐久："
-        },
-        {
-          "op": "replace_literal",
-          "from": "Movement Speed",
-          "to": "移動速度"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Attack Damage",
-          "to": "攻擊傷害"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Attack Speed",
-          "to": "攻擊速度"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Life Steal",
-          "to": "吸血"
-        }
-      ]
+      "section": "items"
     },
     {
       "id": "item-name",
@@ -175,50 +46,7 @@
       "method": "name",
       "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
       "kind": "return",
-      "locale": "zh_tw",
-      "section": "items",
-      "operations": [
-        {
-          "op": "replace_literal",
-          "from": "Class: assassin",
-          "to": "職業：刺客"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Class: warrior",
-          "to": "職業：戰士"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Minimum Level:",
-          "to": "最低等級："
-        },
-        {
-          "op": "replace_literal",
-          "from": "Guard Durability:",
-          "to": "格擋耐久："
-        },
-        {
-          "op": "replace_literal",
-          "from": "Movement Speed",
-          "to": "移動速度"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Attack Damage",
-          "to": "攻擊傷害"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Attack Speed",
-          "to": "攻擊速度"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Life Steal",
-          "to": "吸血"
-        }
-      ]
+      "section": "items"
     },
     {
       "id": "item-text",
@@ -226,50 +54,7 @@
       "method": "name",
       "descriptor": "(Lnet/minecraft/class_1799;Lnet/minecraft/class_2561;)Lnet/minecraft/class_2561;",
       "kind": "return",
-      "locale": "zh_tw",
-      "section": "items",
-      "operations": [
-        {
-          "op": "replace_literal",
-          "from": "Class: assassin",
-          "to": "職業：刺客"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Class: warrior",
-          "to": "職業：戰士"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Minimum Level:",
-          "to": "最低等級："
-        },
-        {
-          "op": "replace_literal",
-          "from": "Guard Durability:",
-          "to": "格擋耐久："
-        },
-        {
-          "op": "replace_literal",
-          "from": "Movement Speed",
-          "to": "移動速度"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Attack Damage",
-          "to": "攻擊傷害"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Attack Speed",
-          "to": "攻擊速度"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Life Steal",
-          "to": "吸血"
-        }
-      ]
+      "section": "items"
     },
     {
       "id": "reward-description",
@@ -277,7 +62,6 @@
       "method": "desc",
       "descriptor": "()Ljava/lang/String;",
       "kind": "return",
-      "locale": "zh_tw",
       "section": "lines"
     },
     {
@@ -286,7 +70,6 @@
       "method": "name",
       "descriptor": "()Ljava/lang/String;",
       "kind": "return",
-      "locale": "zh_tw",
       "section": "names"
     },
     {
@@ -295,7 +78,6 @@
       "method": "itemName",
       "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
       "kind": "return",
-      "locale": "zh_tw",
       "section": "items"
     },
     {
@@ -304,50 +86,7 @@
       "method": "lookup",
       "descriptor": "(Ljava/lang/String;)Lnet/minecraft/class_2561;",
       "kind": "return",
-      "locale": "zh_tw",
-      "section": "items",
-      "operations": [
-        {
-          "op": "replace_literal",
-          "from": "Class: assassin",
-          "to": "職業：刺客"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Class: warrior",
-          "to": "職業：戰士"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Minimum Level:",
-          "to": "最低等級："
-        },
-        {
-          "op": "replace_literal",
-          "from": "Guard Durability:",
-          "to": "格擋耐久："
-        },
-        {
-          "op": "replace_literal",
-          "from": "Movement Speed",
-          "to": "移動速度"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Attack Damage",
-          "to": "攻擊傷害"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Attack Speed",
-          "to": "攻擊速度"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Life Steal",
-          "to": "吸血"
-        }
-      ]
+      "section": "items"
     },
     {
       "id": "native-item-name",
@@ -355,7 +94,6 @@
       "method": "method_7964",
       "descriptor": "()Lnet/minecraft/class_2561;",
       "kind": "return",
-      "locale": "zh_tw",
       "section": "items"
     },
     {
@@ -364,7 +102,6 @@
       "method": "name",
       "descriptor": "()Ljava/lang/String;",
       "kind": "return",
-      "locale": "zh_tw",
       "section": "items"
     },
     {
@@ -373,7 +110,6 @@
       "method": "label",
       "descriptor": "()Ljava/lang/String;",
       "kind": "return",
-      "locale": "zh_tw",
       "section": "items"
     },
     {
@@ -382,50 +118,7 @@
       "method": "text",
       "descriptor": "(Lfr/sao/pass/screen/PassCanvas;Ljava/lang/String;Ljava/lang/String;FFFI)V",
       "kind": "argument",
-      "locale": "zh_tw",
       "section": "items",
-      "operations": [
-        {
-          "op": "replace_literal",
-          "from": "Class: assassin",
-          "to": "職業：刺客"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Class: warrior",
-          "to": "職業：戰士"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Minimum Level:",
-          "to": "最低等級："
-        },
-        {
-          "op": "replace_literal",
-          "from": "Guard Durability:",
-          "to": "格擋耐久："
-        },
-        {
-          "op": "replace_literal",
-          "from": "Movement Speed",
-          "to": "移動速度"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Attack Damage",
-          "to": "攻擊傷害"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Attack Speed",
-          "to": "攻擊速度"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Life Steal",
-          "to": "吸血"
-        }
-      ],
       "argument": 2
     },
     {
@@ -434,7 +127,6 @@
       "method": "name",
       "descriptor": "()Ljava/lang/String;",
       "kind": "return",
-      "locale": "zh_tw",
       "section": "items"
     },
     {
@@ -443,159 +135,11 @@
       "method": "render",
       "descriptor": "(Lnet/minecraft/class_332;II)V",
       "kind": "field",
-      "locale": "zh_tw",
       "section": "items",
       "member_class": "fr/sao/iteminfo/ItemInfoOverlay$Layout",
       "member": "upperName",
       "member_descriptor": "Ljava/lang/String;",
-      "sites": 1,
-      "exact": {
-        "TRAINING PAVISE": "訓練用大盾",
-        "TRAINING SWORD": "訓練用長劍",
-        "TRAINING DAGGER": "訓練用匕首",
-        "TRAINING KATANA": "訓練用武士刀",
-        "BEGINNER'S BOOTS": "初學者靴子",
-        "BEGINNER'S TUNIC": "初學者上衣",
-        "BEGINNER'S LEGGINGS": "初學者護腿",
-        "MANA SHARD": "魔力碎片",
-        "HEALING SHARD": "治療碎片",
-        "STAMINA SHARD": "耐力碎片",
-        "AINCRAD SHARD": "艾恩葛朗特碎片",
-        "ANCESTRAL ROOT": "遠古樹根",
-        "MAGIC WOOD SHARD": "魔木碎片",
-        "TITAN BARK": "泰坦樹皮",
-        "SYLVAN BARK": "森林樹皮",
-        "WOOD HEART": "木之心",
-        "SLIME CORE": "史萊姆核心",
-        "SLIME ESSENCE": "史萊姆精華",
-        "SLIME JELLY": "史萊姆凝膠",
-        "GLACIAL ESSENCE": "冰寒精華",
-        "CORRUPTED CRYSTAL": "腐化水晶",
-        "ENCHANTED METAL PIECE": "附魔金屬片",
-        "ENCHANTED TWIG": "附魔枝條",
-        "SPECTRAL CLOTH": "幽魂布料",
-        "WORN LEATHER": "磨損的皮革",
-        "REINFORCED SPIDER THREAD": "強化蜘蛛絲",
-        "BOAR HIDE": "野豬皮",
-        "BOAR MEAT": "野豬肉",
-        "MOUNTAIN STAG HIDE": "山地雄鹿皮",
-        "FANGS OF ALBAL": "阿爾巴爾之牙",
-        "FARMED WHEAT": "栽培小麥",
-        "WHEAT SEED": "小麥種子",
-        "ALLIUM FLOWER": "紫紅球花",
-        "SYLVE SPROUT": "森林幼芽",
-        "SYLVAN BOWSTRING": "森林弓弦",
-        "COPPER MAGIC STAFF": "銅製法杖",
-        "MAGIC STAFF OF THE REVENANTS": "亡魂法杖",
-        "MAGIC STAFF OF THE RUINS": "遺跡法杖",
-        "MAGICIAN'S MAGIC STAFF": "魔術師法杖",
-        "MAGICIAN'S GRIMOIRE": "魔術師魔導書",
-        "MAGICIAN'S BUCKLER": "魔術師小圓盾",
-        "CROSSBOW OF ASH": "灰燼弩",
-        "IRON BOW": "鐵弓",
-        "SYLVAN BOW": "森林長弓",
-        "SYLVAN PAVISE": "森林大盾",
-        "DAGGER OF ALBAL": "阿爾巴爾匕首",
-        "DAGGER OF THE HERALD": "使者匕首",
-        "HUNTER'S DAGGER": "獵人匕首",
-        "HUNTER'S KATANA": "獵人武士刀",
-        "HUNTER'S SCYTHE": "獵人鐮刀",
-        "MACABRE SCYTHE": "死亡鐮刀",
-        "SKELETAL SWORD": "骸骨劍",
-        "SWORD OF THE WARDEN": "守望者之劍",
-        "HALBERD OF THE WARDEN": "守望者長戟",
-        "SOUL OF THE HERALD": "使者之魂",
-        "SOUL OF THE WARDEN": "守望者之魂",
-        "SEAL OF SINS": "罪之封印",
-        "NINJA BOOTS": "忍者短靴",
-        "SPECTRAL BOOTS": "幽魂長靴",
-        "TACTICAL BOOTS": "戰術長靴",
-        "TACTICAL CHESTPLATE": "戰術胸甲",
-        "TACTICAL LEGGINGS": "戰術護腿",
-        "LEGGINGS OF IKA": "伊卡護腿",
-        "GLOVES OF THE WOLVES": "群狼手套",
-        "TAURUS HAT": "金牛帽",
-        "CHESTPLATE OF THE REAPER": "收割者胸甲",
-        "CHESTPLATE OF THE STEALTH NECROMANCER": "潛行死靈法師胸甲",
-        "BELT OF THE BOAR": "野豬腰帶",
-        "BRACELET OF THE BOAR": "野豬手環",
-        "AMULET OF THE NEPENTHES": "豬籠草護符",
-        "BRACELET OF THE NEPENTHES": "豬籠草手環",
-        "RING OF THE NEPENTHES": "豬籠草戒指",
-        "GELATINOUS BRACELET": "凝膠手環",
-        "SLIMY RING": "黏液戒指",
-        "RING OF THE FALLEN": "墮落者戒指",
-        "NECKLACE OF ARAGORN": "亞拉岡項鍊",
-        "HALLOWEEN KEY": "萬聖節鑰匙",
-        "BOX OF CHOCOLATES": "巧克力盒",
-        "CHRISTMAS MITTENS": "聖誕手套",
-        "CHRISTMAS MOUNT": "聖誕坐騎",
-        "MOUNT OF LOVE": "愛之坐騎",
-        "RANK I MOUNT": "I 階坐騎",
-        "SMALL PURSE": "小錢袋",
-        "300 COLS POUCH": "300 珂爾錢袋",
-        "75 COLS POUCH": "75 珂爾錢袋",
-        "1000 COLS POUCH": "1,000 珂爾錢袋",
-        "HEALTH POTION I": "生命藥水 I",
-        "HEALTH POTION II": "生命藥水 II",
-        "HEALTH POTION III": "生命藥水 III",
-        "TELEPORTATION CRYSTAL": "傳送水晶",
-        "TWISTED HOE": "扭曲的鋤頭",
-        "MELIODAS SCROLL": "梅里奧達斯卷軸",
-        "SCROLL: AEROGLAIVE": "卷軸: 風刃",
-        "SCROLL: CRUEL SUN": "卷軸: 殘酷太陽",
-        "SCROLL: CUTTHROAT COMBO": "卷軸: 割喉連擊",
-        "TITLE: SIN OF PRIDE": "稱號: 傲慢之罪",
-        "TITLE: SIN OF WRATH": "稱號: 憤怒之罪",
-        "STARTING MERCHANT": "起始商人",
-        "OBTAINABLE": "取得來源",
-        "DETAILED SPECIFICATIONS": "詳細規格",
-        "PERSONAL ISLAND": "個人島嶼",
-        "GIGAS CEDAR": "基加斯西達",
-        "VALLHAT": "瓦爾哈特",
-        "AINCRAD": "艾恩葛朗特",
-        "CROP FIELD": "農田",
-        "CROP:": "作物:",
-        "SEEDING:": "播種:",
-        "ALCHEMIST (COMING SOON)": "鍊金術師 (即將推出)",
-        "FORGERON": "鐵匠",
-        "SOON": "即將推出",
-        "PASSIVE": "被動",
-        "SWIFT": "敏捷",
-        "迅捷": "敏捷",
-        "訊捷": "敏捷",
-        "ACACIA BOAT": "相思木船",
-        "BAMBOO RAFT": "竹筏",
-        "BIRCH BOAT": "樺木船",
-        "CHERRY BOAT": "櫻花木船",
-        "DARK OAK BOAT": "黑橡木船",
-        "JUNGLE BOAT": "叢林木船",
-        "MANGROVE BOAT": "紅樹林木船",
-        "OAK BOAT": "橡木船",
-        "PALE OAK BOAT": "蒼白橡木船",
-        "SPRUCE BOAT": "杉木船",
-        "ARROW": "箭矢",
-        "BLOCK OF RAW COPPER": "銅原礦方塊",
-        "BONE MEAL": "骨粉",
-        "BOOK": "書",
-        "BREAD": "麵包",
-        "CAMPFIRE": "營火",
-        "CARTOGRAPHY TABLE": "製圖台",
-        "CHEST": "儲物箱",
-        "COOKED SALMON": "烤鮭魚",
-        "COPPER INGOT": "銅錠",
-        "CRAFTING TABLE": "工作台",
-        "HAY BALE": "乾草捆",
-        "IRON NUGGET": "鐵粒",
-        "LADDER": "梯子",
-        "MAGENTA DYE": "洋紅色染料",
-        "SUSPICIOUS STEW": "可疑的燉湯",
-        "WOODEN AXE": "木斧",
-        "WOODEN HOE": "木鋤",
-        "WOODEN PICKAXE": "木鎬",
-        "WOODEN SHOVEL": "木鏟",
-        "WOODEN SWORD": "木劍"
-      }
+      "sites": 1
     },
     {
       "id": "reward-name",
@@ -603,30 +147,7 @@
       "method": "name",
       "descriptor": "()Ljava/lang/String;",
       "kind": "return",
-      "locale": "zh_tw",
-      "section": "items",
-      "operations": [
-        {
-          "op": "prefix",
-          "from": "Healing Shard x",
-          "to": "治療碎片 x"
-        },
-        {
-          "op": "prefix",
-          "from": "Mana Shard x",
-          "to": "魔力碎片 x"
-        },
-        {
-          "op": "prefix",
-          "from": "Stamina Shard x",
-          "to": "耐力碎片 x"
-        },
-        {
-          "op": "prefix",
-          "from": "Halloween Key x",
-          "to": "萬聖節鑰匙 x"
-        }
-      ]
+      "section": "items"
     },
     {
       "id": "reward-cached-name",
@@ -634,34 +155,35 @@
       "method": "drawSheet",
       "descriptor": "(Lfr/sao/daily/DailyModel$State;)V",
       "kind": "field",
-      "locale": "zh_tw",
       "section": "items",
       "member_class": "fr/sao/daily/DailyScreen",
       "member": "sheetName",
       "member_descriptor": "Ljava/lang/String;",
-      "sites": 1,
-      "operations": [
-        {
-          "op": "prefix",
-          "from": "Healing Shard x",
-          "to": "治療碎片 x"
-        },
-        {
-          "op": "prefix",
-          "from": "Mana Shard x",
-          "to": "魔力碎片 x"
-        },
-        {
-          "op": "prefix",
-          "from": "Stamina Shard x",
-          "to": "耐力碎片 x"
-        },
-        {
-          "op": "prefix",
-          "from": "Halloween Key x",
-          "to": "萬聖節鑰匙 x"
-        }
-      ]
+      "sites": 1
+    },
+    {
+      "id": "auction-item-name",
+      "class": "fr/sao/auctions/AuctionScreen",
+      "method": "itemName",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "kind": "return",
+      "section": "items"
+    },
+    {
+      "id": "auction-item-lore",
+      "class": "fr/sao/auctions/AuctionScreen",
+      "method": "itemLore",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "kind": "return",
+      "section": "items"
+    },
+    {
+      "id": "daily-reward-described",
+      "class": "fr/sao/daily/DailyScreen",
+      "method": "describe",
+      "descriptor": "(Lfr/sao/daily/DailyModel$Reward;)Ljava/lang/String;",
+      "kind": "return",
+      "section": "lines"
     }
   ]
 }

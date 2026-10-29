@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "skills-progression",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "name": "技能與成長",
   "enabled": true,
   "dependencies": {
@@ -11,58 +11,6 @@
     "技能詳情名稱、描述原文、數值說明欄位",
     "技能樹原有功能仍由外部相容模組提供；非本輪已完全拆開"
   ],
-  "dictionary": {
-    "names": {
-      "Assassin": "刺客",
-      " Assassin": " 刺客",
-      "Assassin ": "刺客 ",
-      " Assassin ": " 刺客 ",
-      "assassin": "刺客",
-      " assassin": " 刺客",
-      "assassin ": "刺客 ",
-      " assassin ": " 刺客 ",
-      "Warrior": "戰士",
-      " Warrior": " 戰士",
-      "Warrior ": "戰士 ",
-      " Warrior ": " 戰士 ",
-      "warrior": "戰士",
-      " warrior": " 戰士",
-      "warrior ": "戰士 ",
-      " warrior ": " 戰士 ",
-      "Mage": "法師",
-      " Mage": " 法師",
-      "Mage ": "法師 ",
-      " Mage ": " 法師 ",
-      "mage": "法師",
-      " mage": " 法師",
-      "mage ": "法師 ",
-      " mage ": " 法師 ",
-      "Archer": "弓箭手",
-      " Archer": " 弓箭手",
-      "Archer ": "弓箭手 ",
-      " Archer ": " 弓箭手 ",
-      "archer": "弓箭手",
-      " archer": " 弓箭手",
-      "archer ": "弓箭手 ",
-      " archer ": " 弓箭手 ",
-      "Shaman": "薩滿",
-      " Shaman": " 薩滿",
-      "Shaman ": "薩滿 ",
-      " Shaman ": " 薩滿 ",
-      "shaman": "薩滿",
-      " shaman": " 薩滿",
-      "shaman ": "薩滿 ",
-      " shaman ": " 薩滿 ",
-      "Berserker": "狂戰士",
-      " Berserker": " 狂戰士",
-      "Berserker ": "狂戰士 ",
-      " Berserker ": " 狂戰士 ",
-      "berserker": "狂戰士",
-      " berserker": " 狂戰士",
-      "berserker ": "狂戰士 ",
-      " berserker ": " 狂戰士 "
-    }
-  },
   "hooks": [
     {
       "id": "skill-title",
@@ -70,7 +18,6 @@
       "method": "renderPopup",
       "descriptor": "(Lnet/minecraft/class_332;II)V",
       "kind": "field",
-      "locale": "zh_tw",
       "section": "names",
       "member_class": "com/eighteen/saojob/skills/SkillsData$SkillEntry",
       "member": "name",
@@ -83,7 +30,6 @@
       "method": "descLines",
       "descriptor": "()Ljava/util/List;",
       "kind": "field",
-      "locale": "zh_tw",
       "section": "lines",
       "member_class": "com/eighteen/saojob/skills/SkillsData$SkillEntry",
       "member": "description",
@@ -96,7 +42,6 @@
       "method": "renderStats",
       "descriptor": "(Lnet/minecraft/class_332;)V",
       "kind": "field",
-      "locale": "zh_tw",
       "section": "messages",
       "member_class": "com/eighteen/saojob/skills/SkillsData$SkillStat",
       "member": "name",
@@ -109,7 +54,6 @@
       "method": "buildInfoLines",
       "descriptor": "(Lfr/sao/equipment/EquipmentClient$State;)Ljava/util/List;",
       "kind": "call",
-      "locale": "zh_tw",
       "section": "names",
       "member_class": "fr/sao/equipment/EquipmentClient$State",
       "member": "playerClass",
@@ -122,40 +66,7 @@
       "method": "unfold",
       "descriptor": "(Ljava/lang/String;FFFFI)V",
       "kind": "argument",
-      "locale": "zh_tw",
       "section": "names",
-      "operations": [
-        {
-          "op": "replace_literal",
-          "from": "Assassin",
-          "to": "刺客"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Warrior",
-          "to": "戰士"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Mage",
-          "to": "法師"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Archer",
-          "to": "弓箭手"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Shaman",
-          "to": "薩滿"
-        },
-        {
-          "op": "replace_literal",
-          "from": "Berserker",
-          "to": "狂戰士"
-        }
-      ],
       "argument": 0
     },
     {
@@ -164,19 +75,11 @@
       "method": "buildInfoLines",
       "descriptor": "(Lfr/sao/equipment/EquipmentClient$State;)Ljava/util/List;",
       "kind": "call",
-      "locale": "zh_tw",
       "section": "names",
       "member_class": "fr/sao/equipment/EquipmentPanel",
       "member": "text",
       "member_descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
-      "sites": 5,
-      "exact": {
-        "階級：": "階級:",
-        "珂爾：": "珂爾:",
-        "遊玩：": "遊玩:",
-        "等級：": "等級:",
-        "職業：": "職業:"
-      }
+      "sites": 5
     },
     {
       "id": "profile-left-cached",
@@ -185,35 +88,7 @@
       "descriptor": "(Ljava/lang/String;FFFF)V",
       "kind": "argument",
       "argument": 0,
-      "locale": "zh_tw",
-      "section": "names",
-      "operations": [
-        {
-          "op": "prefix",
-          "from": "階級： ",
-          "to": "階級: "
-        },
-        {
-          "op": "prefix",
-          "from": "珂爾： ",
-          "to": "珂爾: "
-        },
-        {
-          "op": "prefix",
-          "from": "遊玩： ",
-          "to": "遊玩: "
-        },
-        {
-          "op": "prefix",
-          "from": "等級： ",
-          "to": "等級: "
-        },
-        {
-          "op": "prefix",
-          "from": "職業： ",
-          "to": "職業: "
-        }
-      ]
+      "section": "names"
     }
   ]
 }
