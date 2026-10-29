@@ -1,0 +1,25 @@
+package fixture;
+import java.lang.reflect.*;import java.nio.file.*;import java.util.*;
+public final class NativeItemDetailsProbe {
+ static int checks;static void ok(boolean yes,String message){checks++;if(!yes)throw new AssertionError(message);}
+ static Object call(Method m,Object o,Object...a)throws Exception{m.setAccessible(true);return m.invoke(o,a);}
+ static Object engine;static Method translate;static Map<?,?>hooks;
+ static String tr(String id,String text)throws Exception{return (String)call(translate,engine,hooks.get(id),text);}
+ public static void verify()throws Exception{
+  Path p=Path.of(System.getProperty("sao.zh.coverage.fixtures"));ClassLoader loader=NativeItemDetailsProbe.class.getClassLoader();for(String n:Files.readAllLines(p.resolve("targets.txt")))Class.forName(n,false,loader).getDeclaredMethods();
+  Class<?>info=Class.forName("fr.sao.iteminfo.ItemInfoClient$Info");Constructor<?>ctor=info.getDeclaredConstructor(String.class,List.class,List.class);ctor.setAccessible(true);Object value=ctor.newInstance("Training Pavise",List.of("An old shield."),List.of("Sold by Starting Merchant (1 Cols)"));Method name=info.getDeclaredMethod("name");ok(call(name,value).equals("Training Pavise"),"Unmodified detail should begin as English");
+  Class<?>agent=Class.forName("sao.zh.boot.Agent");engine=agent.getMethod("runtime").invoke(null);Path root=(Path)agent.getMethod("root").invoke(null);Files.createDirectories(root.resolve("SAO_TW_Dynamic"));Files.copy(p.resolve("translations.json"),root.resolve("SAO_TW_Dynamic/zh_tw.json"),StandardCopyOption.REPLACE_EXISTING);call(engine.getClass().getDeclaredMethod("reloadDictionary"),engine);
+  Method apply=engine.getClass().getMethod("applySigned",byte[].class,byte[].class);call(apply,engine,Files.readAllBytes(p.resolve("native-rules.json")),Files.readAllBytes(p.resolve("native-rules.sig")));
+  Field current=engine.getClass().getDeclaredField("current");current.setAccessible(true);Object script=current.get(engine);Field byId=script.getClass().getDeclaredField("byId");byId.setAccessible(true);hooks=(Map<?,?>)byId.get(script);Class<?>hook=hooks.values().iterator().next().getClass();translate=engine.getClass().getDeclaredMethod("translate",hook,String.class);
+  ok(call(name,value).equals("訓練用大盾"),"Actual ItemInfo record name not localized");Field backing=info.getDeclaredField("name");backing.setAccessible(true);ok(backing.get(value).equals("Training Pavise"),"Server Info.name was mutated");ok(call(info.getDeclaredMethod("sources"),value).equals(List.of("Sold by Starting Merchant (1 Cols)")),"Server acquisition list was mutated");
+  ok(tr("items-economy:detail-visible-title","TRAINING PAVISE").equals("訓練用大盾"),"Cached uppercase detail title not translated");
+  for(String price:List.of("1","25","1,250","900000"))ok(tr("ui-text-layout:measured-cjk-wrap","Sold by Starting Merchant ("+price+" Cols)").equals("販售商人: 起始商人 ("+price+" 珂爾)"),"Price/template changed");
+  for(String s:List.of("Ancestral Root","Titan Bark","Magic Wood Shard","Healing Shard x2","Mana Shard x3"))ok(!tr("items-economy:item-plain",s).equals(s),"Missing reviewed item "+s);
+  ok(tr("items-economy:reward-cached-name","Healing Shard x17").equals("治療碎片 x17"),"Dynamic reward count not preserved");
+  ok(tr("items-economy:tooltip-display","Restores 40 mana").equals("恢復 40 點魔力"),"Effect text missing");ok(tr("ui-text-layout:measured-cjk-wrap","A rather rare loot from the Treant Warrior. Useful if you need to craft potions.").equals("樹人戰士掉落的稀有材料，可用於製作藥水。"),"Lore sentence missing");
+  Class<?>text=Class.forName("net.minecraft.class_2561"),mutable=Class.forName("net.minecraft.class_5250"),style=Class.forName("net.minecraft.class_2583"),dispatch=Class.forName("sao.zh.api.Dispatch",true,null),owner=Class.forName("fr.sao.itemlang.ItemLangClient");Object original=text.getMethod("method_43470",String.class).invoke(null,"Ancestral Root");Object gold=style.getMethod("method_36139",int.class).invoke(style.getField("field_24360").get(null),0xffcc22);mutable.getMethod("method_10862",style).invoke(original,gold);Object output=dispatch.getMethod("value",String.class,Object.class,Class.class).invoke(null,"items-economy:item-text",original,owner);ok(text.getMethod("getString").invoke(output).equals("遠古樹根"),"Native styled item text not translated");ok(gold.equals(text.getMethod("method_10866").invoke(output)),"Item style lost");ok(text.getMethod("getString").invoke(original).equals("Ancestral Root"),"Original styled item mutated");
+  for(String untouched:List.of("Player_One: HI","null","old"))ok(tr("items-economy:detail-visible-title",untouched).equals(untouched),"Unrelated player text altered");
+  call(apply,engine,Files.readAllBytes(p.resolve("native-remove.json")),Files.readAllBytes(p.resolve("native-remove.sig")));ok(call(name,value).equals("Training Pavise"),"Removing rules did not restore Info accessor");
+  System.out.println("NATIVE_ITEM_DETAILS_PRICE_STYLE_QUANTITY_AND_REMOVAL_PASS checks="+checks+" no_GL=true server_objects_unchanged=true");
+ }
+}

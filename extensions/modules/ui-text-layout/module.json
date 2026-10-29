@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "ui-text-layout",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "dependencies": {
     "shared-terms": "1.1.0"
   },
@@ -23,7 +23,34 @@
         "scale": "F"
       },
       "locale": "zh_tw",
-      "section": "lines"
+      "section": "lines",
+      "operations": [
+        {
+          "op": "prefix",
+          "from": "Sold by ",
+          "to": "販售商人: "
+        },
+        {
+          "op": "prefix",
+          "from": "Vendu par ",
+          "to": "販售商人: "
+        },
+        {
+          "op": "replace_literal",
+          "from": "Starting Merchant",
+          "to": "起始商人"
+        },
+        {
+          "op": "replace_literal",
+          "from": "Marchand de Départ",
+          "to": "起始商人"
+        },
+        {
+          "op": "replace_literal",
+          "from": " Cols)",
+          "to": " 珂爾)"
+        }
+      ]
     },
     {
       "id": "quest-text-cache",

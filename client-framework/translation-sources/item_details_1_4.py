@@ -1,0 +1,57 @@
+"""Reviewed display translations from the owner's captured item/UI sources.
+Proper names use project translations, not claimed official localized names.
+Do not use this table to rewrite player messages, account names or item IDs.
+"""
+NAMES={
+'Training Pavise':'訓練用大盾','Training Sword':'訓練用長劍','Training Dagger':'訓練用匕首','Training Katana':'訓練用武士刀',
+"Beginner's Boots":'初學者靴子',"Beginner's Tunic":'初學者上衣',"Beginner's Leggings":'初學者護腿',
+'Mana Shard':'魔力碎片','Healing Shard':'治療碎片','Stamina Shard':'耐力碎片','Aincrad Shard':'艾恩葛朗特碎片',
+'Ancestral Root':'遠古樹根','Magic Wood Shard':'魔木碎片','Titan Bark':'泰坦樹皮','Sylvan Bark':'森林樹皮','Wood Heart':'木之心',
+'Slime Core':'史萊姆核心','Slime Essence':'史萊姆精華','Slime Jelly':'史萊姆凝膠','Glacial Essence':'冰寒精華','Corrupted Crystal':'腐化水晶',
+'Enchanted Metal Piece':'附魔金屬片','Enchanted Twig':'附魔枝條','Spectral Cloth':'幽魂布料','Worn Leather':'磨損的皮革','Reinforced Spider Thread':'強化蜘蛛絲',
+'Boar Hide':'野豬皮','Boar Meat':'野豬肉','Mountain Stag Hide':'山地雄鹿皮','Fangs of Albal':'阿爾巴爾之牙','Farmed Wheat':'栽培小麥','Wheat Seed':'小麥種子','Allium Flower':'紫紅球花','Sylve Sprout':'森林幼芽','Sylvan Bowstring':'森林弓弦',
+'Copper Magic Staff':'銅製法杖','Magic Staff of the Revenants':'亡魂法杖','Magic Staff of the Ruins':'遺跡法杖',"Magician's Magic Staff":'魔術師法杖',"Magician's Grimoire":'魔術師魔導書',"Magician's Buckler":'魔術師小圓盾',
+'Crossbow of Ash':'灰燼弩','Iron Bow':'鐵弓','Sylvan Bow':'森林長弓','Sylvan Pavise':'森林大盾','Dagger of Albal':'阿爾巴爾匕首','Dagger of the Herald':'使者匕首',"Hunter's Dagger":'獵人匕首',"Hunter's Katana":'獵人武士刀',"Hunter's Scythe":'獵人鐮刀','Macabre Scythe':'死亡鐮刀','Skeletal Sword':'骸骨劍','Sword of the Warden':'守望者之劍','Halberd of the Warden':'守望者長戟',
+'Soul of the Herald':'使者之魂','Soul of the Warden':'守望者之魂','Seal of Sins':'罪之封印',
+'Ninja Boots':'忍者短靴','Spectral Boots':'幽魂長靴','Tactical Boots':'戰術長靴','Tactical Chestplate':'戰術胸甲','Tactical Leggings':'戰術護腿','Leggings of Ika':'伊卡護腿','Gloves of the Wolves':'群狼手套','Taurus Hat':'金牛帽','Chestplate of the Reaper':'收割者胸甲','Chestplate of the Stealth Necromancer':'潛行死靈法師胸甲',
+'Belt of the Boar':'野豬腰帶','Bracelet of the Boar':'野豬手環','Amulet of the Nepenthes':'豬籠草護符','Bracelet of the Nepenthes':'豬籠草手環','Ring of the Nepenthes':'豬籠草戒指','Gelatinous Bracelet':'凝膠手環','Slimy Ring':'黏液戒指','Ring of the Fallen':'墮落者戒指','Necklace of Aragorn':'亞拉岡項鍊',
+'Halloween Key':'萬聖節鑰匙','Box of Chocolates':'巧克力盒','Christmas Mittens':'聖誕手套','Christmas Mount':'聖誕坐騎','Mount of Love':'愛之坐騎','Rank I Mount':'I 階坐騎','Small Purse':'小錢袋','300 Cols Pouch':'300 珂爾錢袋','75 Cols Pouch':'75 珂爾錢袋','1000 Cols Pouch':'1,000 珂爾錢袋',
+'Health Potion I':'生命藥水 I','Health Potion II':'生命藥水 II','Health Potion III':'生命藥水 III','Teleportation Crystal':'傳送水晶','Twisted Hoe':'扭曲的鋤頭',
+'Meliodas Scroll':'梅里奧達斯卷軸','Scroll: Aeroglaive':'卷軸: 風刃','Scroll: Cruel Sun':'卷軸: 殘酷太陽','Scroll: Cutthroat Combo':'卷軸: 割喉連擊','Title: Sin of Pride':'稱號: 傲慢之罪','Title: Sin of Wrath':'稱號: 憤怒之罪',
+'Starting Merchant':'起始商人','Obtainable':'取得來源','Detailed Specifications':'詳細規格','Personal Island':'個人島嶼','Gigas Cedar':'基加斯西達','Vallhat':'瓦爾哈特','Aincrad':'艾恩葛朗特',
+'Crop Field':'農田','Crop:':'作物:','Seeding:':'播種:','Alchemist (coming soon)':'鍊金術師 (即將推出)','Forgeron':'鐵匠','Soon':'即將推出','Passive':'被動','Swift':'敏捷','迅捷':'敏捷','訊捷':'敏捷',
+'Acacia Boat':'相思木船','Bamboo Raft':'竹筏','Birch Boat':'樺木船','Cherry Boat':'櫻花木船','Dark Oak Boat':'黑橡木船','Jungle Boat':'叢林木船','Mangrove Boat':'紅樹林木船','Oak Boat':'橡木船','Pale Oak Boat':'蒼白橡木船','Spruce Boat':'杉木船','Arrow':'箭矢','Block of Raw Copper':'銅原礦方塊','Bone Meal':'骨粉','Book':'書','Bread':'麵包','Campfire':'營火','Cartography Table':'製圖台','Chest':'儲物箱','Cooked Salmon':'烤鮭魚','Copper Ingot':'銅錠','Crafting Table':'工作台','Hay Bale':'乾草捆','Iron Nugget':'鐵粒','Ladder':'梯子','Magenta Dye':'洋紅色染料','Suspicious Stew':'可疑的燉湯','Wooden Axe':'木斧','Wooden Hoe':'木鋤','Wooden Pickaxe':'木鎬','Wooden Shovel':'木鏟','Wooden Sword':'木劍'
+}
+LINES={
+'Sold by Starting Merchant (1 Cols)':'販售商人: 起始商人 (1 珂爾)',
+'A rather rare loot from the Treant Warrior. Useful if you need to craft potions.':'樹人戰士掉落的稀有材料，可用於製作藥水。',
+'A rather rare loot from the':'相當稀有的掉落物，來自','Treant Warrior. Useful':'樹人戰士。有助於','if you need to':'在需要時','craft potions.':'製作藥水。',
+'A fragment of an ancient':'來自遠古','Treant. Even detached from':'樹人的碎片。即使脫離','it, it still retains':'本體，仍保留著','magic inside.':'內部的魔力。',
+'A very hard resource':'極其堅硬的材料，','almost unbreakable; the':'幾乎無法破壞，','Warriors will be able to':'戰士可以用它來','protect themselves with it.':'保護自己。',
+'A piece of damaged leather':'一塊破損的皮革。','Usable for basic':'可用於基本的','tanning.':'製革。',
+'A small cloth pouch,':'一個小布袋，','perfect for slipping in':'適合放入','coins':'錢幣。','A common seed':'一顆普通的種子，','that lets you grow':'可以種出','wheat':'小麥。',
+'A small sprout in a bowl,':'碗中的一株小幼芽，','for herbs and plants.':'用於草藥與植物。',
+'A viscous essence':'黏稠的精華，','coming from a gelatinous':'來自膠狀的','mix of fluids':'混合液體。',
+'A small and pretty sticky':'一小塊相當黏稠的','jelly that clings to your':'凝膠，會黏在你的','hands for a long time.':'手上很長一段時間。',
+'A core steeped in the':'一顆浸透了','magic of slimes.':'史萊姆魔力的核心。',
+'A heart steeped in magic;':'一顆蘊含魔力的核心；','if you use it':'若你','carefully, a very':'謹慎運用，便能製成','formidable weapon can be created.':'極其強大的武器。',
+'A material of nature,':'一種天然材料，','very useful in the':'非常適合用於','crafting of health potions.':'製作生命藥水。',
+'A beautiful purple flower widely':'一朵美麗的紫色花朵，廣泛','used by many':'被許多','alchemists for':'鍊金術師用於','potions':'藥水。',
+'Long and taut, this':'這條長而繃緊的','sturdy string is ideal':'堅韌弦線，適合','for crafting a':'製作一把','new bow.':'新弓。',
+'A cloth steeped in black magic':'浸透黑魔法的布料，','and curses.':'並帶有詛咒。',
+'A twig from the Sylvan':'來自森林的枝條，','Used in the crafting':'可用於製作','of magical accessories.':'魔法飾品。',
+'This fine boar meat,':'這塊上好的野豬肉，','nice and juicy,':'鮮美多汁，','might make you want to':'可能會讓你想要','eat even more!':'吃得更多！',
+'A solid wooden shield,':'一面堅固的木盾，','A rudimentary tool':'一件簡陋的工具，','used mainly':'主要用於','tools and equipment.':'工具與裝備。','armor.':'護甲。',
+'A soul is contained':'有一個靈魂封存','within this object. It can':'於這件物品之中。可以','be obtained by killing its':'透過擊殺它的','owner or by':'主人，或是','crafting it at the blacksmith.':'在鐵匠處製作取得。',
+'Traces of corruption':'腐化的痕跡','emanate from this object':'從這件物品中散發而出。',
+'A twisted key, stolen from the King':'從國王身上偷來的扭曲鑰匙，','of the Reapkins.':'屬於 Reapkin 一族。','open a Reapkin Riot Crate':'開啟 Reapkin Riot 寶箱','and win a Halloween candy.':'並獲得一顆萬聖節糖果。',
+'Right click to read it':'右鍵點擊閱讀','Right-click to open the':'右鍵點擊以開啟','floor map and travel':'樓層地圖，並傳送','to a discovered location.':'至已發現的地點。','Right-click on Floor 1 to':'在第 1 層按右鍵，','to travel through':'即可穿梭於','Aincrad.':'艾恩葛朗特。','Right-click each remaining block with the seed':'手持種子，對每個剩餘方塊按右鍵',
+'A skill that cannot be learned by':'這項技能無法透過','levelling up: reading this scroll':'升級學會；閱讀這張卷軸','teaches it to you for good.':'即可永久習得。',
+'This dagger was forged for':'這把匕首是為','the heralds, elite assassins':'使者──精銳刺客──所鍛造，','of lesser creatures':'低等生物的','very fast, but useful':'速度極快，但十分實用。','for light and fast':'適合輕巧而迅速的','Forged to become a hunter':'為成為獵人而鍛造','capable of facing the forgotten':'能夠面對被遺忘的','Mage; this stick can':'法師；這根杖可以','be used as a base':'作為基底，','for a magic weapon.':'製作魔法武器。',
+'The archer stands still, charges, then hurls':'弓箭手站定蓄力，接著擲出','a blade of air that pierces the line.':'一道貫穿前方的風刃。',
+'Potions, elixirs and transmutations.':'藥水、靈藥與鍊金轉化。','Works metal: ingots, weapons,':'加工金屬: 金屬錠、武器、','A new World Boss':'全新的世界首領','is coming soon.':'即將登場。',
+'15s of cooldown on':'冷卻時間 15 秒，適用於','30min of cooldown on':'冷卻時間 30 分鐘，適用於','all healing potions':'所有治療藥水','all restorative crystals':'所有恢復水晶','3 uses - cooldown of 3min':'可使用 3 次 - 冷卻時間 3 分鐘','Single use - cooldown of 1min':'使用一次 - 冷卻時間 1 分鐘','Restores your HP':'恢復生命','Restores your mana':'恢復魔力','by 15% - 5min !':'提高 15% - 持續 5 分鐘！','by 20% - 10min !':'提高 20% - 持續 10 分鐘！','by 25% - 10min !':'提高 25% - 持續 10 分鐘！',
+'Stay out of combat for 3 seconds':'脫離戰鬥 3 秒','Your next attack and all those that follow during':'你的下一次攻擊，以及隨後','a few seconds, will deal 50 percent bonus damage.':'數秒內的所有攻擊，會額外造成 50% 傷害。','Your next attack and all those that follow during a few seconds, will deal 50 percent bonus damage.':'你的下一次攻擊，以及隨後數秒內的所有攻擊，會額外造成 50% 傷害。','Passive':'被動',
+'Dash, slashing your enemies along the way':'向前衝刺，斬擊沿途的敵人。','Step back and throw 3 shurikens in a small arc The shurikens':'後撤並沿小幅弧線擲出 3 枚手裡劍。手裡劍','return to you, piercing all enemies in their path':'會飛回你身邊，貫穿沿途所有敵人。',
+'A wild beast from the forests of the first floor.':'來自第 1 層森林的野獸。','A wild beast from the forests of the First Floor.':'來自第 1 層森林的野獸。','She charges relentlessly, driven by primal rage.':'牠受原始怒火驅使，不斷發起衝撞。','Bandits are preying on the convoys of Vallhat. Milo asks for fifteen of them put down to reopen the road.':'盜匪正在襲擊瓦爾哈特的商隊。米洛要求擊倒其中十五人，讓道路重新開通。','A voice welcomes you into the void, at the foot of an immense Aincrad.':'在巨大艾恩葛朗特的腳下，一道聲音歡迎你來到這片虛空。','Kill Bandit Archer (road bandits)':'擊倒盜匪弓箭手 (路上盜匪)'
+}

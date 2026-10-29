@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "bundle_version": "1.3.1",
-  "bundle_sequence": 104,
+  "bundle_version": "1.4.0",
+  "bundle_sequence": 105,
   "runtime_api": 1,
   "minimum_runtime_version": "1.1.0",
   "rule_schema": 2,
@@ -55,17 +55,18 @@
     },
     {
       "id": "items-economy",
-      "version": "1.1.1",
-      "source_sha256": "372158ba3e430a2da5abee1c90084f20d3bb5202fb1f4e90e7c7f18e5f4f9f12",
+      "version": "1.3.0",
+      "source_sha256": "5ee5d8913531ff9961e92f2a9811199f16ac65d35817de97384c02dee056a2be",
       "dependencies": {
         "shared-terms": "1.0.0"
       },
-      "hook_count": 13,
+      "hook_count": 17,
       "coverage": [
         "背包物品名稱／原生物品翻譯",
         "登入獎勵描述、裝備屬性、跨服物品清單",
         "拍賣商品若使用 ItemLangClient 會共享此模組；排版未在此輪處理",
-        "大廳選樓層物品名稱與分色提示，既有物品顯示入口不需更換核心"
+        "大廳選樓層物品名稱與分色提示，既有物品顯示入口不需更換核心",
+        "詳細規格物品名稱與來源；取得來源在共用分行前翻譯，價格保留。"
       ]
     },
     {
@@ -106,8 +107,8 @@
     },
     {
       "id": "ui-text-layout",
-      "version": "1.1.0",
-      "source_sha256": "70dcbab9929e51a318db9ec8b10dbb073920010ec82b44f0b643ebda7e7978b6",
+      "version": "1.2.0",
+      "source_sha256": "f0b3111bfb3449290a26ed82c164aa27edbb9ab88069266a7f4ec558e1e0f619",
       "dependencies": {
         "shared-terms": "1.1.0"
       },
