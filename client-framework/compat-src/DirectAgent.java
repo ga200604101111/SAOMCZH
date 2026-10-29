@@ -80,6 +80,13 @@ public final class DirectAgent {
                 Class<?> runtime = Class.forName("sao.zh.compat16.RuntimeBridge", true, null);
                 runtime.getMethod("configure", Path.class).invoke(null, logDirectory);
                 inst.addTransformer(features, false);
+                try {
+                    Class<?> policy=Class.forName("sao.zh.compat16.FontColorPolicy",true,null);
+                    Object count=policy.getMethod("configure",Path.class,Path.class,Path.class).invoke(null,pack,support,game.resolve("resourcepacks/sao"));
+                    inst.addTransformer(new FontColorTransformer(),false);
+                    log("FONT_COLOR_POLICY_READY preserved_bitmap_han="+count);
+                } catch(Exception|LinkageError fontFailure) { log("FONT_COLOR_POLICY_KEEP_NATIVE "+fontFailure.getClass().getSimpleName()); }
+
                 Class<?> earlySplash = Class.forName("sao.zh.compat16.SplashBridge", true, null);
                 if(Boolean.TRUE.equals(earlySplash.getMethod("available").invoke(null))){
                     inst.addTransformer(splash, false);

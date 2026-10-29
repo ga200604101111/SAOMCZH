@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "items-economy",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "name": "物品與經濟",
   "enabled": true,
   "dependencies": {
@@ -10,7 +10,8 @@
   "coverage": [
     "背包物品名稱／原生物品翻譯",
     "登入獎勵描述、裝備屬性、跨服物品清單",
-    "拍賣商品若使用 ItemLangClient 會共享此模組；排版未在此輪處理"
+    "拍賣商品若使用 ItemLangClient 會共享此模組；排版未在此輪處理",
+    "大廳選樓層物品名稱與分色提示，既有物品顯示入口不需更換核心"
   ],
   "dictionary": {},
   "hooks": [

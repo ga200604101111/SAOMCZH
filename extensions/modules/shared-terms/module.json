@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "shared-terms",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "name": "共用術語",
   "enabled": true,
   "dependencies": {},
@@ -327,7 +327,9 @@
       "60s": "60 秒",
       " 60s": " 60 秒",
       "60s ": "60 秒 ",
-      " 60s ": " 60 秒 "
+      " 60s ": " 60 秒 ",
+      "Aincrad": "艾恩葛朗特",
+      "AINCRAD": "艾恩葛朗特"
     },
     "items": {
       "Training Sword": "訓練用長劍",
@@ -841,7 +843,14 @@
       "Step back and throw 3 shurikens in a small arc. The shurikens return to you, piercing all enemies in their path": "後撤並沿小幅弧線擲出 3 枚手裡劍。手裡劍會飛回你身邊，貫穿沿途所有敵人。",
       " Step back and throw 3 shurikens in a small arc. The shurikens return to you, piercing all enemies in their path": " 後撤並沿小幅弧線擲出 3 枚手裡劍。手裡劍會飛回你身邊，貫穿沿途所有敵人。",
       "Step back and throw 3 shurikens in a small arc. The shurikens return to you, piercing all enemies in their path ": "後撤並沿小幅弧線擲出 3 枚手裡劍。手裡劍會飛回你身邊，貫穿沿途所有敵人。 ",
-      " Step back and throw 3 shurikens in a small arc. The shurikens return to you, piercing all enemies in their path ": " 後撤並沿小幅弧線擲出 3 枚手裡劍。手裡劍會飛回你身邊，貫穿沿途所有敵人。 "
+      " Step back and throw 3 shurikens in a small arc. The shurikens return to you, piercing all enemies in their path ": " 後撤並沿小幅弧線擲出 3 枚手裡劍。手裡劍會飛回你身邊，貫穿沿途所有敵人。 ",
+      "Aincrad": "艾恩葛朗特",
+      "AINCRAD": "艾恩葛朗特",
+      "Click to pick your floor": "點擊選擇要前往的樓層",
+      "Click to pick your ": "點擊選擇要前往的",
+      "Click to pick your": "點擊選擇要前往的",
+      "floor": "樓層",
+      " floor": "樓層"
     },
     "lines": {
       "Two-Handed Weapon": "雙手武器",
@@ -1451,7 +1460,10 @@
       "Step back and throw 3 shurikens in a small arc. The shurikens return to you, piercing all enemies in their path": "後撤並沿小幅弧線擲出 3 枚手裡劍。手裡劍會飛回你身邊，貫穿沿途所有敵人。",
       " Step back and throw 3 shurikens in a small arc. The shurikens return to you, piercing all enemies in their path": " 後撤並沿小幅弧線擲出 3 枚手裡劍。手裡劍會飛回你身邊，貫穿沿途所有敵人。",
       "Step back and throw 3 shurikens in a small arc. The shurikens return to you, piercing all enemies in their path ": "後撤並沿小幅弧線擲出 3 枚手裡劍。手裡劍會飛回你身邊，貫穿沿途所有敵人。 ",
-      " Step back and throw 3 shurikens in a small arc. The shurikens return to you, piercing all enemies in their path ": " 後撤並沿小幅弧線擲出 3 枚手裡劍。手裡劍會飛回你身邊，貫穿沿途所有敵人。 "
+      " Step back and throw 3 shurikens in a small arc. The shurikens return to you, piercing all enemies in their path ": " 後撤並沿小幅弧線擲出 3 枚手裡劍。手裡劍會飛回你身邊，貫穿沿途所有敵人。 ",
+      "Aincrad": "艾恩葛朗特",
+      "AINCRAD": "艾恩葛朗特",
+      "Click to pick your floor": "點擊選擇要前往的樓層"
     }
   },
   "hooks": []

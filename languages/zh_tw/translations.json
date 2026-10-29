@@ -542,7 +542,9 @@
     "60s": "60 秒",
     " 60s": " 60 秒",
     "60s ": "60 秒 ",
-    " 60s ": " 60 秒 "
+    " 60s ": " 60 秒 ",
+    "Aincrad": "艾恩葛朗特",
+    "AINCRAD": "艾恩葛朗特"
   },
   "messages": {
     "chain a dash onto the marked target.": "即可接續突進至被標記的目標。",
@@ -1341,7 +1343,10 @@
     "Step back and throw 3 shurikens in a small arc. The shurikens return to you, piercing all enemies in their path": "後撤並沿小幅弧線擲出 3 枚手裡劍。手裡劍會飛回你身邊，貫穿沿途所有敵人。",
     " Step back and throw 3 shurikens in a small arc. The shurikens return to you, piercing all enemies in their path": " 後撤並沿小幅弧線擲出 3 枚手裡劍。手裡劍會飛回你身邊，貫穿沿途所有敵人。",
     "Step back and throw 3 shurikens in a small arc. The shurikens return to you, piercing all enemies in their path ": "後撤並沿小幅弧線擲出 3 枚手裡劍。手裡劍會飛回你身邊，貫穿沿途所有敵人。 ",
-    " Step back and throw 3 shurikens in a small arc. The shurikens return to you, piercing all enemies in their path ": " 後撤並沿小幅弧線擲出 3 枚手裡劍。手裡劍會飛回你身邊，貫穿沿途所有敵人。 "
+    " Step back and throw 3 shurikens in a small arc. The shurikens return to you, piercing all enemies in their path ": " 後撤並沿小幅弧線擲出 3 枚手裡劍。手裡劍會飛回你身邊，貫穿沿途所有敵人。 ",
+    "Aincrad": "艾恩葛朗特",
+    "AINCRAD": "艾恩葛朗特",
+    "Click to pick your floor": "點擊選擇要前往的樓層"
   },
   "items": {
     "Stamina Shard": "耐力碎片",
@@ -1949,6 +1954,13 @@
     "௜ Minimum Level: 7": "௜ 最低等級： 7",
     "ᎈ Attack Damage : 13": "ᎈ 攻擊傷害 : 13",
     "௜ Minimum Level: 9": "௜ 最低等級： 9",
-    "ᎈ Attack Damage : 17": "ᎈ 攻擊傷害 : 17"
+    "ᎈ Attack Damage : 17": "ᎈ 攻擊傷害 : 17",
+    "Aincrad": "艾恩葛朗特",
+    "AINCRAD": "艾恩葛朗特",
+    "Click to pick your floor": "點擊選擇要前往的樓層",
+    "Click to pick your ": "點擊選擇要前往的",
+    "Click to pick your": "點擊選擇要前往的",
+    "floor": "樓層",
+    " floor": "樓層"
   }
 }

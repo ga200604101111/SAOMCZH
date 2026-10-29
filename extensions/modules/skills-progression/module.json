@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "skills-progression",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "name": "技能與成長",
   "enabled": true,
   "dependencies": {
@@ -157,6 +157,63 @@
         }
       ],
       "argument": 0
+    },
+    {
+      "id": "profile-left-label",
+      "class": "fr/sao/equipment/EquipmentPanel",
+      "method": "buildInfoLines",
+      "descriptor": "(Lfr/sao/equipment/EquipmentClient$State;)Ljava/util/List;",
+      "kind": "call",
+      "locale": "zh_tw",
+      "section": "names",
+      "member_class": "fr/sao/equipment/EquipmentPanel",
+      "member": "text",
+      "member_descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "sites": 5,
+      "exact": {
+        "階級：": "階級:",
+        "珂爾：": "珂爾:",
+        "遊玩：": "遊玩:",
+        "等級：": "等級:",
+        "職業：": "職業:"
+      }
+    },
+    {
+      "id": "profile-left-cached",
+      "class": "fr/sao/equipment/EquipmentPanel",
+      "method": "unfold",
+      "descriptor": "(Ljava/lang/String;FFFF)V",
+      "kind": "argument",
+      "argument": 0,
+      "locale": "zh_tw",
+      "section": "names",
+      "operations": [
+        {
+          "op": "prefix",
+          "from": "階級： ",
+          "to": "階級: "
+        },
+        {
+          "op": "prefix",
+          "from": "珂爾： ",
+          "to": "珂爾: "
+        },
+        {
+          "op": "prefix",
+          "from": "遊玩： ",
+          "to": "遊玩: "
+        },
+        {
+          "op": "prefix",
+          "from": "等級： ",
+          "to": "等級: "
+        },
+        {
+          "op": "prefix",
+          "from": "職業： ",
+          "to": "職業: "
+        }
+      ]
     }
   ]
 }

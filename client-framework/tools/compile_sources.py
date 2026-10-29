@@ -32,13 +32,13 @@ def main():
    if n.startswith('org/objectweb/asm/') and n.endswith('.class'):engine[n]=z.read(n)
  engine['META-INF/ASM-LICENSE.txt']=(root/'licenses/ASM-BSD-3-Clause.txt').read_bytes();jar(out/'SAO_ZH_Runtime_1.1.0.jar',engine)
  cc={f.relative_to(compat).as_posix():f.read_bytes() for f in compat.rglob('*.class')}
- prefixes=tuple('sao/zh/compat16/'+v for v in ['SplashBridge','SplashAssets','PackLifecycleManager','GitHubTranslationClient','CjkLayout','PackBridge','RuntimeBridge','MiniJson'])
+ prefixes=tuple('sao/zh/compat16/'+v for v in ['SplashBridge','SplashAssets','PackLifecycleManager','GitHubTranslationClient','CjkLayout','PackBridge','RuntimeBridge','MiniJson','FontColorPolicy'])
  buf=io.BytesIO()
  with zipfile.ZipFile(buf,'w',zipfile.ZIP_DEFLATED) as z:
   for n,b in cc.items():
    if n.startswith(prefixes):z.writestr(n,b)
  entries={n:b for n,b in cc.items() if not n.startswith(prefixes)};entries['embedded/SAO_ZH_compat16_bridge.jar']=buf.getvalue();entries['META-INF/Noto-OFL-1.1.txt']=(root/'licenses/Noto-OFL-1.1.txt').read_bytes()
- jar(out/'SAO_ZH_Compatibility_1.0.0.jar',entries)
+ jar(out/'SAO_ZH_Compatibility_1.0.1.jar',entries)
  print('SOURCE_COMPILE_UNSIGNED_PASS',out)
  print('Official bootstrap only trusts signed official modules. Modified builds need an independent trust key and signed descriptors; do not overwrite published releases.')
 if __name__=='__main__':main()
