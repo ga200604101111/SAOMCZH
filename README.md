@@ -1,3 +1,14 @@
+## Current client framework — V16 public test build
+
+The small fixed Agent now loads a separately signed runtime and SAO compatibility extension. Signed bounded hook rules can add interception for already-loaded String/Text methods and refresh display projections without replacing the Agent or closing the game. Rollback, local refresh controls and input/scroll preservation tests are included.
+
+Source and installation details: [client-framework](client-framework/README.md). Signed update index: [extensions/v1](extensions/v1).
+Latest resource pack: [SAOMCZHPACK v1.0.5](https://github.com/ga200604101111/SAOMCZHPACK/releases/tag/v1.0.5), now publicly downloadable (testing release).
+
+Important: new declarative hooks are hot-updateable; runtime/legacy compatibility binaries are auto-downloaded for the next start. This is not a claim that every original SAO GUI or all missing vocabulary has already been translated. No real Minecraft graphical play-session test has yet been performed for V16.
+
+---
+
 # SAOMCTW — Community SAO Localization
 A proposed community-maintained translation table for the Minecraft SAO client integration. Community-maintained translation data and a GitHub cache updater for the local SAO Minecraft translation extension. Repository: https://github.com/ga200604101111/SAOMCZH. Third-party materials require their own redistribution permissions.
 

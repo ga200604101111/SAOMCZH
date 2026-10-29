@@ -1,0 +1,1 @@
+package fixture; public class WatchRestart { public static void main(String[] a)throws Exception {LiveContract.Screen s=new LiveContract.Screen();Thread.sleep(5500);if(!"任務標題".equals(s.title()))throw new AssertionError("Acknowledged candidate/control replayed after restart: "+s.title());System.out.println("WATCH_COMMANDS_NOT_REPLAYED_AFTER_RESTART_PASS");}}

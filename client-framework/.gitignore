@@ -1,0 +1,14 @@
+build/
+dist/
+artifacts/
+fixtures/
+test-classes/
+publication/
+*.log
+*.pk8
+*.pem
+*.key
+*console.txt
+*output.txt
+baseline.json
+*.private.json

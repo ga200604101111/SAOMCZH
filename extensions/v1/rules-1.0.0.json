@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "version": "1.0.0",
+  "sequence": 100,
+  "expires": 1824790672,
+  "hooks": [
+    {
+      "id": "sao.item.known",
+      "class": "fr/sao/itemlang/ItemLangClient",
+      "method": "knownPlain",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "items",
+      "exact": {}
+    },
+    {
+      "id": "sao.reward.description",
+      "class": "fr/sao/daily/DailyModel$Reward",
+      "method": "desc",
+      "descriptor": "()Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "lines",
+      "exact": {}
+    },
+    {
+      "id": "sao.stat.label",
+      "class": "fr/sao/equipment/EquipmentClient$Stat",
+      "method": "name",
+      "descriptor": "()Ljava/lang/String;",
+      "kind": "return",
+      "locale": "zh_tw",
+      "section": "names",
+      "exact": {}
+    }
+  ]
+}
