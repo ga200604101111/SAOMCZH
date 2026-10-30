@@ -25,6 +25,7 @@ final class SemanticText {
    Matcher first=LEVEL_START.matcher(s);if(first.matches())return first.group(2).strip();
   }
   if(compass(h)){Matcher distance=DISTANCE.matcher(s);if(distance.matches())return distance.group(1).strip();}
+  if(ItemPresentation.title(h))return ItemPresentation.canonical(raw);
   if(item(h)){
    Matcher first=COUNT_START.matcher(s);if(first.matches())return first.group(2).strip();
    Matcher tail=COUNT_END.matcher(s);if(tail.matches())return tail.group(1).strip();
@@ -92,9 +93,7 @@ final class SemanticText {
  }
  private static String lookup(Script.Hook h,String name,Map<String,Map<String,String>>data){
   if(name.isEmpty())return null;
-  List<String>sections=system(h)?List.of("messages"):(world(h)||compass(h))?List.of(h.section,"names","lines"):item(h)?List.of("items","names","lines"):List.of("names");
-  for(String section:sections){String found=data.getOrDefault(section,Map.of()).get(name);if(found!=null&&found.length()<=16384)return found;}
-  return null;
+  return SharedDictionary.lookup(h,name,data);
  }
  private static final class Visible {
   final String raw,plain;final int[]start,end;

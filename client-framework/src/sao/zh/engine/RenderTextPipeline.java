@@ -24,20 +24,14 @@ final class RenderTextPipeline {
  }
  static String resolve(Script.Hook hook,String raw,Map<String,Map<String,String>> dictionaries){
   if(raw==null||raw.length()>8192||!SemanticText.permitted(hook,raw))return raw;
+  if(ItemPresentation.title(hook))return ItemPresentation.title(hook,raw,dictionaries);
+  String stat=ItemPresentation.stats(hook,raw);if(!raw.equals(stat))return stat;
   // Already-authorized full-line numeric formats only, before fragment replacement.
   if(hook.id.startsWith("combat-feedback:")){
    String dynamic=combat(raw);if(dynamic!=null)return dynamic;
   }
   String mapped=hook.literal(raw);if(!raw.equals(mapped))return mapped;
-  Map<String,String> section=dictionaries.get(hook.section);
-  String next=section==null?null:section.get(raw);
-  if(next==null&&hook.section.equals("items")){
-   for(String name:new String[]{"names","lines"}){
-    Map<String,String> fallback=dictionaries.get(name);
-    next=fallback==null?null:fallback.get(raw);
-    if(next!=null)break;
-   }
-  }
+  String next=SharedDictionary.lookup(hook,raw,dictionaries);
   return next==null||next.length()>16384?SemanticText.resolve(hook,raw,dictionaries):next;
  }
  private static String combat(String raw){

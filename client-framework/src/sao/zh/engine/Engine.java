@@ -94,6 +94,13 @@ public final class Engine {
   long generation=epoch.get();boolean cacheable=raw.length()<=256;
   TranslationMemo memo=cacheable?translationMemo.get():null;
   if(cacheable){String hit=memo.get(h,raw,generation);if(hit!=null)return hit;}
+  boolean titleUnknown=false,needsCapture=false;
+  if(ItemPresentation.title(h)){
+   String name=ItemPresentation.canonical(LiteralGlyphBridge.readable(raw));
+   titleUnknown=SharedDictionary.lookup(h,name,dictionary)==null&&!h.exact.containsKey(name);
+   needsCapture=titleUnknown&&!h.capture.isEmpty()&&UnknownCollector.safe(name,h.capture);
+   if(needsCapture)unknownCollector.offer(h.capture,h.section,h.id,name);
+  }
   String result=RenderTextPipeline.resolve(h,raw,dictionary);
   if(result.equals(raw)){
    String plain=LiteralGlyphBridge.readable(raw);
@@ -104,13 +111,13 @@ public final class Engine {
   }
   if(!result.equals(raw)){
    result=LiteralGlyphBridge.encode(raw,result);
-   if(SemanticText.enabled(h))once("semantic-"+h.id,"SEMANTIC_TEXT_TRANSLATED hook="+h.id);
+   if(SemanticText.enabled(h)&&!titleUnknown)once("semantic-"+h.id,"SEMANTIC_TEXT_TRANSLATED hook="+h.id);
    // Confirm the world-text path without ever logging server text or player data.
    if(h.id.equals("worlds-locations:text-display-before-native-wrap")
        ||h.id.equals("worlds-locations:saojob-hologram-preformat")
        ||h.id.equals("worlds-locations:saojob-hologram-styled-text"))
     once("world-text-success-"+h.id,"WORLD_TEXT_TRANSLATED hook="+h.id);
-   if(cacheable)memo.put(h,raw,result,generation);return result;
+   if(cacheable&&!needsCapture)memo.put(h,raw,result,generation);return result;
   }
   if(!h.capture.isEmpty())unknownCollector.offer(h.capture,h.section,h.id,SemanticText.captureKey(h,raw));
   // Capture-enabled misses must remain retryable when the asynchronous queue is full.

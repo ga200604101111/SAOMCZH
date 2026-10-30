@@ -26,6 +26,8 @@ class HalfwidthColons(unittest.TestCase):
   # Preserve every original matcher exactly; only exclude this explicitly reviewed addition batch.
   added={'names':{'Mini Treant','Treant','Local Lumberjack','Oak Stump','OAK STUMP','Marécage Putride'},
          'messages':{'Calme Mortel activé !','Calme Mortel déclenché !','Calme Mortel épuisé !','Calme Mortel prêt !','You are at the spawn.'}}
+  reviewed=json.loads((ROOT/'client-framework/tests/reference/items-batch-20261030.json').read_text('utf8'))
+  added['items']=set(reviewed['entries'])
   for section,keys in added.items():self.assertTrue(keys<=set(data[section]),'Reviewed semantic names missing')
   digest=hashlib.sha256(json.dumps({s:sorted(set(data[s])-added.get(s,set())) for s in ('names','items','lines','messages')},ensure_ascii=False,sort_keys=True,separators=(',',':')).encode('utf8')).hexdigest()
   self.assertEqual(digest,'bce31ca40d8c8d7a9248b6d542871154fc7bc62dd65329546783d578d3970dbd','Original matching keys changed')
