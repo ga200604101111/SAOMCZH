@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "items-economy",
-  "version": "1.8.1",
+  "version": "1.9.0",
   "name": "物品與經濟",
   "enabled": true,
   "dependencies": {
@@ -15,7 +15,8 @@
     "詳細規格物品名稱與來源；取得來源在共用分行前翻譯，價格保留。",
     "Direct domain text display entries discovered by javap from SAOUI 2.41.2; exact dictionary translation only.",
     "Opt-in local untranslated-text observation: item domain; bounded asynchronous writer, no chat, no automatic upload; requires external Runtime1.2.",
-    "Known item-name UI slots omit terminal/prefix stack counts; native quantity widgets and numeric lore remain unchanged. Shared exact dictionary fallback rejects conflicting alternatives."
+    "Known item-name UI slots omit terminal/prefix stack counts; native quantity widgets and numeric lore remain unchanged. Shared exact dictionary fallback rejects conflicting alternatives.",
+    "Reviewed multi-row description paragraphs before native wrap; unknown hard breaks, blanks, stats, style boundaries and actions are preserved."
   ],
   "hooks": [
     {
@@ -192,6 +193,15 @@
       "descriptor": "(Lfr/sao/daily/DailyModel$Reward;)Ljava/lang/String;",
       "kind": "return",
       "section": "lines",
+      "capture": "item"
+    },
+    {
+      "id": "tooltip-description-paragraphs",
+      "class": "fr/sao/tooltip/TipModel",
+      "method": "description",
+      "descriptor": "()Ljava/util/List;",
+      "kind": "description_list",
+      "section": "items",
       "capture": "item"
     }
   ]

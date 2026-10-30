@@ -62,7 +62,9 @@ def checked_hook(h:Any,module_id:str,terms:dict[str,dict[str,str]])->dict[str,An
  desc=h.get('descriptor')
  if not isinstance(desc,str) or len(desc)>1024 or not desc.startswith('(') or ')' not in desc:raise ModuleError('Invalid method descriptor')
  kind=h.get('kind')
- if kind not in ('return','argument','field','call','wrap','refresh','armorstand_nameplate','mob_name','system_text'):raise ModuleError('Unsupported hook kind')
+ if kind not in ('return','argument','field','call','wrap','refresh','armorstand_nameplate','mob_name','system_text','description_list'):raise ModuleError('Unsupported hook kind')
+ if kind=='description_list':
+  if (module_id,id,h['class'],h['method'],desc,h.get('section'))!=('items-economy','tooltip-description-paragraphs','fr/sao/tooltip/TipModel','description','()Ljava/util/List;','items') or h.get('capture') not in (None,'item'):raise ModuleError('Only the approved description list is supported')
  if kind in ('mob_name','system_text'):
   expected={'mob_name':('codex-creatures','mob-shown-name','fr/sao/saoui/mob/MobBarRenderer','shownName','(Lfr/sao/saoui/mob/MobBarEntry;)Ljava/lang/String;','names'),
             'system_text':('dynamic-translation','game-system-display','net/minecraft/class_7594','method_44736','(Lnet/minecraft/class_2561;Z)V','messages')}[kind]
@@ -117,7 +119,7 @@ def checked_hook(h:Any,module_id:str,terms:dict[str,dict[str,str]])->dict[str,An
   }
   if not isinstance(capture,str) or capture not in families:raise ModuleError('Unknown capture origin')
   module,owners=families[capture]
-  if module_id!=module or (kind not in ('return','argument','call','field') and not (capture=='mob' and kind=='mob_name')) or not any(h['class'].startswith(o) for o in owners):
+  if module_id!=module or (kind not in ('return','argument','call','field') and not (capture=='mob' and kind=='mob_name') and not (capture=='item' and kind=='description_list')) or not any(h['class'].startswith(o) for o in owners):
    raise ModuleError('Capture target not allowlisted for its domain')
  mapped=dict(terms.get(section,{}));mapped.update(entries(h.get('exact',{})));h['exact']=dict(sorted(mapped.items()))
  ops=h.get('operations',[])

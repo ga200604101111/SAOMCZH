@@ -5107,7 +5107,10 @@
     "The brigands got the better of you. Come back to the hideout to try the ambush again.": "盜匪擊敗了你。返回藏身處，再次嘗試伏擊。",
     "Jump and Run (Easy)": "跳躍跑酷（簡單）",
     "(Respect if you finish it)": "（成功通關者值得敬佩）",
-    "Jump and Run (Easy)\n(Respect if you finish it)": "跳躍跑酷（簡單）\n（成功通關者值得敬佩）"
+    "Jump and Run (Easy)\n(Respect if you finish it)": "跳躍跑酷（簡單）\n（成功通關者值得敬佩）",
+    "Impossible Jump and Run": "不可能的跳躍跑酷",
+    "Respect if you finish it": "成功通關者值得敬佩",
+    "Impossible Jump and Run\nRespect if you finish it": "不可能的跳躍跑酷\n成功通關者值得敬佩"
   },
   "items": {
     "Stamina Shard": "耐力碎片",
@@ -8766,6 +8769,8 @@
     "Iron Axe": "鐵斧",
     "Oak Bark": "橡木樹皮",
     "Young Oak Stick": "幼橡木枝",
-    "Anthracite": "無煙煤"
+    "Anthracite": "無煙煤",
+    "A material of nature,\nused mainly\nfor light and fast\narmor.": "一種天然材料，主要用於製作輕巧靈活的護甲。",
+    "Matériau de la nature,\nutilisé principalement\npour des armures légères\net rapides.": "一種天然材料，主要用於製作輕巧靈活的護甲。"
   }
 }

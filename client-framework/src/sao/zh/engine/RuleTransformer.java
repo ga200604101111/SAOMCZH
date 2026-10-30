@@ -15,6 +15,9 @@ final class RuleTransformer implements ClassFileTransformer {
    public MethodVisitor visitMethod(int a,String n,String d,String sig,String[]e){methodFlags.put(n+d,a);return null;}
   },ClassReader.SKIP_CODE|ClassReader.SKIP_DEBUG|ClassReader.SKIP_FRAMES);
   for(Script.Hook h:hooks){
+   if(h.kind.equals("description_list")){
+    Integer flags=methodFlags.get(h.method+h.descriptor);if(flags==null||(flags&Opcodes.ACC_STATIC)!=0)throw new IllegalArgumentException("Description accessor must be an instance method");
+   }
    if(h.kind.equals("refresh")||h.kind.equals("wrap")){
     Integer flags=methodFlags.get(h.method+h.descriptor);if(flags==null||(flags&Opcodes.ACC_STATIC)!=0)throw new IllegalArgumentException("Layout target must be an instance method");
     for(Map.Entry<String,String>e:h.contextFields.entrySet())if(!e.getValue().equals(fields.get(e.getKey()))||(fieldFlags.get(e.getKey())&Opcodes.ACC_STATIC)!=0)throw new IllegalArgumentException("Context field mismatch "+e.getKey());
@@ -31,6 +34,9 @@ final class RuleTransformer implements ClassFileTransformer {
     return new MethodVisitor(Opcodes.ASM9,original){
      void dispatch(Script.Hook h,String valueDescriptor){
       super.visitLdcInsn(h.id);super.visitInsn(Opcodes.SWAP);super.visitLdcInsn(Type.getObjectType(cls));
+      if(h.kind.equals("description_list")){
+       super.visitMethodInsn(Opcodes.INVOKESTATIC,"sao/zh/api/Dispatch","description","(Ljava/lang/String;Ljava/util/List;Ljava/lang/Class;)Ljava/util/List;",false);found.merge(h.id,1,Integer::sum);return;
+      }
       boolean string=valueDescriptor.equals(Script.STR);
       super.visitMethodInsn(Opcodes.INVOKESTATIC,"sao/zh/api/Dispatch",string?"text":"value",string?"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/String;":"(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Class;)Ljava/lang/Object;",false);
       if(!string)super.visitTypeInsn(Opcodes.CHECKCAST,Type.getType(valueDescriptor).getInternalName());found.merge(h.id,1,Integer::sum);
@@ -43,7 +49,7 @@ final class RuleTransformer implements ClassFileTransformer {
      }}
      @Override public void visitInsn(int op){
       if(op==Opcodes.ARETURN)for(Script.Hook h:selected){
-       if(h.kind.equals("return"))dispatch(h,Type.getReturnType(desc).getDescriptor());
+       if(h.kind.equals("return")||h.kind.equals("description_list"))dispatch(h,Type.getReturnType(desc).getDescriptor());
        if(h.kind.equals("mob_name")){
         if((access&Opcodes.ACC_STATIC)==0)throw new IllegalArgumentException("Mob shownName must be static");
         super.visitLdcInsn(h.id);super.visitInsn(Opcodes.SWAP);

@@ -38,6 +38,7 @@ final class UnknownCollector implements AutoCloseable {
  static boolean permitted(String owner,String kind,String origin){
   if(owner==null||kind==null||origin==null)return false;
   if(origin.equals("mob"))return owner.equals("fr/sao/saoui/mob/MobBarRenderer")&&kind.equals("mob_name");
+  if(origin.equals("item")&&kind.equals("description_list"))return owner.equals("fr/sao/tooltip/TipModel");
   if(!Set.of("return","argument","call","field").contains(kind))return false;
   if(owner.startsWith("net/minecraft/")||owner.startsWith("fr/sao/pass/")||owner.startsWith("fr/sao/font/")
       ||owner.startsWith("fr/sao/playerdisplay/")||owner.startsWith("fr/sao/guild/")

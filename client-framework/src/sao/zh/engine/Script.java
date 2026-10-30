@@ -73,6 +73,8 @@ final class Script {
      if(!id.equals("codex-creatures:mob-shown-name")||!owner.equals("fr/sao/saoui/mob/MobBarRenderer")||!method.equals("shownName")||!descriptor.equals("(Lfr/sao/saoui/mob/MobBarEntry;)Ljava/lang/String;"))throw new IllegalArgumentException("Not a guarded mob display source");break;
     case "system_text":
      if(!id.equals("dynamic-translation:game-system-display")||!owner.equals("net/minecraft/class_7594")||!method.equals("method_44736")||!descriptor.equals("(Lnet/minecraft/class_2561;Z)V"))throw new IllegalArgumentException("Not a game-system display callsite");break;
+    case "description_list":
+     if(!id.equals("items-economy:tooltip-description-paragraphs")||!owner.equals("fr/sao/tooltip/TipModel")||!method.equals("description")||!descriptor.equals("()Ljava/util/List;")||!"items".equals(m.get("section")))throw new IllegalArgumentException("Not a dedicated description-only list source");break;
     case "return":if(!valueType(ret.getDescriptor()))throw new IllegalArgumentException("Return is not supported text");break;
     case "argument":if(argument<0||argument>=args.length||!valueType(args[argument].getDescriptor()))throw new IllegalArgumentException("Argument is not supported text");break;
     case "field":if(memberOwner.isEmpty()||!memberName.matches("[A-Za-z_$][A-Za-z0-9_$]*")||!valueType(memberDescriptor))throw new IllegalArgumentException("Invalid field projection");break;

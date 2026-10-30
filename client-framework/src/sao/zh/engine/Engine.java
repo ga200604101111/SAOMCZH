@@ -62,9 +62,11 @@ public final class Engine {
    Agent.log("EXTERNAL_SAO_COMPATIBILITY_LOADED version="+spec.get("version"));
   }catch(Throwable bad){Agent.log("COMPATIBILITY_SKIPPED_KEEP_GAME "+bad.getClass().getSimpleName()+" "+String.valueOf(bad.getMessage()));}
  }
+ private volatile LoreParagraphs loreParagraphs=new LoreParagraphs(Map.of());
  private void bind(){LiteralGlyphBridge.bind();Dispatch.bind((id,value,owner)->{
   Script snapshot=current;Script.Hook h=snapshot.byId.get(id);if(h==null||h.failures.get()>=3||!TextProjection.locale(owner,h.locale))return value;
   try{
+   if(h.kind.equals("description_list"))return loreParagraphs.project(value,text->translate(h,text),LiteralGlyphBridge::readable,LiteralGlyphBridge::encode,epoch.get());
    if((SemanticText.system(h)||SemanticText.npc(h))&&!SemanticText.permitTree(h,TextProjection.plainText(value,owner),dictionary))return value;
    return TextProjection.apply(value,owner,text->projectSemanticLeaf(h,text),RenderTextPipeline.wholeFirst(h));
   }
@@ -196,7 +198,7 @@ public final class Engine {
    Path local=root.resolve("SAO_TW_Dynamic/zh_tw.json");if(!Files.isRegularFile(local))return;long stamp=Files.getLastModifiedTime(local).toMillis();Path cloud=root.resolve("SAO_TW_Dynamic/github-cache/zh_tw.state.json");if(Files.isRegularFile(cloud))stamp+=Files.getLastModifiedTime(cloud).toMillis();Path overrides=root.resolve("SAO_TW_Dynamic/local-overrides.json");if(Files.isRegularFile(overrides))stamp+=Files.getLastModifiedTime(overrides).toMillis();if(stamp==dictStamp)return;
    Map<String,Map<String,String>>result=new HashMap<>();merge(result,Verified.read(local,8*1024*1024));
    if(Files.isRegularFile(cloud)){Map<?,?>state=Script.obj(MiniJson.parse(new String(Verified.read(cloud,65536),StandardCharsets.UTF_8)));String hash=String.valueOf(state.get("sha256"));if(hash.matches("[a-f0-9]{64}")){Path blob=cloud.resolveSibling("zh_tw."+hash+".json");byte[]bytes=Verified.read(blob,8*1024*1024);if(Verified.hash(bytes).equals(hash))merge(result,bytes);}}
-   if(Files.isRegularFile(overrides))merge(result,Verified.read(overrides,2*1024*1024));Map<String,Map<String,String>>immutable=new HashMap<>();result.forEach((k,v)->immutable.put(k,Map.copyOf(v)));dictionary=Map.copyOf(immutable);dictStamp=stamp;epoch.incrementAndGet();
+   if(Files.isRegularFile(overrides))merge(result,Verified.read(overrides,2*1024*1024));Map<String,Map<String,String>>immutable=new HashMap<>();result.forEach((k,v)->immutable.put(k,Map.copyOf(v)));dictionary=Map.copyOf(immutable);loreParagraphs=new LoreParagraphs(dictionary);dictStamp=stamp;epoch.incrementAndGet();
   }catch(Exception e){once("dict-failed","EXTERNAL_DICTIONARY_KEEP_PREVIOUS "+e.getClass().getSimpleName());}
  }
  private static void merge(Map<String,Map<String,String>>dst,byte[]bytes){Map<?,?>m=Script.obj(MiniJson.parse(new String(bytes,StandardCharsets.UTF_8)));for(String section:new String[]{"names","messages","lines","items"})if(m.get(section) instanceof Map){Map<String,String>out=dst.computeIfAbsent(section,k->new HashMap<>());for(Map.Entry<?,?>e:((Map<?,?>)m.get(section)).entrySet())if(e.getKey() instanceof String&&e.getValue() instanceof String&&((String)e.getKey()).length()<=8192&&((String)e.getValue()).length()<=16384)out.put((String)e.getKey(),(String)e.getValue());}}

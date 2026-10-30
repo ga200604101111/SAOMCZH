@@ -15,6 +15,15 @@ public final class Dispatch {
   busy.set(true);try{Object changed=h.apply(key,original,owner);if(changed==null||!original.getClass().isInstance(changed))return original;return changed;}
   catch(VirtualMachineError fatal){throw fatal;}catch(Throwable bad){faults.incrementAndGet();return original;}finally{busy.remove();}
  }
+ /** Description-only List ABI: accept another List implementation without weakening Text guards. */
+ public static List<?> description(String key,List<?> original,Class<?> owner){
+  Handler h=handler;if(h==null||original==null||Boolean.TRUE.equals(busy.get()))return original;
+  busy.set(true);try{
+   Object output=h.apply(key,original,owner);if(!(output instanceof List<?> list)||list.size()>128)return original;
+   int chars=0;for(Object row:list){if(!(row instanceof String))return original;chars+=((String)row).length();if(chars>8192)return original;}
+   return list;
+  }catch(VirtualMachineError fatal){throw fatal;}catch(Throwable bad){faults.incrementAndGet();return original;}finally{busy.remove();}
+ }
  public static String mobText(String key,String shown,String source,Class<?>owner,boolean player){
   if(player)return source==null?shown:source;
   String translated=text(key,source,owner);
