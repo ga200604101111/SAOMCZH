@@ -7,12 +7,14 @@ from compose_localized import compose_bundle,LocaleError,compile_scoped_text,exp
 # The requested correction intentionally changes only two Daily reward-name hooks.
 # Keep all legacy baseline comparisons exact outside these eight expanded keys.
 def expected_daily_correction(hook_id, baseline):
- expected=dict(baseline)
+ expected={k:v.replace('\uff1a',':') for k,v in baseline.items()}
  if hook_id in ('items-economy:reward-name','items-economy:reward-cached-name'):
   for source in ('Healing Shard x2','治療碎片 x2'):
    for left,right in (('',''),(' ',''),('',' '),(' ',' ')):
     expected[left+source+right]=left+'治療碎片'+right
  return expected
+def expected_operations(ops):
+ return [dict(op, to=op.get('to','').replace('\uff1a',':')) for op in ops]
 class CommonTextRules(unittest.TestCase):
  def test_damage_sources_are_deduplicated(self):
   doc=json.loads((W/'languages/zh_tw/hook_text_rules.json').read_text('utf8'))
@@ -45,7 +47,7 @@ class CommonTextRules(unittest.TestCase):
   for original in old['hooks']:
    new=current[original['id']]
    self.assertEqual(new.get('exact',{}),expected_daily_correction(original['id'],original.get('exact',{})),original['id']+' exact')
-   self.assertEqual(new.get('operations',[]),original.get('operations',[]),original['id']+' operations')
+   self.assertEqual(new.get('operations',[]),expected_operations(original.get('operations',[])),original['id']+' operations')
   self.assertEqual(len(current),120)  # Previous 115 hooks + 5 scoped world-text hooks
  def test_all_existing_hook_exceptions_are_preserved(self):
   baseline=json.loads((W/'audit/hook_text_rules-1.5.1.json' if (W/'audit/hook_text_rules-1.5.1.json').is_file() else W/'client-framework/tests/reference/hook_text_rules-1.5.1.json').read_text('utf8'))
@@ -54,7 +56,7 @@ class CommonTextRules(unittest.TestCase):
   for id,value in baseline['hooks'].items():
    resolved=compile_scoped_text(canonical['hooks'][id],sets,id)
    self.assertEqual(resolved.get('exact',{}),expected_daily_correction(id,value.get('exact',{})),id)
-   self.assertEqual(resolved.get('operations',[]),value.get('operations',[]),id)
+   self.assertEqual(resolved.get('operations',[]),expected_operations(value.get('operations',[])),id)
  def test_source_repetition_reduction(self):
   baseline=(W/'audit/hook_text_rules-1.5.1.json' if (W/'audit/hook_text_rules-1.5.1.json').is_file() else W/'client-framework/tests/reference/hook_text_rules-1.5.1.json').stat().st_size
   current=(W/'languages/zh_tw/hook_text_rules.json').stat().st_size

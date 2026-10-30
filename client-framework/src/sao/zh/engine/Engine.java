@@ -38,7 +38,7 @@ public final class Engine {
   if(!e.fixture)e.installCompatibility();
   inst.addTransformer(e.transformer,true);
   Path state=e.store.resolve("rules/sequence.txt");if(Files.isRegularFile(state))try{e.highWater=Long.parseLong(Files.readString(state).trim());}catch(Exception bad){Agent.log("SEQUENCE_STATE_INVALID_NETWORK_DISABLED");e.nextNetwork=Long.MAX_VALUE;}
-  e.reloadDictionary();e.restoreLastGood();e.restoreWatcherState();e.bind();
+  e.reloadDictionary();e.restoreLastGood();e.applyStartupRules();e.restoreWatcherState();e.bind();
   if((!e.fixture&&!e.nativeTest)||args.equals("watch-test"))e.worker.scheduleWithFixedDelay(e::poll,2,2,TimeUnit.SECONDS);
   Agent.log("MODULAR_RULE_ENGINE_READY external=true hooks="+e.current.byId.size());return e;
  }
@@ -157,9 +157,21 @@ public final class Engine {
   }catch(Exception e){Agent.log("STATE_PERSIST_FAILED_RUNNING_SNAPSHOT_RETAINED "+e.getClass().getSimpleName());}
  }
  private void restoreLastGood(){
-  Path active=store.resolve("rules/active.txt");try{if(!Files.isRegularFile(active))return;String hash=Files.readString(active).trim();if(!hash.matches("[0-9a-f]{64}"))throw new SecurityException("Bad active pointer");byte[]b=Verified.read(active.resolveSibling(hash+".json"),Script.LIMIT),s=Verified.read(active.resolveSibling(hash+".sig"),4096);Verified.signature(b,s);Script script=Script.parse(b);if(!Verified.hash(b).equals(hash))throw new SecurityException("Bad local cache");transition(script);currentBytes=b;currentSig=s;
-   try{Path prior=active.resolveSibling("previous.txt");if(Files.isRegularFile(prior)){String old=Files.readString(prior).trim();if(old.matches("[a-f0-9]{64}")&&!old.equals(hash)){byte[]pb=Verified.read(prior.resolveSibling(old+".json"),Script.LIMIT),ps=Verified.read(prior.resolveSibling(old+".sig"),4096);Verified.signature(pb,ps);if(!Verified.hash(pb).equals(old))throw new SecurityException("Bad recovery cache");previous=Script.parse(pb);previousBytes=pb;previousSig=ps;}}}catch(Exception recovery){Agent.log("PREVIOUS_RULE_CACHE_SKIPPED "+recovery.getClass().getSimpleName());}
+  Path active=store.resolve("rules/active.txt");try{if(!Files.isRegularFile(active))return;String hash=Files.readString(active).trim();if(!hash.matches("[0-9a-f]{64}"))throw new SecurityException("Bad active pointer");byte[]b=Verified.read(active.resolveSibling(hash+".json"),Script.LIMIT),s=Verified.read(active.resolveSibling(hash+".sig"),4096);Verified.signature(b,s);Script script=Script.parseInstalled(b);if(!Verified.hash(b).equals(hash))throw new SecurityException("Bad local cache");transition(script);currentBytes=b;currentSig=s;
+   try{Path prior=active.resolveSibling("previous.txt");if(Files.isRegularFile(prior)){String old=Files.readString(prior).trim();if(old.matches("[a-f0-9]{64}")&&!old.equals(hash)){byte[]pb=Verified.read(prior.resolveSibling(old+".json"),Script.LIMIT),ps=Verified.read(prior.resolveSibling(old+".sig"),4096);Verified.signature(pb,ps);if(!Verified.hash(pb).equals(old))throw new SecurityException("Bad recovery cache");previous=Script.parseInstalled(pb);previousBytes=pb;previousSig=ps;}}}catch(Exception recovery){Agent.log("PREVIOUS_RULE_CACHE_SKIPPED "+recovery.getClass().getSimpleName());}
    Agent.log("LAST_GOOD_RULES_RESTORED");}catch(Exception e){Agent.log("LAST_GOOD_RULES_UNAVAILABLE_KEEP_GAME "+e.getClass().getSimpleName());}
+ }
+ /** A signed rule update prepared for a new runtime, never hot-loaded by older engines. */
+ private void applyStartupRules(){
+  Path body=store.resolve("rules/next-start.json"),sig=store.resolve("rules/next-start.sig");
+  if(!Files.isRegularFile(body)||!Files.isRegularFile(sig))return;
+  try{
+   String result=applySigned(Verified.read(body,Script.LIMIT),Verified.read(sig,4096));
+   if(result.startsWith("APPLIED")||result.equals("UNCHANGED")){
+    Files.deleteIfExists(body);Files.deleteIfExists(sig);
+    Agent.log("STARTUP_RULE_UPDATE "+result);
+   }
+  }catch(Exception rejected){Agent.log("STARTUP_RULE_REJECTED_KEEP_PREVIOUS "+rejected.getClass().getSimpleName());}
  }
  private void reloadDictionary(){
   try{
@@ -201,7 +213,7 @@ public final class Engine {
    byte[]body=Verified.fetch(base+".properties",65536),sig=Verified.fetch(base+".sig",4096);Map<String,String>next=Verified.descriptor(body,sig);Path directory=store.resolve(kind);
    Path current=directory.resolve("current.properties"),currentSig=directory.resolve("current.sig");
    if(Files.isRegularFile(current)&&Files.isRegularFile(currentSig)){
-    Map<String,String>old=Verified.descriptor(Verified.read(current,65536),Verified.read(currentSig,4096));
+    Map<String,String>old=Verified.installedDescriptor(Verified.read(current,65536),Verified.read(currentSig,4096));
     if(Objects.equals(old.get("sha256"),next.get("sha256")))return;
     if(versionCompare(next.get("version"),old.get("version"))<=0)throw new SecurityException("Binary downgrade/reused version rejected");
    }

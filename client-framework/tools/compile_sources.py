@@ -21,7 +21,7 @@ def main():
    for name,data in entries.items():z.writestr(name,data)
   with zipfile.ZipFile(path) as z:assert z.testzip() is None
  manifest='Manifest-Version: 1.0\r\nPremain-Class: sao.zh.boot.Agent\r\nCan-Retransform-Classes: true\r\nCan-Redefine-Classes: false\r\n\r\n'
- jar(out/'SAO_ZH_Agent_v16.jar',{n:b for n,b in allclasses.items() if n.startswith('sao/zh/boot/')},manifest)
+ jar(out/'SAO_ZH_Agent_v17.jar',{n:b for n,b in allclasses.items() if n.startswith('sao/zh/boot/')},manifest)
  api=io.BytesIO()
  with zipfile.ZipFile(api,'w',zipfile.ZIP_DEFLATED) as z:
   for n,b in allclasses.items():

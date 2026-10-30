@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "locale": "zh_tw",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "min_client_protocol": 1,
   "translation": {
     "path": "languages/zh_tw/translations.json",
-    "size_bytes": 451394,
-    "sha256": "f2c8c7c09d43826cc76b656ebcf06424443c68eeb94b31141b5b31deb410d3b0"
+    "size_bytes": 450780,
+    "sha256": "597e1b917bd50253bd2a57a74f4d6aa2644471583c5ce2f74c585e295896efbc"
   },
   "resource_pack_source": "SAOMCZHPACK/pack-version.json",
   "hook_text_rules": {
     "path": "languages/zh_tw/hook_text_rules.json",
-    "size_bytes": 16239,
-    "sha256": "f80b22f1359ac2711f835501d1518f49e7eaf8b050701f23895546a7dc32f4b7"
+    "size_bytes": 16211,
+    "sha256": "448f73df197696e083ebafdb53fd694cfad9704cda920cb6dc222b0dde93b8bb"
   }
 }

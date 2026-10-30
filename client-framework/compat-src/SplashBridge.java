@@ -19,7 +19,7 @@ public final class SplashBridge {
   try{
    Map<?,?> lang=(Map<?,?>)MiniJson.parse(new String(resource("zh_tw.json"),StandardCharsets.UTF_8));
    Map<String,String> nextText=new LinkedHashMap<>();
-   for(Map.Entry<?,?> e:lang.entrySet())nextText.put((String)e.getKey(),(String)e.getValue());
+   for(Map.Entry<?,?> e:lang.entrySet())nextText.put((String)e.getKey(),((String)e.getValue()).replace('\uff1a',':'));
    Map<?,?> atlas=(Map<?,?>)MiniJson.parse(new String(resource("atlas.json"),StandardCharsets.UTF_8));
    int nextWidth=number(atlas.get("width")),nextHeight=number(atlas.get("height")),nextLine=number(atlas.get("line_height"));
    if(nextWidth<1||nextWidth>2048||nextHeight<1||nextHeight>2048||nextLine<1||nextText.size()!=53)throw new IOException("Invalid early splash metadata");

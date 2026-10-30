@@ -58,31 +58,31 @@
     },
     "item_properties": {
       "padded_exact": {
-        "Attack Damage :": "攻擊傷害：",
-        "Attack Speed :": "攻擊速度：",
-        "Life Steal :": "吸血：",
-        "Movement Speed :": "移動速度："
+        "Attack Damage :": "攻擊傷害:",
+        "Attack Speed :": "攻擊速度:",
+        "Life Steal :": "吸血:",
+        "Movement Speed :": "移動速度:"
       },
       "operations": [
         {
           "op": "replace_literal",
           "from": "Class: assassin",
-          "to": "職業：刺客"
+          "to": "職業:刺客"
         },
         {
           "op": "replace_literal",
           "from": "Class: warrior",
-          "to": "職業：戰士"
+          "to": "職業:戰士"
         },
         {
           "op": "replace_literal",
           "from": "Minimum Level:",
-          "to": "最低等級："
+          "to": "最低等級:"
         },
         {
           "op": "replace_literal",
           "from": "Guard Durability:",
-          "to": "格擋耐久："
+          "to": "格擋耐久:"
         },
         {
           "op": "replace_literal",
@@ -466,9 +466,9 @@
         "1min": "1 分鐘",
         "Astral Gem": "星界寶石",
         "Attack Damage": "攻擊傷害",
-        "Attack Damage :": "攻擊傷害：",
+        "Attack Damage :": "攻擊傷害:",
         "Beginner's Leggings": "初學者護腿",
-        "Class:": "職業：",
+        "Class:": "職業:",
         "Colossus Fragments": "巨像碎片",
         "Colossus Helmet": "巨像頭盔",
         "Colossus Pavise": "巨像大盾",
@@ -485,10 +485,10 @@
         "Key of Happiness": "幸福之鑰",
         "Mage's Scroll": "法師卷軸",
         "Minimum Level": "最低等級",
-        "Minimum Level:": "最低等級：",
+        "Minimum Level:": "最低等級:",
         "Monstres": "怪物",
         "Movement Speed": "移動速度",
-        "Movement Speed :": "移動速度：",
+        "Movement Speed :": "移動速度:",
         "Nep hentes": "豬籠草",
         "Nephentes": "豬籠草",
         "Pavois du Colosse": "巨像大盾",
@@ -496,7 +496,7 @@
         "Projectile dmg.": "投射傷害",
         "Pumba": "彭巴",
         "Regions": "區域",
-        "Restores :": "恢復：",
+        "Restores :": "恢復:",
         "Régions": "區域",
         "Single use": "使用一次",
         "Stamina": "耐力",
@@ -504,7 +504,7 @@
         "Stolen Amulet": "失竊的護符",
         "Town of Beginnings": "起始之城",
         "Training Pavise": "訓練用大盾",
-        "Uses Remaining:": "剩餘使用次數：",
+        "Uses Remaining:": "剩餘使用次數:",
         "Vallée des Loups": "群狼谷",
         "Valthac": "瓦爾薩克",
         "White Dire Wolf": "白色恐狼",

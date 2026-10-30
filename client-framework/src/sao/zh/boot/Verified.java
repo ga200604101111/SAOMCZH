@@ -11,6 +11,13 @@ public final class Verified {
   Signature v=Signature.getInstance("Ed25519");v.initVerify(key);v.update(b);try{if(!v.verify(s))throw new SecurityException("Signature rejected");}catch(SignatureException malformed){throw new SecurityException("Malformed signature rejected",malformed);}
  }
  public static Map<String,String> descriptor(byte[]b,byte[]s)throws Exception{
+  return parseDescriptor(b,s,true);
+ }
+ /** Local installed modules remain usable offline after update metadata expires. */
+ public static Map<String,String> installedDescriptor(byte[]b,byte[]s)throws Exception{
+  return parseDescriptor(b,s,false);
+ }
+ private static Map<String,String> parseDescriptor(byte[]b,byte[]s,boolean requireFresh)throws Exception{
   if(b.length>65536)throw new SecurityException("Manifest too large");signature(b,s);
   Map<String,String>m=new LinkedHashMap<>();
   for(String line:new String(b,StandardCharsets.UTF_8).split("\\r?\\n")){
@@ -19,7 +26,7 @@ public final class Verified {
    String k=line.substring(0,i),v=line.substring(i+1);if(!k.matches("[a-z0-9_.-]{1,80}")||m.put(k,v)!=null)throw new SecurityException("Duplicate descriptor key");
   }
   if(!"1".equals(m.get("api")))throw new SecurityException("Unsupported extension API");
-  long expires=Long.parseLong(m.get("expires"));if(expires<System.currentTimeMillis()/1000)throw new SecurityException("Descriptor expired");
+  if(requireFresh){long expires=Long.parseLong(m.get("expires"));if(expires<System.currentTimeMillis()/1000)throw new SecurityException("Update metadata expired");}
   return Collections.unmodifiableMap(m);
  }
  public static byte[] read(Path p,int max)throws IOException{
@@ -52,13 +59,13 @@ public final class Verified {
   if(Files.isRegularFile(pending)&&Files.isRegularFile(pendingSig))try{
    byte[]b=read(pending,65536),sig=read(pendingSig,4096);Map<String,String>spec=descriptor(b,sig);module(dir,spec);
    if(Files.isRegularFile(current)&&Files.isRegularFile(currentSig)){
-    byte[]old=read(current,65536),oldSig=read(currentSig,4096);descriptor(old,oldSig);atomic(dir.resolve("previous.sig"),oldSig);atomic(dir.resolve("previous.properties"),old);
+    byte[]old=read(current,65536),oldSig=read(currentSig,4096);installedDescriptor(old,oldSig);atomic(dir.resolve("previous.sig"),oldSig);atomic(dir.resolve("previous.properties"),old);
    }
    atomic(currentSig,sig);atomic(current,b);Files.deleteIfExists(pending);Files.deleteIfExists(pendingSig);Agent.log("EXTERNAL_BINARY_PROMOTED "+dir.getFileName());
   }catch(Exception rejected){Agent.log("PENDING_BINARY_REJECTED_KEEP_PREVIOUS "+rejected.getClass().getSimpleName());}
   Exception failure=null;
   for(String slot:new String[]{"current","previous"})try{
-   Map<String,String>m=descriptor(read(dir.resolve(slot+".properties"),65536),read(dir.resolve(slot+".sig"),4096));module(dir,m);if(slot.equals("previous"))Agent.log("EXTERNAL_BINARY_PREVIOUS_RECOVERED "+dir.getFileName());return m;
+   Map<String,String>m=installedDescriptor(read(dir.resolve(slot+".properties"),65536),read(dir.resolve(slot+".sig"),4096));module(dir,m);if(slot.equals("previous"))Agent.log("EXTERNAL_BINARY_PREVIOUS_RECOVERED "+dir.getFileName());return m;
   }catch(Exception bad){failure=bad;}
   throw failure==null?new IOException("No usable module"):failure;
  }

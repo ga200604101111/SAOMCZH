@@ -22,7 +22,7 @@ def strings(v):
   for x in v.values():yield from strings(x)
  elif isinstance(v,list):
   for x in v:yield from strings(x)
-def encode(s,aliases):return ''.join(chr(aliases.get(ord(c),ord(c))) for c in s)
+def encode(s,aliases):return ''.join(chr(aliases.get(ord(c),ord(c))) for c in s.replace('\uff1a',':'))
 def encode_values(v,aliases):
  if isinstance(v,str):return encode(v,aliases)
  if isinstance(v,dict):return {k:encode_values(x,aliases) for k,x in v.items()}

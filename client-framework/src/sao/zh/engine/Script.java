@@ -19,12 +19,15 @@ final class Script {
   if(n==null||n.length()>240||!n.matches("[A-Za-z_$][A-Za-z0-9_$/]*")||!n.contains("/")||n.contains("//"))throw new IllegalArgumentException("Invalid class name");
   for(String prefix:new String[]{"java/","javax/","jdk/","sun/","sao/zh/","org/objectweb/","net/fabricmc/","org/spongepowered/"})if(n.startsWith(prefix))throw new IllegalArgumentException("Protected class namespace");return n;
  }
- static Script parse(byte[]data){
+ static Script parse(byte[]data){return parse(data,true);}
+ /** Only after signature/hash verification of already installed local rules. */
+ static Script parseInstalled(byte[]data){return parse(data,false);}
+ private static Script parse(byte[]data,boolean requireFresh){
   if(data.length>LIMIT)throw new IllegalArgumentException("Script too large");Map<?,?>root=obj(MiniJson.parse(new String(data,StandardCharsets.UTF_8)));
   int schema=number(root,"schema_version",0);if(schema!=1&&schema!=2)throw new IllegalArgumentException("Unsupported script schema");
   String version=str(root,"version");if(!version.matches("[0-9]+\\.[0-9]+\\.[0-9]+(?:-[A-Za-z0-9.-]+)?"))throw new IllegalArgumentException("Bad version");
   int sequence=number(root,"sequence",0);if(sequence<1)throw new IllegalArgumentException("Invalid sequence");
-  Object expiry=root.get("expires");if(!(expiry instanceof Number)||((Number)expiry).longValue()<System.currentTimeMillis()/1000)throw new IllegalArgumentException("Script expired");
+  Object expiry=root.get("expires");if(!(expiry instanceof Number)||(requireFresh&&((Number)expiry).longValue()<System.currentTimeMillis()/1000))throw new IllegalArgumentException("Script expired");
   if(!(root.get("hooks") instanceof List))throw new IllegalArgumentException("Hooks must be array");List<?>rows=(List<?>)root.get("hooks");if(rows.size()>128)throw new IllegalArgumentException("Too many hooks");
   Map<String,Hook>all=new TreeMap<>();Set<String>sites=new HashSet<>();
   for(Object row:rows){Hook hook=new Hook(obj(row));if(schema==1&&!hook.capture.isEmpty())throw new IllegalArgumentException("Capture requires schema 2");if(schema==1&&(hook.kind.equals("wrap")||hook.kind.equals("refresh")))throw new IllegalArgumentException("Layout capabilities require schema 2");if(all.put(hook.id,hook)!=null)throw new IllegalArgumentException("Duplicate hook id");if(!sites.add(hook.shape().substring(hook.id.length()+1)))throw new IllegalArgumentException("Ambiguous double hook site");}
