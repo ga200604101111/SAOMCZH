@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "saomczh_zapaudio",
+  "version": "1.0.0",
+  "name": "SAOMCZH · Sound of Aincrad 繁體中文介面",
+  "description": "Adds scoped zh_tw/zh_hk MCEF web-interface labels without modifying Sound of Aincrad, WebRTC, device names, or its original JAR.",
+  "authors": [
+    "SAOMCZH"
+  ],
+  "environment": "client",
+  "mixins": [
+    "saomczh-zapaudio.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "1.21.4",
+    "java": ">=21",
+    "zapaudioclient": "1.0.0"
+  }
+}
