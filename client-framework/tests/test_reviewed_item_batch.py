@@ -1,6 +1,9 @@
 from pathlib import Path
 import json,re,unittest
 R=Path(__file__).resolve().parents[2]
+import sys
+sys.path.insert(0,str(R/'client-framework/tools'))
+from display_typography import normalize_fields
 class ReviewedItemBatch(unittest.TestCase):
  def test_new_items_are_reviewed_once_and_reused(self):
   data=json.loads((R/'languages/zh_tw/translations.json').read_text('utf8'))
@@ -8,7 +11,7 @@ class ReviewedItemBatch(unittest.TestCase):
   self.assertEqual(len(batch['entries']),319)
   for source,target in batch['entries'].items():
    with self.subTest(source=source):
-    self.assertEqual(data['items'][source],target)
+    self.assertEqual(data['items'][source],normalize_fields(target))
     self.assertTrue(all(source not in data[section] for section in ('names','lines','messages')))
     self.assertNotIn('：',target)
     self.assertEqual(re.findall(r'\d+(?:\.\d+)?',source),re.findall(r'\d+(?:\.\d+)?',target))

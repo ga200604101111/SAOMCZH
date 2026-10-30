@@ -188,7 +188,7 @@ def compose(modules:list[dict],*,version:str,sequence:int,expires:int)->dict:
    name=id+':'+test['hook']
    if name not in all_ids or len(test['input'])>8192 or len(test['expect'])>16384:raise ModuleError('Invalid self-test target/text')
    tests.append(dict(test,hook=name))
- if len(hooks)>128 or len(tests)>512:raise ModuleError('Compiled bundle exceeds runtime budget')
+ if len(hooks)>160 or len(tests)>512:raise ModuleError('Compiled bundle exceeds runtime budget')
  result={'schema_version':2 if any(h['kind'] in ('wrap','refresh') for h in hooks) else 1,'version':version,'sequence':sequence,'expires':expires,'module_catalog':catalog,'hooks':hooks,'tests':tests}
  if len(json.dumps(result,ensure_ascii=False).encode('utf8'))>MAX_BYTES:raise ModuleError('Compiled bundle exceeds 2 MiB')
  return result

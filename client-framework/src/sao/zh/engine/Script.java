@@ -28,7 +28,7 @@ final class Script {
   String version=str(root,"version");if(!version.matches("[0-9]+\\.[0-9]+\\.[0-9]+(?:-[A-Za-z0-9.-]+)?"))throw new IllegalArgumentException("Bad version");
   int sequence=number(root,"sequence",0);if(sequence<1)throw new IllegalArgumentException("Invalid sequence");
   Object expiry=root.get("expires");if(!(expiry instanceof Number)||(requireFresh&&((Number)expiry).longValue()<System.currentTimeMillis()/1000))throw new IllegalArgumentException("Script expired");
-  if(!(root.get("hooks") instanceof List))throw new IllegalArgumentException("Hooks must be array");List<?>rows=(List<?>)root.get("hooks");if(rows.size()>128)throw new IllegalArgumentException("Too many hooks");
+  if(!(root.get("hooks") instanceof List))throw new IllegalArgumentException("Hooks must be array");List<?>rows=(List<?>)root.get("hooks");if(rows.size()>160)throw new IllegalArgumentException("Too many hooks");
   Map<String,Hook>all=new TreeMap<>();Set<String>sites=new HashSet<>();
   for(Object row:rows){Hook hook=new Hook(obj(row));if(schema==1&&!hook.capture.isEmpty())throw new IllegalArgumentException("Capture requires schema 2");if(schema==1&&(hook.kind.equals("wrap")||hook.kind.equals("refresh")))throw new IllegalArgumentException("Layout capabilities require schema 2");if(all.put(hook.id,hook)!=null)throw new IllegalArgumentException("Duplicate hook id");if(!sites.add(hook.shape().substring(hook.id.length()+1)))throw new IllegalArgumentException("Ambiguous double hook site");}
   Script next=new Script(version,sequence,all);

@@ -18,7 +18,7 @@ class CrossSurfaceSources(unittest.TestCase):
   for key in ('hud-location-title','hud-location-subtitle'):
    t=h.get('worlds-locations:'+key);self.assertIsNotNone(t)
    self.assertEqual(t['class'],'net/minecraft/class_329');self.assertEqual(t['section'],'names');self.assertNotIn('capture',t)
-  self.assertLessEqual(len(h),128)
+  self.assertLessEqual(len(h),160)
  def test_single_canonical_new_translations(self):
   d=json.loads((ROOT/'languages/zh_tw/translations.json').read_text('utf8'))
   expected={'Shard Keeper':'碎片管理員','Copper Katana':'銅製武士刀','Right-click: your daily shards.':'右鍵領取每日碎片。'}

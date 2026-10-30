@@ -22,7 +22,8 @@ def strings(v):
   for x in v.values():yield from strings(x)
  elif isinstance(v,list):
   for x in v:yield from strings(x)
-def encode(s,aliases):return ''.join(chr(aliases.get(ord(c),ord(c))) for c in s.replace('\uff1a',':'))
+from display_typography import normalize_fields
+def encode(s,aliases):return ''.join(chr(aliases.get(ord(c),ord(c))) for c in normalize_fields(s.replace('\uff1a',':')))
 # Exact UI keys verified against the original SAOUI/companionsmod en_us resources.
 # Do not turn Chinese sentence punctuation, numeric values or arbitrary strings into ASCII.
 LEVEL_LABELS={'saoui.node.level':'Lv. %s+','saoui.mob.level':'LV. %s','companionsmod.ui.level':'Lv. %s'}

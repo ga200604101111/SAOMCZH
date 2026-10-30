@@ -43,7 +43,7 @@ class DisplayExpansion(unittest.TestCase):
         b=bundle();hooks={h['id']:h for h in b['hooks']}
         old=json.loads((W/'audit/rules-1.5.1.json' if (W/'audit/rules-1.5.1.json').is_file() else W/'extensions/v2/rules-1.5.1.json').read_text('utf8'))
         self.assertGreater(len(hooks),88)
-        self.assertLessEqual(len(hooks),128)
+        self.assertLessEqual(len(hooks),160)
         for prev in old['hooks']:
             self.assertIn(prev['id'],hooks)
             for k in ['class','method','descriptor','kind','argument','member_class','member','member_descriptor','sites','locale','section']:

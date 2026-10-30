@@ -14,7 +14,8 @@
     "Opt-in local untranslated-text observation: world domain; bounded asynchronous writer, no chat, no automatic upload; requires external Runtime1.2.",
     "World text: vanilla 1.21.4 TextDisplay pre-wrap projection and epoch-only refresh of its cached lines; does not modify server/entity metadata.",
     "SAOJob hologram: parseLegacySectionFormatting String input and styled Text result, ahead of font measurement; unknown entities/player names remain unchanged.",
-    "ArmorStand hologram-like nametags: project only field_53337 of its client render-state after superclass extraction; never touch player or server entities."
+    "ArmorStand hologram-like nametags: project only field_53337 of its client render-state after superclass extraction; never touch player or server entities.",
+    "Discovery titleText projection before measurement and drawing; the discovery emblem remains its original image."
   ],
   "hooks": [
     {
@@ -246,6 +247,18 @@
       "kind": "argument",
       "argument": 0,
       "section": "names"
+    },
+    {
+      "id": "discovery-title",
+      "class": "fr/sao/saoui/discovery/DiscoveryOverlayRenderer",
+      "method": "onHudRender",
+      "descriptor": "(Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V",
+      "kind": "field",
+      "section": "names",
+      "member_class": "fr/sao/saoui/discovery/DiscoveryOverlayRenderer",
+      "member": "titleText",
+      "member_descriptor": "Lnet/minecraft/class_2561;",
+      "sites": 1
     }
   ]
 }

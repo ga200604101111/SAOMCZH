@@ -24,6 +24,10 @@ final class RenderTextPipeline {
    ||owner.startsWith("com/eighteen/saojob/skilltree/");
  }
  static String resolve(Script.Hook hook,String raw,Map<String,Map<String,String>> dictionaries){
+  String output=resolveSource(hook,raw,dictionaries);
+  return hook.section.equals("items")&&!ItemPresentation.title(hook)?FieldTypography.normalize(output):output;
+ }
+ private static String resolveSource(Script.Hook hook,String raw,Map<String,Map<String,String>> dictionaries){
   if(raw==null||raw.length()>8192||!SemanticText.permitted(hook,raw))return raw;
   if(ItemPresentation.title(hook))return ItemPresentation.title(hook,raw,dictionaries);
   String stat=ItemPresentation.stats(hook,raw);if(!raw.equals(stat))return stat;

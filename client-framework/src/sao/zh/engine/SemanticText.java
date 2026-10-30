@@ -17,7 +17,7 @@ final class SemanticText {
  private static final Pattern COUNT_END=Pattern.compile("^(.*?)(\\s+[x×][0-9]{1,6})$");
  private static final Pattern CHAT=Pattern.compile("(?s)^\\s*(?:\\[[^]\\r\\n]{1,40}]\\s*)*[A-Za-z0-9_]{3,16}\\s*[:：].*");
  static boolean npc(Script.Hook h){return h.id.equals("worlds-locations:npc-tagged-label")&&h.owner.equals("net/minecraft/class_897");}
- static boolean location(Script.Hook h){return h.owner.equals("net/minecraft/class_329")&&(h.id.equals("worlds-locations:hud-location-title")||h.id.equals("worlds-locations:hud-location-subtitle"));}
+ static boolean location(Script.Hook h){if(h.id.equals("worlds-locations:discovery-title")&&h.owner.equals("fr/sao/saoui/discovery/DiscoveryOverlayRenderer"))return true;return h.owner.equals("net/minecraft/class_329")&&(h.id.equals("worlds-locations:hud-location-title")||h.id.equals("worlds-locations:hud-location-subtitle"));}
  static boolean system(Script.Hook h){return h.id.equals("dynamic-translation:game-system-display")&&h.owner.equals("net/minecraft/class_7594");}
  static boolean world(Script.Hook h){return h.owner.equals("com/eighteen/saojob/hologram/HologramRenderer")||h.owner.equals("fr/sao/translate/SaoJobHologramTexts")||h.owner.equals("net/minecraft/class_8138$class_8141")||h.owner.equals("net/minecraft/class_877");}
  static boolean mob(Script.Hook h){return h.id.equals("codex-creatures:mob-shown-name")&&h.owner.equals("fr/sao/saoui/mob/MobBarRenderer");}

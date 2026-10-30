@@ -4,6 +4,8 @@ W=Path(__file__).resolve().parents[1]
 if not (W/'extensions/modules').is_dir():W=W.parent
 sys.path.insert(0,str(W/'tools' if (W/'tools/compose_localized.py').is_file() else W/'client-framework/tools'))
 from compose_localized import compose_bundle,LocaleError,compile_scoped_text,expand_space_exact
+from display_typography import normalize_fields
+def normalized_map(d):return {k:normalize_fields(v) for k,v in d.items()}
 # The requested correction intentionally changes only two Daily reward-name hooks.
 # Keep all legacy baseline comparisons exact outside these eight expanded keys.
 def expected_daily_correction(hook_id, baseline):
@@ -12,9 +14,9 @@ def expected_daily_correction(hook_id, baseline):
   for source in ('Healing Shard x2','治療碎片 x2'):
    for left,right in (('',''),(' ',''),('',' '),(' ',' ')):
     expected[left+source+right]=left+'治療碎片'+right
- return expected
+ return normalized_map(expected)
 def expected_operations(ops):
- return [dict(op, to=op.get('to','').replace('\uff1a',':')) for op in ops]
+ return [dict(op, to=normalize_fields(op.get('to','').replace('\uff1a',':'))) for op in ops]
 class CommonTextRules(unittest.TestCase):
  def test_damage_sources_are_deduplicated(self):
   doc=json.loads((W/'languages/zh_tw/hook_text_rules.json').read_text('utf8'))
@@ -46,17 +48,17 @@ class CommonTextRules(unittest.TestCase):
   current={h['id']:h for h in fresh['hooks']}
   for original in old['hooks']:
    new=current[original['id']]
-   self.assertEqual(new.get('exact',{}),expected_daily_correction(original['id'],original.get('exact',{})),original['id']+' exact')
-   self.assertEqual(new.get('operations',[]),expected_operations(original.get('operations',[])),original['id']+' operations')
-  self.assertEqual(len(current),128)  # Existing 123 targets plus the description-only List accessor
+   self.assertEqual(normalized_map(new.get('exact',{})),expected_daily_correction(original['id'],original.get('exact',{})),original['id']+' exact')
+   self.assertEqual(expected_operations(new.get('operations',[])),expected_operations(original.get('operations',[])),original['id']+' operations')
+  self.assertEqual(len(current),129)  # Existing 123 targets plus the description-only List accessor
  def test_all_existing_hook_exceptions_are_preserved(self):
   baseline=json.loads((W/'audit/hook_text_rules-1.5.1.json' if (W/'audit/hook_text_rules-1.5.1.json').is_file() else W/'client-framework/tests/reference/hook_text_rules-1.5.1.json').read_text('utf8'))
   canonical=json.loads((W/'languages/zh_tw/hook_text_rules.json').read_text('utf8'))
   sets=canonical['rule_sets']
   for id,value in baseline['hooks'].items():
    resolved=compile_scoped_text(canonical['hooks'][id],sets,id)
-   self.assertEqual(resolved.get('exact',{}),expected_daily_correction(id,value.get('exact',{})),id)
-   self.assertEqual(resolved.get('operations',[]),expected_operations(value.get('operations',[])),id)
+   self.assertEqual(normalized_map(resolved.get('exact',{})),expected_daily_correction(id,value.get('exact',{})),id)
+   self.assertEqual(expected_operations(resolved.get('operations',[])),expected_operations(value.get('operations',[])),id)
  def test_source_repetition_reduction(self):
   baseline=(W/'audit/hook_text_rules-1.5.1.json' if (W/'audit/hook_text_rules-1.5.1.json').is_file() else W/'client-framework/tests/reference/hook_text_rules-1.5.1.json').stat().st_size
   current=(W/'languages/zh_tw/hook_text_rules.json').stat().st_size

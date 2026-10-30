@@ -67,22 +67,22 @@
         {
           "op": "replace_literal",
           "from": "Class: assassin",
-          "to": "職業:刺客"
+          "to": "職業: 刺客"
         },
         {
           "op": "replace_literal",
           "from": "Class: warrior",
-          "to": "職業:戰士"
+          "to": "職業: 戰士"
         },
         {
           "op": "replace_literal",
           "from": "Minimum Level:",
-          "to": "最低等級:"
+          "to": "最低等級: "
         },
         {
           "op": "replace_literal",
           "from": "Guard Durability:",
-          "to": "格擋耐久:"
+          "to": "格擋耐久: "
         },
         {
           "op": "replace_literal",
@@ -207,7 +207,7 @@
         "CORRUPTED CRYSTAL": "腐化水晶",
         "CRAFTING TABLE": "工作台",
         "CROP FIELD": "農田",
-        "CROP:": "作物:",
+        "CROP:": "作物: ",
         "CROSSBOW OF ASH": "灰燼弩",
         "DAGGER OF ALBAL": "阿爾巴爾匕首",
         "DAGGER OF THE HERALD": "使者匕首",
@@ -265,7 +265,7 @@
         "SCROLL: CRUEL SUN": "卷軸: 殘酷太陽",
         "SCROLL: CUTTHROAT COMBO": "卷軸: 割喉連擊",
         "SEAL OF SINS": "罪之封印",
-        "SEEDING:": "播種:",
+        "SEEDING:": "播種: ",
         "SKELETAL SWORD": "骸骨劍",
         "SLIME CORE": "史萊姆核心",
         "SLIME ESSENCE": "史萊姆精華",
@@ -412,11 +412,11 @@
     },
     "skills-progression:profile-left-label": {
       "exact": {
-        "珂爾：": "珂爾:",
-        "等級：": "等級:",
-        "職業：": "職業:",
-        "遊玩：": "遊玩:",
-        "階級：": "階級:"
+        "珂爾：": "珂爾: ",
+        "等級：": "等級: ",
+        "職業：": "職業: ",
+        "遊玩：": "遊玩: ",
+        "階級：": "階級: "
       }
     },
     "ui-text-layout:measured-cjk-wrap": {

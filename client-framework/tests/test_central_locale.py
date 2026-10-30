@@ -5,6 +5,7 @@ if not (W/'extensions/modules').is_dir():
     W=Path(__file__).resolve().parents[2]
 tools=W/'tools' if (W/'tools/compose_localized.py').is_file() else W/'client-framework/tools'
 sys.path.insert(0,str(tools))
+from display_typography import normalize_fields
 from compose_modules import compose
 from compose_localized import compose_bundle,LocaleError
 R=W if (W/'extensions/v2/rules-1.4.0.json').is_file() else W.parent/'SAO_TW_GitHub_Export'
@@ -105,11 +106,11 @@ class CentralLocale(unittest.TestCase):
                 if old['id'] in ('items-economy:reward-name','items-economy:reward-cached-name') and w.strip(' ') in ('Healing Shard x2','治療碎片 x2'):
                     left=w[:len(w)-len(w.lstrip(' '))];right=w[len(w.rstrip(' ')):]
                     self.assertEqual(current,left+'治療碎片'+right,(old['id'],w))
-                elif prior!=w:self.assertEqual(prior.replace('\uff1a',':'),current,(old['id'],w))
+                elif prior!=w:self.assertEqual(normalize_fields(prior.replace('\uff1a',':')),normalize_fields(current),(old['id'],w))
     def test_bundle_much_smaller_without_inline_glossary(self):
         b=rules()
         self.assertLess(len(json.dumps(b,ensure_ascii=False).encode('utf8')),230000)
-        self.assertLessEqual(len(b['hooks']),128)  # The existing runtime/parser contract permits exactly 128; reject 129+.
+        self.assertLessEqual(len(b['hooks']),160)  # The existing runtime/parser contract permits at most 160; reject 161+.
     def test_scoped_overrides_without_orphans(self):
         overlays=json.loads((W/'languages/zh_tw/hook_text_rules.json').read_text('utf8'))
         ids={m['id']+':'+h['id'] for p in (W/'extensions/modules').glob('*/module.json') for m in [json.loads(p.read_text('utf8'))] for h in m['hooks']}
