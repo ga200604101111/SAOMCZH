@@ -11,7 +11,9 @@ class CaptureOptIn(unittest.TestCase):
   c=[h for h in b['hooks'] if h.get('capture')]
   self.assertGreaterEqual(len(c),20)
   for h in c:
-   self.assertIn(h['capture'],('quest','codex','skill','item','world','system'))
+   self.assertIn(h['capture'],('quest','codex','skill','item','world','system','mob'))
+   if h['capture']=='mob':
+    self.assertEqual((h['id'],h['class'],h['method'],h['kind'],h['section']),('codex-creatures:mob-shown-name','fr/sao/saoui/mob/MobBarRenderer','shownName','mob_name','names'))
    self.assertIn(h['locale'],('zh_tw',))
    self.assertNotIn(h['class'],('net/minecraft/class_338','net/minecraft/class_634'))
    self.assertNotIn(h['class'],('fr/sao/pass/screen/PassCanvas','fr/sao/font/TextUtil'))

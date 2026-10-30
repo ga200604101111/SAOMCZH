@@ -1339,7 +1339,13 @@
     "berserker": "狂戰士",
     " berserker": " 狂戰士",
     "berserker ": "狂戰士 ",
-    " berserker ": " 狂戰士 "
+    " berserker ": " 狂戰士 ",
+    "Mini Treant": "迷你樹人",
+    "Treant": "樹人",
+    "Local Lumberjack": "當地伐木工",
+    "Oak Stump": "橡木樹樁",
+    "OAK STUMP": "橡木樹樁",
+    "Marécage Putride": "腐敗沼澤"
   },
   "messages": {
     "chain a dash onto the marked target.": "即可接續突進至被標記的目標。",
@@ -1483,7 +1489,12 @@
     "💨 Movement speed bonus in percent": "💨 移動速度加成（%）",
     "💨 Movement speed bonus during the bloom": "💨 綻放期間的移動速度加成",
     "💫 Stun duration in seconds": "💫 暈眩時間（秒）",
-    "🛡 Dodge rate in percent": "🛡 閃避率（%）"
+    "🛡 Dodge rate in percent": "🛡 閃避率（%）",
+    "Calme Mortel activé !": "致命沉靜已啟用！",
+    "Calme Mortel déclenché !": "致命沉靜已觸發！",
+    "Calme Mortel épuisé !": "致命沉靜已耗盡！",
+    "Calme Mortel prêt !": "致命沉靜已就緒！",
+    "You are at the spawn.": "你已在重生點。"
   },
   "lines": {
     "The center of the tree.": "技能樹的核心。",

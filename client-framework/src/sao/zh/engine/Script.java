@@ -69,6 +69,10 @@ final class Script {
        ||!descriptor.equals("(Lnet/minecraft/class_1531;Lnet/minecraft/class_9998;F)V"))
       throw new IllegalArgumentException("Not a dedicated ArmorStand nameplate render state");
      break;
+    case "mob_name":
+     if(!id.equals("codex-creatures:mob-shown-name")||!owner.equals("fr/sao/saoui/mob/MobBarRenderer")||!method.equals("shownName")||!descriptor.equals("(Lfr/sao/saoui/mob/MobBarEntry;)Ljava/lang/String;"))throw new IllegalArgumentException("Not a guarded mob display source");break;
+    case "system_text":
+     if(!id.equals("dynamic-translation:game-system-display")||!owner.equals("net/minecraft/class_7594")||!method.equals("method_44736")||!descriptor.equals("(Lnet/minecraft/class_2561;Z)V"))throw new IllegalArgumentException("Not a game-system display callsite");break;
     case "return":if(!valueType(ret.getDescriptor()))throw new IllegalArgumentException("Return is not supported text");break;
     case "argument":if(argument<0||argument>=args.length||!valueType(args[argument].getDescriptor()))throw new IllegalArgumentException("Argument is not supported text");break;
     case "field":if(memberOwner.isEmpty()||!memberName.matches("[A-Za-z_$][A-Za-z0-9_$]*")||!valueType(memberDescriptor))throw new IllegalArgumentException("Invalid field projection");break;
@@ -77,6 +81,7 @@ final class Script {
    }
    locale=m.get("locale") instanceof String?(String)m.get("locale"):"zh_tw";if(!locale.equals("*")&&!locale.matches("[a-z]{2,3}_[a-z]{2,4}"))throw new IllegalArgumentException("Invalid locale");
    section=m.get("section") instanceof String?(String)m.get("section"):"names";if(!Set.of("names","items","lines","messages").contains(section))throw new IllegalArgumentException("Unknown dictionary section");if(kind.equals("armorstand_nameplate")&&!section.equals("lines"))throw new IllegalArgumentException("ArmorStand labels require lines dictionary");
+   if(kind.equals("mob_name")&&!section.equals("names")||kind.equals("system_text")&&!section.equals("messages"))throw new IllegalArgumentException("Semantic source dictionary mismatch");
    Object captureInput=m.get("capture");capture=captureInput==null?"":captureInput instanceof String?(String)captureInput:"!invalid!";
    if(!capture.isEmpty()&&!UnknownCollector.permitted(owner,kind,capture))throw new IllegalArgumentException("Capture is not approved for this owner/kind/origin");
    Map<String,String>map=new HashMap<>();Object entries=m.get("exact");if(entries instanceof Map){if(((Map<?,?>)entries).size()>10000)throw new IllegalArgumentException("Too many replacements");for(Map.Entry<?,?>e:((Map<?,?>)entries).entrySet()){

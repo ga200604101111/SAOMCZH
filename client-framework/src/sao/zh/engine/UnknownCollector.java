@@ -37,6 +37,7 @@ final class UnknownCollector implements AutoCloseable {
  }
  static boolean permitted(String owner,String kind,String origin){
   if(owner==null||kind==null||origin==null)return false;
+  if(origin.equals("mob"))return owner.equals("fr/sao/saoui/mob/MobBarRenderer")&&kind.equals("mob_name");
   if(!Set.of("return","argument","call","field").contains(kind))return false;
   if(owner.startsWith("net/minecraft/")||owner.startsWith("fr/sao/pass/")||owner.startsWith("fr/sao/font/")
       ||owner.startsWith("fr/sao/playerdisplay/")||owner.startsWith("fr/sao/guild/")
@@ -56,7 +57,7 @@ final class UnknownCollector implements AutoCloseable {
  static boolean safe(String text,String origin){
   if(text==null||origin==null||text.length()<4||text.length()>MAX_TEXT)return false;
   String s=text.trim();
-  if(s.length()<4||USERNAME.matcher(s).matches()||RESOURCE.matcher(s).matches()
+  if(s.length()<4||(!origin.equals("mob")&&USERNAME.matcher(s).matches())||RESOURCE.matcher(s).matches()
       ||s.equalsIgnoreCase("null")||s.equalsIgnoreCase("old"))return false;
   if(!LATIN.matcher(s).find())return false;
   if(s.indexOf('@')>=0||s.indexOf('§')>=0||s.indexOf('<')>=0||s.indexOf('>')>=0||

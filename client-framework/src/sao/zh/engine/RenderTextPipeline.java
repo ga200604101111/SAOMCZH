@@ -12,7 +12,8 @@ final class RenderTextPipeline {
  static boolean wholeFirst(Script.Hook h){
   String owner=h.owner;
   // Never assemble player chat/nameplate/scoreboard nodes in a generic renderer.
-  return owner.equals("net/minecraft/class_877")
+  return owner.equals("net/minecraft/class_897")||SemanticText.system(h)
+   ||owner.equals("net/minecraft/class_877")
    ||owner.equals("net/minecraft/class_8138$class_8141")
    ||owner.equals("com/eighteen/saojob/hologram/HologramRenderer")
    ||owner.startsWith("fr/sao/questtracker/")
@@ -22,7 +23,7 @@ final class RenderTextPipeline {
    ||owner.startsWith("com/eighteen/saojob/skilltree/");
  }
  static String resolve(Script.Hook hook,String raw,Map<String,Map<String,String>> dictionaries){
-  if(raw==null||raw.length()>8192)return raw;
+  if(raw==null||raw.length()>8192||!SemanticText.permitted(hook,raw))return raw;
   // Already-authorized full-line numeric formats only, before fragment replacement.
   if(hook.id.startsWith("combat-feedback:")){
    String dynamic=combat(raw);if(dynamic!=null)return dynamic;
@@ -37,7 +38,7 @@ final class RenderTextPipeline {
     if(next!=null)break;
    }
   }
-  return next==null||next.length()>16384?raw:next;
+  return next==null||next.length()>16384?SemanticText.resolve(hook,raw,dictionaries):next;
  }
  private static String combat(String raw){
   if(raw.length()>92||raw.indexOf('§')>=0)return null;

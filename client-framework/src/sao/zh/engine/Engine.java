@@ -29,7 +29,7 @@ public final class Engine {
  private volatile Script current=Script.empty(),previous;private volatile byte[]currentBytes,currentSig,previousBytes,previousSig;
  private final AtomicLong epoch=new AtomicLong();private volatile Map<String,Map<String,String>>dictionary=Map.of();
  private final ScheduledExecutorService worker=Executors.newSingleThreadScheduledExecutor(r->{Thread t=new Thread(r,"SAO-ZH-Extensions");t.setDaemon(true);return t;});
- private final ExecutorService downloads=Executors.newSingleThreadExecutor(r->{Thread t=new Thread(r,"SAO-ZH-Download");t.setDaemon(true);return t;});private final AtomicBoolean fetching=new AtomicBoolean();private volatile long controlEpoch;private long nextBinaryCheck;
+ private final ExecutorService downloads=Executors.newSingleThreadExecutor(r->{Thread t=new Thread(r,"SAO-ZH-Download");t.setDaemon(true);return t;});private final AtomicBoolean fetching=new AtomicBoolean();private volatile long controlEpoch;private long nextBinaryCheck;private long nextStatusWrite;
  private final List<JarFile>held=new ArrayList<>();private final Set<String>logged=ConcurrentHashMap.newKeySet();private volatile long highWater;private long nextNetwork;
  private final Path engineJar;private long candidateStamp=-1,dictStamp=-1,controlStamp=-1;private volatile boolean updatesPaused;private String remoteDigest="";private final boolean fixture;private boolean nativeTest;
  private Engine(Instrumentation i,Path root,Path jar,boolean fixture){inst=i;this.root=root;store=root.resolve("SAO_ZH_Extensions");engineJar=jar;this.fixture=fixture;unknownCollector=new UnknownCollector(root);}
@@ -64,7 +64,10 @@ public final class Engine {
  }
  private void bind(){LiteralGlyphBridge.bind();Dispatch.bind((id,value,owner)->{
   Script snapshot=current;Script.Hook h=snapshot.byId.get(id);if(h==null||h.failures.get()>=3||!TextProjection.locale(owner,h.locale))return value;
-  try{return TextProjection.apply(value,owner,text->translate(h,text),RenderTextPipeline.wholeFirst(h));}
+  try{
+   if((SemanticText.system(h)||SemanticText.npc(h))&&!SemanticText.permitTree(h,TextProjection.plainText(value,owner),dictionary))return value;
+   return TextProjection.apply(value,owner,text->projectSemanticLeaf(h,text),RenderTextPipeline.wholeFirst(h));
+  }
   catch(Exception|LinkageError error){if(h.failures.incrementAndGet()<=3)once("hook-fault-"+snapshot.sequence+"-"+id,"HOOK_FAIL_OPEN "+id+" "+error.getClass().getSimpleName());return value;}
  },epoch.get());
  Dispatch.bindSupport((id,receiver,owner,text,size,bold,width,limit,original)->{
@@ -77,6 +80,13 @@ public final class Engine {
   try{layout.refresh(h,receiver,owner,epoch.get());}
   catch(Exception|LinkageError error){if(h.failures.incrementAndGet()<=3)once("refresh-fault-"+current.sequence+"-"+id,"REFRESH_KEEP_SCREEN "+id+" "+error.getClass().getSimpleName());}
  });}
+ private String projectSemanticLeaf(Script.Hook h,String raw){
+  if(SemanticText.npc(h)&&raw!=null&&!raw.contains("[NPC]")){
+   String prefix="[NPC] ";String mapped=translate(h,prefix+raw);
+   return mapped.startsWith(prefix)?mapped.substring(prefix.length()):raw;
+  }
+  return translate(h,raw);
+ }
  private String translate(Script.Hook h,String raw){
   if(raw==null||raw.length()>8192)return raw;
   // Most fixed GUI labels repeat every frame; keep the memo per thread, hook and rule generation.
@@ -94,6 +104,7 @@ public final class Engine {
   }
   if(!result.equals(raw)){
    result=LiteralGlyphBridge.encode(raw,result);
+   if(SemanticText.enabled(h))once("semantic-"+h.id,"SEMANTIC_TEXT_TRANSLATED hook="+h.id);
    // Confirm the world-text path without ever logging server text or player data.
    if(h.id.equals("worlds-locations:text-display-before-native-wrap")
        ||h.id.equals("worlds-locations:saojob-hologram-preformat")
@@ -101,7 +112,7 @@ public final class Engine {
     once("world-text-success-"+h.id,"WORLD_TEXT_TRANSLATED hook="+h.id);
    if(cacheable)memo.put(h,raw,result,generation);return result;
   }
-  if(!h.capture.isEmpty())unknownCollector.offer(h.capture,h.section,h.id,raw);
+  if(!h.capture.isEmpty())unknownCollector.offer(h.capture,h.section,h.id,SemanticText.captureKey(h,raw));
   // Capture-enabled misses must remain retryable when the asynchronous queue is full.
   if(cacheable&&h.capture.isEmpty())memo.put(h,raw,raw,generation);
   return raw;
@@ -191,7 +202,10 @@ public final class Engine {
  }
  private synchronized void poll(){
   try{
-   reloadDictionary();Path candidate=store.resolve("rules/candidate.json"),sig=candidate.resolveSibling("candidate.sig");
+   reloadDictionary();
+   for(String failure;(failure=transformer.errors.poll())!=null;)once("transform-"+failure,"HOOK_TRANSFORM_SKIPPED "+failure);
+   if(System.currentTimeMillis()>=nextStatusWrite){nextStatusWrite=System.currentTimeMillis()+15000;Verified.atomic(store.resolve("status.txt"),status().getBytes(StandardCharsets.UTF_8));}
+   Path candidate=store.resolve("rules/candidate.json"),sig=candidate.resolveSibling("candidate.sig");
    if(Files.isRegularFile(candidate)&&Files.isRegularFile(sig)){long stamp=Files.getLastModifiedTime(candidate).toMillis()+Files.getLastModifiedTime(sig).toMillis();if(stamp!=candidateStamp){candidateStamp=stamp;saveWatcherState();try{applySigned(Verified.read(candidate,Script.LIMIT),Verified.read(sig,4096));}catch(Exception bad){Agent.log("LOCAL_CANDIDATE_REJECTED_OLD_RULES_RETAINED "+bad.getClass().getSimpleName()+" "+bad.getMessage());}}}
    Path control=store.resolve("control.json");if(Files.isRegularFile(control)){long stamp=Files.getLastModifiedTime(control).toMillis();if(stamp!=controlStamp){controlStamp=stamp;Map<?,?>command=Script.obj(MiniJson.parse(new String(Verified.read(control,4096),StandardCharsets.UTF_8)));String action=String.valueOf(command.get("action"));if(action.equals("refresh")){controlEpoch++;updatesPaused=false;nextNetwork=0;dictStamp=-1;}else if(action.equals("rollback")){controlEpoch++;updatesPaused=true;rollback();nextNetwork=Long.MAX_VALUE;}else if(action.equals("disable")){controlEpoch++;updatesPaused=true;transition(Script.empty());currentBytes=null;currentSig=null;persist();nextNetwork=Long.MAX_VALUE;}saveWatcherState();}}
    if(!nativeTest&&!updatesPaused&&System.currentTimeMillis()>=nextNetwork&&fetching.compareAndSet(false,true)){nextNetwork=System.currentTimeMillis()+60000;final long token=controlEpoch;downloads.execute(()->{try{remoteUpdate(token);}finally{fetching.set(false);}});}

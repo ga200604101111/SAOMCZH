@@ -44,6 +44,13 @@ final class RuleTransformer implements ClassFileTransformer {
      @Override public void visitInsn(int op){
       if(op==Opcodes.ARETURN)for(Script.Hook h:selected){
        if(h.kind.equals("return"))dispatch(h,Type.getReturnType(desc).getDescriptor());
+       if(h.kind.equals("mob_name")){
+        if((access&Opcodes.ACC_STATIC)==0)throw new IllegalArgumentException("Mob shownName must be static");
+        super.visitLdcInsn(h.id);super.visitInsn(Opcodes.SWAP);
+        super.visitVarInsn(Opcodes.ALOAD,0);super.visitFieldInsn(Opcodes.GETFIELD,"fr/sao/saoui/mob/MobBarEntry","name","Ljava/lang/String;");
+        super.visitLdcInsn(Type.getObjectType(cls));super.visitVarInsn(Opcodes.ALOAD,0);super.visitFieldInsn(Opcodes.GETFIELD,"fr/sao/saoui/mob/MobBarEntry","player","Z");
+        super.visitMethodInsn(Opcodes.INVOKESTATIC,"sao/zh/api/Dispatch","mobText","(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Class;Z)Ljava/lang/String;",false);found.merge(h.id,1,Integer::sum);
+       }
        if(h.kind.equals("wrap")){super.visitLdcInsn(h.id);super.visitVarInsn(Opcodes.ALOAD,0);super.visitLdcInsn(Type.getObjectType(cls));super.visitVarInsn(Opcodes.ALOAD,1);super.visitVarInsn(Opcodes.FLOAD,2);super.visitVarInsn(Opcodes.ILOAD,3);super.visitVarInsn(Opcodes.FLOAD,4);super.visitVarInsn(Opcodes.ILOAD,5);super.visitMethodInsn(Opcodes.INVOKESTATIC,"sao/zh/api/Dispatch","wrap","(Ljava/util/List;Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Class;Ljava/lang/String;FZFI)Ljava/util/List;",false);found.merge(h.id,1,Integer::sum);}
       }
       if(op==Opcodes.RETURN)for(Script.Hook h:selected)if(h.kind.equals("armorstand_nameplate")){
@@ -58,11 +65,14 @@ final class RuleTransformer implements ClassFileTransformer {
       super.visitInsn(op);
      }
      @Override public void visitFieldInsn(int op,String owner,String field,String d){super.visitFieldInsn(op,owner,field,d);if(op==Opcodes.GETFIELD||op==Opcodes.GETSTATIC)for(Script.Hook h:selected)if(h.kind.equals("field")&&h.memberOwner.equals(owner)&&h.memberName.equals(field)&&h.memberDescriptor.equals(d))dispatch(h,d);}
-     @Override public void visitMethodInsn(int op,String owner,String method,String d,boolean iface){super.visitMethodInsn(op,owner,method,d,iface);for(Script.Hook h:selected)if(h.kind.equals("call")&&h.memberOwner.equals(owner)&&h.memberName.equals(method)&&h.memberDescriptor.equals(d))dispatch(h,Type.getReturnType(d).getDescriptor());}
+     @Override public void visitMethodInsn(int op,String owner,String method,String d,boolean iface){
+      // Only the visible system-message argument; original logging/narration and packets stay intact.
+      for(Script.Hook h:selected)if(h.kind.equals("system_text")&&op==Opcodes.INVOKEVIRTUAL&&owner.equals("net/minecraft/class_338")&&method.equals("method_1812")&&d.equals("(Lnet/minecraft/class_2561;)V"))dispatch(h,Script.TEXT);
+      super.visitMethodInsn(op,owner,method,d,iface);for(Script.Hook h:selected)if(h.kind.equals("call")&&h.memberOwner.equals(owner)&&h.memberName.equals(method)&&h.memberDescriptor.equals(d))dispatch(h,Type.getReturnType(d).getDescriptor());}
     };
    }
   },0);
-  for(Script.Hook h:hooks){int n=found.getOrDefault(h.id,0);if(n==0||((h.kind.equals("field")||h.kind.equals("call"))&&n!=h.sites))throw new IllegalArgumentException("Hook target/site mismatch "+h.id+" found="+n);}
+  for(Script.Hook h:hooks){int n=found.getOrDefault(h.id,0);if(n==0||((h.kind.equals("field")||h.kind.equals("call")||h.kind.equals("system_text"))&&n!=h.sites))throw new IllegalArgumentException("Hook target/site mismatch "+h.id+" found="+n);}
   return writer.toByteArray();
  }
 }

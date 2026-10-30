@@ -62,7 +62,12 @@ def checked_hook(h:Any,module_id:str,terms:dict[str,dict[str,str]])->dict[str,An
  desc=h.get('descriptor')
  if not isinstance(desc,str) or len(desc)>1024 or not desc.startswith('(') or ')' not in desc:raise ModuleError('Invalid method descriptor')
  kind=h.get('kind')
- if kind not in ('return','argument','field','call','wrap','refresh','armorstand_nameplate'):raise ModuleError('Unsupported hook kind')
+ if kind not in ('return','argument','field','call','wrap','refresh','armorstand_nameplate','mob_name','system_text'):raise ModuleError('Unsupported hook kind')
+ if kind in ('mob_name','system_text'):
+  expected={'mob_name':('codex-creatures','mob-shown-name','fr/sao/saoui/mob/MobBarRenderer','shownName','(Lfr/sao/saoui/mob/MobBarEntry;)Ljava/lang/String;','names'),
+            'system_text':('dynamic-translation','game-system-display','net/minecraft/class_7594','method_44736','(Lnet/minecraft/class_2561;Z)V','messages')}[kind]
+  if (module_id,id,h['class'],h['method'],desc,h.get('section'))!=expected or (h.get('capture') and not (kind=='mob_name' and h.get('capture')=='mob')):
+   raise ModuleError('Unsafe semantic rendering hook')
  if kind=='armorstand_nameplate':
   if module_id!='worlds-locations' or h['class']!='net/minecraft/class_877' or h['method']!='method_62375' or desc!='(Lnet/minecraft/class_1531;Lnet/minecraft/class_9998;F)V' or h.get('section')!='lines' or h.get('capture'):
    raise ModuleError('ArmorStand hook only permits client render-state label projection')
@@ -102,6 +107,7 @@ def checked_hook(h:Any,module_id:str,terms:dict[str,dict[str,str]])->dict[str,An
  capture=h.get('capture')
  if capture is not None:
   families={
+   'mob':('codex-creatures',('fr/sao/saoui/mob/MobBarRenderer',)),
    'quest':('quests-objectives',('fr/sao/questtracker/screen/','fr/sao/questtracker/hud/')),
    'codex':('codex-creatures',('fr/sao/codex/',)),
    'skill':('skills-progression',('com/eighteen/saojob/skills/','com/eighteen/saojob/skilltree/')),
@@ -111,7 +117,7 @@ def checked_hook(h:Any,module_id:str,terms:dict[str,dict[str,str]])->dict[str,An
   }
   if not isinstance(capture,str) or capture not in families:raise ModuleError('Unknown capture origin')
   module,owners=families[capture]
-  if module_id!=module or kind not in ('return','argument','call','field') or not any(h['class'].startswith(o) for o in owners):
+  if module_id!=module or (kind not in ('return','argument','call','field') and not (capture=='mob' and kind=='mob_name')) or not any(h['class'].startswith(o) for o in owners):
    raise ModuleError('Capture target not allowlisted for its domain')
  mapped=dict(terms.get(section,{}));mapped.update(entries(h.get('exact',{})));h['exact']=dict(sorted(mapped.items()))
  ops=h.get('operations',[])

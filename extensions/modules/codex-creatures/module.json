@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "codex-creatures",
-  "version": "1.6.0",
+  "version": "1.8.0",
   "name": "圖鑑與生物",
   "enabled": true,
   "dependencies": {
@@ -173,6 +173,15 @@
       "member_descriptor": "()Ljava/lang/String;",
       "sites": 1,
       "capture": "codex"
+    },
+    {
+      "id": "mob-shown-name",
+      "class": "fr/sao/saoui/mob/MobBarRenderer",
+      "method": "shownName",
+      "descriptor": "(Lfr/sao/saoui/mob/MobBarEntry;)Ljava/lang/String;",
+      "kind": "mob_name",
+      "section": "names",
+      "capture": "mob"
     }
   ]
 }

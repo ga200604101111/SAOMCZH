@@ -23,7 +23,11 @@ class HalfwidthColons(unittest.TestCase):
  def test_original_input_keys_are_not_normalized(self):
   data=json.loads((ROOT/'languages/zh_tw/translations.json').read_text('utf8'))
   import hashlib
-  digest=hashlib.sha256(json.dumps({s:sorted(data[s]) for s in ('names','items','lines','messages')},ensure_ascii=False,sort_keys=True,separators=(',',':')).encode('utf8')).hexdigest()
+  # Preserve every original matcher exactly; only exclude this explicitly reviewed addition batch.
+  added={'names':{'Mini Treant','Treant','Local Lumberjack','Oak Stump','OAK STUMP','Marécage Putride'},
+         'messages':{'Calme Mortel activé !','Calme Mortel déclenché !','Calme Mortel épuisé !','Calme Mortel prêt !','You are at the spawn.'}}
+  for section,keys in added.items():self.assertTrue(keys<=set(data[section]),'Reviewed semantic names missing')
+  digest=hashlib.sha256(json.dumps({s:sorted(set(data[s])-added.get(s,set())) for s in ('names','items','lines','messages')},ensure_ascii=False,sort_keys=True,separators=(',',':')).encode('utf8')).hexdigest()
   self.assertEqual(digest,'bce31ca40d8c8d7a9248b6d542871154fc7bc62dd65329546783d578d3970dbd','Original matching keys changed')
  @unittest.skipUnless(os.environ.get('SAO_GLYPH_PACK'),'External pack not supplied')
  def test_localized_pack_values_use_ascii_colons(self):

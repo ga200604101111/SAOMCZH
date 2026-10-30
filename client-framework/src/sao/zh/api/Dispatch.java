@@ -15,6 +15,11 @@ public final class Dispatch {
   busy.set(true);try{Object changed=h.apply(key,original,owner);if(changed==null||!original.getClass().isInstance(changed))return original;return changed;}
   catch(VirtualMachineError fatal){throw fatal;}catch(Throwable bad){faults.incrementAndGet();return original;}finally{busy.remove();}
  }
+ public static String mobText(String key,String shown,String source,Class<?>owner,boolean player){
+  if(player)return source==null?shown:source;
+  String translated=text(key,source,owner);
+  return source!=null&&!Objects.equals(translated,source)?translated:text(key,shown,owner);
+ }
  public static String text(String key,String original,Class<?>owner){Object result=value(key,original,owner);return result instanceof String?(String)result:original;}
  public static List<?> wrap(List<?>original,String key,Object receiver,Class<?>owner,String text,float size,boolean bold,float width,int limit){
   WrapHandler h=wrapper;if(h==null||Boolean.TRUE.equals(busy.get()))return original;

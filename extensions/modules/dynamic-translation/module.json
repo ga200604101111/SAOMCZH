@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "dynamic-translation",
-  "version": "1.0.1",
+  "version": "1.8.0",
   "name": "原生動態翻譯補強",
   "enabled": true,
   "dependencies": {
@@ -115,6 +115,14 @@
       "descriptor": "(Lnet/minecraft/class_1297;Lnet/minecraft/class_2561;)Lnet/minecraft/class_2561;",
       "kind": "return",
       "section": "names"
+    },
+    {
+      "id": "game-system-display",
+      "class": "net/minecraft/class_7594",
+      "method": "method_44736",
+      "descriptor": "(Lnet/minecraft/class_2561;Z)V",
+      "kind": "system_text",
+      "section": "messages"
     }
   ]
 }
