@@ -24,7 +24,7 @@ class ItemDetails(unittest.TestCase):
  def test_quantity_suffix(self):
   for s,t in [('Healing Shard x2','治療碎片 x2'),('Mana Shard x3','魔力碎片 x3'),('Halloween Key x2','萬聖節鑰匙 x2')]:self.assertEqual(render('items-economy:item-plain',s),t)
  def test_effect_numbers(self):
-  for s,t in [('Restores 40 mana','恢復 40 點魔力'),('Single use - cooldown of 1min','使用一次 - 冷卻時間 1 分鐘'),('Restores 150 HP, 150 mana, 150 stamina','恢復 150 點生命、150 點魔力、150 點耐力')]:self.assertEqual(render('items-economy:tooltip-display',s),t)
+  for s,t in [('Restores 40 mana','恢復 40 點魔力'),('Single use - cooldown of 1min','使用一次 - 冷卻時間: 1 分鐘'),('Restores 150 HP, 150 mana, 150 stamina','恢復 150 點生命、150 點魔力、150 點耐力')]:self.assertEqual(render('items-economy:tooltip-display',s),t)
  def test_item_lore_sentence(self):self.assertEqual(render('ui-text-layout:measured-cjk-wrap','A rather rare loot from the Treant Warrior. Useful if you need to craft potions.'),'樹人戰士掉落的稀有材料，可用於製作藥水。')
  def test_skill_and_reward_captured_texts(self):
   for s,t in [('Stay out of combat for 3 seconds','脫離戰鬥 3 秒'),('Restores 60 HP at once. Single use.','立即恢復 60 點生命。使用一次。')]:self.assertEqual(D.get('lines',{}).get(s),t)
