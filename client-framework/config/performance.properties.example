@@ -1,0 +1,7 @@
+# Opt-in only. Copy to <extension root>/SAO_ZH_Performance/performance.properties.
+# Start with light sampling in the existing game instance after compatible signed update.
+enabled=false
+# 10..1800 seconds, defaults to 120. Stops automatically; set enabled=false to stop sooner.
+durationSeconds=120
+# Optional Java stack/GC/file I/O JFR, up to 60 seconds and 64 MiB, local only.
+deepJfr=false

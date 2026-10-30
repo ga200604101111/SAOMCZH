@@ -32,7 +32,7 @@ def main():
    if n.startswith('org/objectweb/asm/') and n.endswith('.class'):engine[n]=z.read(n)
  engine['META-INF/ASM-LICENSE.txt']=(root/'licenses/ASM-BSD-3-Clause.txt').read_bytes();jar(out/'SAO_ZH_Runtime_1.2.0.jar',engine)
  cc={f.relative_to(compat).as_posix():f.read_bytes() for f in compat.rglob('*.class')}
- prefixes=tuple('sao/zh/compat16/'+v for v in ['SplashBridge','SplashAssets','PackLifecycleManager','GitHubTranslationClient','CjkLayout','PackBridge','RuntimeBridge','MiniJson','FontColorPolicy','LiteralGlyphs'])
+ prefixes=tuple('sao/zh/compat16/'+v for v in ['SplashBridge','SplashAssets','PackLifecycleManager','GitHubTranslationClient','CjkLayout','PackBridge','RuntimeBridge','MiniJson','FontColorPolicy','LiteralGlyphs','PerformanceBridge'])
  buf=io.BytesIO()
  with zipfile.ZipFile(buf,'w',zipfile.ZIP_DEFLATED) as z:
   for n,b in cc.items():

@@ -101,7 +101,9 @@ public final class DirectAgent {
                 }else{
                     log("STARTUP_SPLASH_SKIPPED_KEEP_ORIGINAL");
                 }
-                log("OPTIONAL_FEATURES_INSTALLED");
+                try { PerformanceService.install(inst,logDirectory); }
+            catch(Exception|LinkageError perfFailure) { log("PERFORMANCE_DISABLED_KEEP_GAME "+perfFailure.getClass().getSimpleName()); }
+            log("OPTIONAL_FEATURES_INSTALLED");
             } catch (Throwable optionalFailure) {
                 log("OPTIONAL_FEATURES_DISABLED " + optionalFailure.getClass().getSimpleName());
             }
