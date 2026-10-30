@@ -1,0 +1,4 @@
+# Native TTF raster disk/page cache; opt in on the next original game launch.
+enabled=false
+memoryMiB=32
+diskMiB=256

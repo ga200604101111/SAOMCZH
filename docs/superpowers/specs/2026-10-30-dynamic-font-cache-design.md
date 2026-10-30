@@ -30,3 +30,7 @@ Minecraft 1.21.4 實際位元碼：class_395 是接收 ByteBuffer、FT_Face 與 
 ## 目前狀態
 
 已確認原生 lazy TTF 入口，效能分析擴展已接入原生 raster 與 MSDF 的計時。glyph disk read/write 計時通道已預留，但真正的磁碟／分頁快取尚未接線完成。這份文件不是已啟用的快取功能；也沒有縮減或替換正式資源包。字體檔不隨對話附件或 Git 變更散佈。
+
+## 2026-10-30 本機試用進度
+
+原生 TTF 像素磁碟頁已實作並通過實際 FreeType／Minecraft 類別的冷暖 JVM 測試，已簽章準備原實例下次啟動載入。這不是自訂 MSDF/GPU page cache，也未移除既有預烘焙圖集。實作、上限、停用與實機驗收界線見 client-framework/docs/native-glyph-cache-trial-20261030.md。
