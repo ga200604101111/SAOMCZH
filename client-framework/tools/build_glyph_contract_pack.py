@@ -23,9 +23,19 @@ def strings(v):
  elif isinstance(v,list):
   for x in v:yield from strings(x)
 def encode(s,aliases):return ''.join(chr(aliases.get(ord(c),ord(c))) for c in s.replace('\uff1a',':'))
+# Exact UI keys verified against the original SAOUI/companionsmod en_us resources.
+# Do not turn Chinese sentence punctuation, numeric values or arbitrary strings into ASCII.
+LEVEL_LABELS={'saoui.node.level':'Lv. %s+','saoui.mob.level':'LV. %s','companionsmod.ui.level':'Lv. %s'}
+def level_label(key,value):
+ target=LEVEL_LABELS.get(key)
+ if target is not None and isinstance(value,str):
+  wrong={s.replace('.',mark) for s in (target,target.replace('Lv.','LV.')) for mark in ('\u3002','\uff0e')}
+  if value in wrong:return target
+ return value
+
 def encode_values(v,aliases):
  if isinstance(v,str):return encode(v,aliases)
- if isinstance(v,dict):return {k:encode_values(x,aliases) for k,x in v.items()}
+ if isinstance(v,dict):return {k:encode_values(level_label(k,x),aliases) for k,x in v.items()}
  if isinstance(v,list):return [encode_values(x,aliases) for x in v]
  return v
 
