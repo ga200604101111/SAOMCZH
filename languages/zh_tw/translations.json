@@ -1345,7 +1345,9 @@
     "Local Lumberjack": "當地伐木工",
     "Oak Stump": "橡木樹樁",
     "OAK STUMP": "橡木樹樁",
-    "Marécage Putride": "腐敗沼澤"
+    "Marécage Putride": "腐敗沼澤",
+    "Eugeo": "尤吉歐",
+    "Cardinal Relay": "卡迪納爾中繼裝置"
   },
   "messages": {
     "chain a dash onto the marked target.": "即可接續突進至被標記的目標。",
@@ -1494,7 +1496,14 @@
     "Calme Mortel déclenché !": "致命沉靜已觸發！",
     "Calme Mortel épuisé !": "致命沉靜已耗盡！",
     "Calme Mortel prêt !": "致命沉靜已就緒！",
-    "You are at the spawn.": "你已在重生點。"
+    "You are at the spawn.": "你已在重生點。",
+    "Fuel ready! Right-click to start heating.": "燃料已備妥！右鍵開始加熱。",
+    "Heating started! Right-click again to stop at the right temperature.": "開始加熱！在適當溫度時再次右鍵停止。",
+    "Cooking started! Right-click to retrieve at the optimal moment.": "開始加熱處理！在最佳時機右鍵取出。",
+    "Quenching in progress...": "淬火進行中……",
+    "Process complete! Right-click to retrieve the item.": "處理完成！右鍵取出物品。",
+    "Hey! Sorry, but you can't change that here.": "嘿！抱歉，你不能在這裡更改。",
+    "Hey! Sorry, but you can't use that here.": "嘿！抱歉，你不能在這裡使用。"
   },
   "lines": {
     "The center of the tree.": "技能樹的核心。",
@@ -8754,6 +8763,9 @@
     "Hache en Fer": "鐵斧",
     " sturdy enough to cut": " 強度足以砍伐",
     " the first trees of the world.": " 世界中的初期樹木。",
-    "Iron Axe": "鐵斧"
+    "Iron Axe": "鐵斧",
+    "Oak Bark": "橡木樹皮",
+    "Young Oak Stick": "幼橡木枝",
+    "Anthracite": "無煙煤"
   }
 }

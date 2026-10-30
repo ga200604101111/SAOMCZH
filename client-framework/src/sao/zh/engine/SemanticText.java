@@ -70,6 +70,11 @@ final class SemanticText {
   }
   String candidate=plain.substring(left,right);String exact=lookup(h,candidate,data);
   if(exact!=null)return text.replace(left,right,exact);
+  if(system(h)){
+   String whole=DynamicSystemMessages.whole(raw,data);
+   if(!whole.equals(raw))return whole;
+   return DynamicSystemMessages.fragment(raw,data);
+  }
   Matcher match;
   if(compass(h)){
    match=DISTANCE.matcher(candidate);

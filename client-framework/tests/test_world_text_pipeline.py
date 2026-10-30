@@ -45,7 +45,7 @@ class WorldTextPipeline(unittest.TestCase):
    self.assertNotIn(src,data['names'])
    self.assertNotIn(src,data['messages'])
   self.assertEqual(len(self.hooks),123)
-  self.assertEqual(self.bundle['translation_version'],'1.0.14')
+  self.assertEqual(self.bundle['translation_version'],'1.0.15')
  def test_armorstand_only_render_state_not_entity_or_player(self):
   hook=self.hooks['worlds-locations:armorstand-nameplate']
   self.assertEqual(hook['class'],'net/minecraft/class_877')
