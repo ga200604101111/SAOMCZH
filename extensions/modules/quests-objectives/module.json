@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "quests-objectives",
-  "version": "1.6.0",
+  "version": "1.10.0",
   "name": "任務與追蹤",
   "enabled": true,
   "dependencies": {
@@ -200,6 +200,30 @@
       "kind": "argument",
       "section": "lines",
       "argument": 2
+    },
+    {
+      "id": "compass-flat-info",
+      "class": "fr/sao/questtracker/hud/QuestCompassRenderer",
+      "method": "splitInfo",
+      "descriptor": "(Lnet/minecraft/class_2561;Lnet/minecraft/class_2561;)V",
+      "kind": "call",
+      "section": "lines",
+      "member_class": "fr/sao/questtracker/hud/QuestCompassRenderer",
+      "member": "flat",
+      "member_descriptor": "(Lnet/minecraft/class_2561;)Ljava/lang/String;",
+      "sites": 2
+    },
+    {
+      "id": "compass-flat-city",
+      "class": "fr/sao/questtracker/hud/QuestCompassRenderer",
+      "method": "drawTitle",
+      "descriptor": "(Lnet/minecraft/class_332;Lnet/minecraft/class_327;Lnet/minecraft/class_2561;F)V",
+      "kind": "call",
+      "section": "names",
+      "member_class": "fr/sao/questtracker/hud/QuestCompassRenderer$FlatText",
+      "member": "of",
+      "member_descriptor": "(Lnet/minecraft/class_2561;)Ljava/lang/String;",
+      "sites": 1
     }
   ]
 }

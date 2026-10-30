@@ -68,6 +68,17 @@ public final class Engine {
   try{
    if(h.kind.equals("description_list"))return loreParagraphs.project(value,text->translate(h,text),LiteralGlyphBridge::readable,LiteralGlyphBridge::encode,epoch.get());
    if((SemanticText.system(h)||SemanticText.npc(h))&&!SemanticText.permitTree(h,TextProjection.plainText(value,owner),dictionary))return value;
+   // The native compass flat() deliberately removes PUA icons. Decode our Han aliases
+   // before that operation, then translate the flattened String BEFORE measure/draw.
+   if(SemanticText.compass(h)&&!(value instanceof String)&&!h.method.equals("text")
+       &&snapshot.byId.containsKey("quests-objectives:compass-flat-info")){
+    if(h.method.equals("drawInfoBarContent"))CompassTextState.refresh(owner,epoch.get());
+    return TextProjection.apply(value,owner,LiteralGlyphBridge::readable);
+   }
+   if(RenderTextPipeline.styledName(h)){
+    Object next=StyledNameProjection.apply(value,owner,text->projectSemanticLeaf(h,text));
+    if(next!=value)return next;
+   }
    return TextProjection.apply(value,owner,text->projectSemanticLeaf(h,text),RenderTextPipeline.wholeFirst(h));
   }
   catch(Exception|LinkageError error){if(h.failures.incrementAndGet()<=3)once("hook-fault-"+snapshot.sequence+"-"+id,"HOOK_FAIL_OPEN "+id+" "+error.getClass().getSimpleName());return value;}

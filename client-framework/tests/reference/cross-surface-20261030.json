@@ -1,0 +1,15 @@
+{
+  "names": {
+    "Shard Keeper": "碎片管理員"
+  },
+  "lines": {
+    "Right-click: your daily shards.": "右鍵領取每日碎片。"
+  },
+  "items": {
+    "Copper Katana": "銅製武士刀",
+    "Forged from copper,\nits blade is more solid and\nsharper than the others": "以銅鍛造，刀刃比其他刀更堅固、更鋒利。",
+    "Forged from copper,": "以銅鍛造，",
+    "its blade is more solid and": "刀刃更加堅固，",
+    "sharper than the others": "也比其他刀更鋒利。"
+  }
+}

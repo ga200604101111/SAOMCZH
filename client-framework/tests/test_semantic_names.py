@@ -18,7 +18,7 @@ class SemanticNames(unittest.TestCase):
    with self.subTest(source=src):self.assertEqual(d['messages'].get(src),target)
  def test_capture_and_target_boundaries(self):
   b=compose_bundle(R,'zh_tw','1.8.0',110,int(time.time())+86400);h={x['id']:x for x in b['hooks']}
-  self.assertEqual(len(h),124)
+  self.assertEqual(len(h),128)
   self.assertEqual(h['codex-creatures:mob-shown-name']['kind'],'mob_name')
   self.assertEqual(h['items-economy:tooltip-name']['class'],'fr/sao/tooltip/TipModel')
   self.assertEqual(h['dynamic-translation:game-system-display']['kind'],'system_text')

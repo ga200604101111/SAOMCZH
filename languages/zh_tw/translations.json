@@ -1347,7 +1347,8 @@
     "OAK STUMP": "橡木樹樁",
     "Marécage Putride": "腐敗沼澤",
     "Eugeo": "尤吉歐",
-    "Cardinal Relay": "卡迪納爾中繼裝置"
+    "Cardinal Relay": "卡迪納爾中繼裝置",
+    "Shard Keeper": "碎片管理員"
   },
   "messages": {
     "chain a dash onto the marked target.": "即可接續突進至被標記的目標。",
@@ -5110,7 +5111,8 @@
     "Jump and Run (Easy)\n(Respect if you finish it)": "跳躍跑酷（簡單）\n（成功通關者值得敬佩）",
     "Impossible Jump and Run": "不可能的跳躍跑酷",
     "Respect if you finish it": "成功通關者值得敬佩",
-    "Impossible Jump and Run\nRespect if you finish it": "不可能的跳躍跑酷\n成功通關者值得敬佩"
+    "Impossible Jump and Run\nRespect if you finish it": "不可能的跳躍跑酷\n成功通關者值得敬佩",
+    "Right-click: your daily shards.": "右鍵領取每日碎片。"
   },
   "items": {
     "Stamina Shard": "耐力碎片",
@@ -8771,6 +8773,11 @@
     "Young Oak Stick": "幼橡木枝",
     "Anthracite": "無煙煤",
     "A material of nature,\nused mainly\nfor light and fast\narmor.": "一種天然材料，主要用於製作輕巧靈活的護甲。",
-    "Matériau de la nature,\nutilisé principalement\npour des armures légères\net rapides.": "一種天然材料，主要用於製作輕巧靈活的護甲。"
+    "Matériau de la nature,\nutilisé principalement\npour des armures légères\net rapides.": "一種天然材料，主要用於製作輕巧靈活的護甲。",
+    "Copper Katana": "銅製武士刀",
+    "Forged from copper,\nits blade is more solid and\nsharper than the others": "以銅鍛造，刀刃比其他刀更堅固、更鋒利。",
+    "Forged from copper,": "以銅鍛造，",
+    "its blade is more solid and": "刀刃更加堅固，",
+    "sharper than the others": "也比其他刀更鋒利。"
   }
 }

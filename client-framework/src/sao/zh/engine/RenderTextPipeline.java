@@ -9,10 +9,11 @@ final class RenderTextPipeline {
  private static final Pattern SHIELD=Pattern.compile("^🛡 Bouclier de Mana \\[([0-9]{1,9})/([0-9]{1,9})\\]$");
  private static final Pattern HEAL=Pattern.compile("^❤ Soin \\+([0-9]{1,9}(?:\\.[0-9]{1,6})?) \\| total soigne ([0-9]{1,9}(?:\\.[0-9]{1,6})?)$");
  private RenderTextPipeline(){}
+ static boolean styledName(Script.Hook h){return SemanticText.world(h)||SemanticText.mob(h)||SemanticText.npc(h)||SemanticText.location(h)||ItemPresentation.title(h);}
  static boolean wholeFirst(Script.Hook h){
   String owner=h.owner;
   // Never assemble player chat/nameplate/scoreboard nodes in a generic renderer.
-  return owner.equals("net/minecraft/class_897")||SemanticText.system(h)
+  return owner.equals("net/minecraft/class_897")||SemanticText.system(h)||SemanticText.location(h)
    ||owner.equals("net/minecraft/class_877")
    ||owner.equals("net/minecraft/class_8138$class_8141")
    ||owner.equals("com/eighteen/saojob/hologram/HologramRenderer")

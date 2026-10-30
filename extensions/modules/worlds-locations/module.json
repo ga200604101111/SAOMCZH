@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "worlds-locations",
-  "version": "1.8.0",
+  "version": "1.10.0",
   "name": "世界與地點",
   "enabled": true,
   "dependencies": {
@@ -228,6 +228,24 @@
       "kind": "argument",
       "section": "names",
       "argument": 1
+    },
+    {
+      "id": "hud-location-title",
+      "class": "net/minecraft/class_329",
+      "method": "method_34004",
+      "descriptor": "(Lnet/minecraft/class_2561;)V",
+      "kind": "argument",
+      "argument": 0,
+      "section": "names"
+    },
+    {
+      "id": "hud-location-subtitle",
+      "class": "net/minecraft/class_329",
+      "method": "method_34002",
+      "descriptor": "(Lnet/minecraft/class_2561;)V",
+      "kind": "argument",
+      "argument": 0,
+      "section": "names"
     }
   ]
 }

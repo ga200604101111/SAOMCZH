@@ -32,6 +32,8 @@ class HalfwidthColons(unittest.TestCase):
   for sec,entries in screenshot.items():added.setdefault(sec,set()).update(entries)
   lore=json.loads((ROOT/'client-framework/tests/reference/lore-paragraphs-20261030.json').read_text('utf8'))
   for sec,entries in lore.items():added.setdefault(sec,set()).update(entries)
+  surfaces=json.loads((ROOT/'client-framework/tests/reference/cross-surface-20261030.json').read_text('utf8'))
+  for section,entries in surfaces.items():added.setdefault(section,set()).update(entries)
   for section,keys in added.items():self.assertTrue(keys<=set(data[section]),'Reviewed semantic names missing')
   digest=hashlib.sha256(json.dumps({s:sorted(set(data[s])-added.get(s,set())) for s in ('names','items','lines','messages')},ensure_ascii=False,sort_keys=True,separators=(',',':')).encode('utf8')).hexdigest()
   self.assertEqual(digest,'bce31ca40d8c8d7a9248b6d542871154fc7bc62dd65329546783d578d3970dbd','Original matching keys changed')

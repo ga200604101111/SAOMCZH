@@ -7,20 +7,27 @@ final class SemanticText {
  private static final String LEVEL="(?:Lv\\.?|Lvl\\.?|Level|Niv\\.?|Niveau)\\s*(?:[°º·•:]\\s*)?[0-9]{1,6}\\+?";
  private static final Pattern LEVEL_END=Pattern.compile("^(.*?)(\\s+(?:\\[\\s*)?"+LEVEL+"(?:\\s*\\])?\\s*)$",Pattern.CASE_INSENSITIVE);
  private static final Pattern LEVEL_START=Pattern.compile("^((?:\\[\\s*)?"+LEVEL+"(?:\\s*\\])?\\s+)(.+)$",Pattern.CASE_INSENSITIVE);
+ // SAOUI MobBarRenderer.LEVEL_NUMBER: the final » is level decoration, not a chat separator.
+ private static final String NATIVE_LEVEL="✦\\s*Lv\\.?\\s*[0-9]{1,6}\\+?\\s*»";
+ private static final Pattern NATIVE_END=Pattern.compile("^(.*?)(\\s*"+NATIVE_LEVEL+"\\s*)$",Pattern.CASE_INSENSITIVE);
+ private static final Pattern NATIVE_START=Pattern.compile("^("+NATIVE_LEVEL+"\\s*)(.+)$",Pattern.CASE_INSENSITIVE);
+ private static String nativeName(String s){Matcher m=NATIVE_END.matcher(s);if(m.matches())return m.group(1).strip();m=NATIVE_START.matcher(s);return m.matches()?m.group(2).strip():s;}
  private static final Pattern DISTANCE=Pattern.compile("^(.*?)(\\s*(?:\\|\\s*|\\[)[0-9]{1,9}(?:[.,][0-9]{1,3})?\\s*(?:km|m)\\]?\\s*)$",Pattern.CASE_INSENSITIVE);
  private static final Pattern COUNT_START=Pattern.compile("^([0-9]{1,6}[x×]\\s*)(.+)$");
  private static final Pattern COUNT_END=Pattern.compile("^(.*?)(\\s+[x×][0-9]{1,6})$");
  private static final Pattern CHAT=Pattern.compile("(?s)^\\s*(?:\\[[^]\\r\\n]{1,40}]\\s*)*[A-Za-z0-9_]{3,16}\\s*[:：].*");
  static boolean npc(Script.Hook h){return h.id.equals("worlds-locations:npc-tagged-label")&&h.owner.equals("net/minecraft/class_897");}
+ static boolean location(Script.Hook h){return h.owner.equals("net/minecraft/class_329")&&(h.id.equals("worlds-locations:hud-location-title")||h.id.equals("worlds-locations:hud-location-subtitle"));}
  static boolean system(Script.Hook h){return h.id.equals("dynamic-translation:game-system-display")&&h.owner.equals("net/minecraft/class_7594");}
  static boolean world(Script.Hook h){return h.owner.equals("com/eighteen/saojob/hologram/HologramRenderer")||h.owner.equals("fr/sao/translate/SaoJobHologramTexts")||h.owner.equals("net/minecraft/class_8138$class_8141")||h.owner.equals("net/minecraft/class_877");}
  static boolean mob(Script.Hook h){return h.id.equals("codex-creatures:mob-shown-name")&&h.owner.equals("fr/sao/saoui/mob/MobBarRenderer");}
  static boolean compass(Script.Hook h){return h.owner.equals("fr/sao/questtracker/hud/QuestCompassRenderer");}
  static boolean item(Script.Hook h){return h.section.equals("items");}
- static boolean enabled(Script.Hook h){return mob(h)||npc(h)||system(h)||world(h)||compass(h)||item(h);}
+ static boolean enabled(Script.Hook h){return mob(h)||npc(h)||system(h)||world(h)||compass(h)||item(h)||location(h);}
  static String captureKey(Script.Hook h,String raw){
   if(raw==null||!enabled(h)||!permitted(h,raw))return raw;String s=FORMAT.matcher(raw).replaceAll("").strip();
   if(mob(h)||world(h)){
+   String nativePart=nativeName(s);if(!nativePart.equals(s))return nativePart;
    Matcher tail=LEVEL_END.matcher(s);if(tail.matches())return tail.group(1).strip();
    Matcher first=LEVEL_START.matcher(s);if(first.matches())return first.group(2).strip();
   }
@@ -36,7 +43,8 @@ final class SemanticText {
  static boolean permitted(Script.Hook h,String raw){
   if(!enabled(h))return true;if(raw==null)return false;
   String visible=FORMAT.matcher(raw).replaceAll("").strip();
-  if((system(h)||mob(h)||npc(h))&&privateMessage(visible))return false;
+  String safetyName=mob(h)?nativeName(visible):visible;
+  if((system(h)||mob(h)||npc(h))&&privateMessage(safetyName))return false;
   return !npc(h)||visible.startsWith("[NPC]");
  }
  /** Whole-message gate is applied before traversing Text leaves, so a player's
@@ -81,6 +89,8 @@ final class SemanticText {
    if(match.matches())return replaceGroup(h,text,left,match,1,data);
   }
   if(mob(h)||world(h)||npc(h)){
+   match=NATIVE_END.matcher(candidate);if(match.matches())return replaceGroup(h,text,left,match,1,data);
+   match=NATIVE_START.matcher(candidate);if(match.matches())return replaceGroup(h,text,left,match,2,data);
    match=LEVEL_END.matcher(candidate);if(match.matches())return replaceGroup(h,text,left,match,1,data);
    match=LEVEL_START.matcher(candidate);if(match.matches())return replaceGroup(h,text,left,match,2,data);
   }

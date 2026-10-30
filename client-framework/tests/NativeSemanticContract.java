@@ -43,7 +43,14 @@ public final class NativeSemanticContract {
   Object npcResult=Dispatch.value(npc.id,npcLine,renderer);ok(text(npcResult).equals("[NPC] 當地伐木工"),"Split styled NPC name untranslated");ok(((class_2561)npcResult).method_10855().get(0).method_10866()==gold,"NPC marker style lost");ok(((class_2561)npcResult).method_10855().get(1).method_10866()==white,"NPC name style lost");
   class_5250 noTag=class_2561.method_43470("Local Lumberjack");ok(Dispatch.value(npc.id,noTag,renderer)==noTag,"Untagged native label changed");
   class_5250 split=class_2561.method_43470("");split.method_10852(class_2561.method_43470("Se rendre là où ").method_10862(white)).method_10852(class_2561.method_43470("résident les brigands | 2773m").method_10862(white));
-  Object quest=Dispatch.value("quests-objectives:compass-top-line",split,renderer);ok(text(quest).equals("前往盜匪的居所 | 2773m"),"Uniform children under empty root failed assembly");ok(((class_2561)quest).method_10866()==white,"Assembled effective style lost");
+  Object quest=Dispatch.value("quests-objectives:compass-top-line",split,renderer);
+  if(rules.byId.containsKey("quests-objectives:compass-flat-info")){
+   ok(quest==split,"Before native flat(), original Text must remain unchanged apart from readable aliases");
+   ok(Dispatch.text("quests-objectives:compass-flat-info",text(quest),renderer).equals("前往盜匪的居所 | 2773m"),"Flattened HUD source must translate before caches/measurement");
+   ok(((class_2561)quest).method_10855().get(0).method_10866()==white,"Original styles changed before native flatten");
+  }else{
+   ok(text(quest).equals("前往盜匪的居所 | 2773m"),"Uniform children under empty root failed assembly");ok(((class_2561)quest).method_10866()==white,"Assembled effective style lost");
+  }
   ok(Dispatch.text("items-economy:tooltip-name","§aTraining Pavise§r",renderer).equals("§a訓練用大盾§r"),"Custom tooltip title not fixed");
   Field collector=Engine.class.getDeclaredField("unknownCollector");collector.setAccessible(true);((UnknownCollector)collector.get(engine)).close();
   ok(Dispatch.faults()==0,"Dispatch silently failed");

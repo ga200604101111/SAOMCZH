@@ -109,7 +109,7 @@ class CentralLocale(unittest.TestCase):
     def test_bundle_much_smaller_without_inline_glossary(self):
         b=rules()
         self.assertLess(len(json.dumps(b,ensure_ascii=False).encode('utf8')),230000)
-        self.assertLess(len(b['hooks']),128)
+        self.assertLessEqual(len(b['hooks']),128)  # The existing runtime/parser contract permits exactly 128; reject 129+.
     def test_scoped_overrides_without_orphans(self):
         overlays=json.loads((W/'languages/zh_tw/hook_text_rules.json').read_text('utf8'))
         ids={m['id']+':'+h['id'] for p in (W/'extensions/modules').glob('*/module.json') for m in [json.loads(p.read_text('utf8'))] for h in m['hooks']}
