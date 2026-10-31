@@ -18,7 +18,10 @@ final class SemanticText {
  private static final Pattern CHAT=Pattern.compile("(?s)^\\s*(?:\\[[^]\\r\\n]{1,40}]\\s*)*[A-Za-z0-9_]{3,16}\\s*[:：].*");
  static boolean npc(Script.Hook h){return h.id.equals("worlds-locations:npc-tagged-label")&&h.owner.equals("net/minecraft/class_897");}
  static boolean location(Script.Hook h){if(h.id.equals("worlds-locations:discovery-title")&&h.owner.equals("fr/sao/saoui/discovery/DiscoveryOverlayRenderer"))return true;return h.owner.equals("net/minecraft/class_329")&&(h.id.equals("worlds-locations:hud-location-title")||h.id.equals("worlds-locations:hud-location-subtitle"));}
- static boolean system(Script.Hook h){return h.id.equals("dynamic-translation:game-system-display")&&h.owner.equals("net/minecraft/class_7594");}
+ static boolean system(Script.Hook h){
+  return h.id.equals("dynamic-translation:game-system-display")&&h.owner.equals("net/minecraft/class_7594")
+   ||h.id.equals("dynamic-translation:game-actionbar-display")&&h.owner.equals("net/minecraft/class_329");
+ }
  static boolean world(Script.Hook h){return h.owner.equals("com/eighteen/saojob/hologram/HologramRenderer")||h.owner.equals("fr/sao/translate/SaoJobHologramTexts")||h.owner.equals("net/minecraft/class_8138$class_8141")||h.owner.equals("net/minecraft/class_877");}
  static boolean mob(Script.Hook h){return h.id.equals("codex-creatures:mob-shown-name")&&h.owner.equals("fr/sao/saoui/mob/MobBarRenderer");}
  static boolean compass(Script.Hook h){return h.owner.equals("fr/sao/questtracker/hud/QuestCompassRenderer");}
@@ -44,7 +47,8 @@ final class SemanticText {
   if(!enabled(h))return true;if(raw==null)return false;
   String visible=FORMAT.matcher(raw).replaceAll("").strip();
   String safetyName=mob(h)?nativeName(visible):visible;
-  if((system(h)||mob(h)||npc(h))&&privateMessage(safetyName))return false;
+  if((system(h)||mob(h)||npc(h))&&privateMessage(safetyName)
+     &&!(system(h)&&DynamicSystemMessages.safeQueueEstimate(safetyName)))return false;
   return !npc(h)||visible.startsWith("[NPC]");
  }
  /** Whole-message gate is applied before traversing Text leaves, so a player's

@@ -10,6 +10,23 @@ final class DynamicSystemMessages {
  private static final Pattern INSERTED=Pattern.compile("^(Item inserted:)( )([1-9][0-9]{0,5}x)( )(.{1,120})$");
  private static final Pattern STOPPED=Pattern.compile("^(Heating stopped at )([0-9]{1,5}(?:\\.[0-9]{1,3})?)(°C\\.)( Right-click with the item to insert it\\.)$");
  private static final Pattern REPORT=Pattern.compile("^(Furnace)([ \\t]*[—–-][ \\t]*)(temperature)( )([0-9]{1,4})( )(pts)( \\| )(time)( )([0-9]{1,4})( )(pts)( \\| )(precision)( )([0-9]{1,3})(%)$");
+ private static final Set<String> SHARED_FIXED_SYSTEM_TEXT=Set.of(
+  "Sneak + right-click the station with an empty hand to cancel the craft.");
+ private static final Pattern CUTTING=Pattern.compile("^(Woodcutting)([\\s|]{2,120}[0-9]{1,3}%)$");
+ private static final Pattern START_FORGING=Pattern.compile("^(You start forging: )(.{1,110})$");
+ private static final Pattern QUALITY=Pattern.compile("^(Overall quality: )([0-9]{1,3}%)([\\s\\S]{0,60})$");
+ private static final Pattern SCORE=Pattern.compile("^(Forging done! Score: )([0-9]{1,3}/[0-9]{1,3})$");
+ private static final Pattern HIT=Pattern.compile("^(Hit )([0-9]{1,3}/[0-9]{1,3})(\\s*:\\s*)([0-9]{1,3})( pts)( ?\\([+\\-]?[0-9]{1,5} ms\\))?$");
+ private static final Pattern POSITION=Pattern.compile("^(Queue for the server: place )([0-9]{1,3}/[0-9]{1,3})(\\s*[·•\\-]\\s*< ?[0-9]{1,5} min)( \\(estimated\\))$");
+ private static final Pattern INTERLINK_QUEUED=Pattern.compile("^(\\[Interlink\\]\\s*(?:[✔✓⚠ℹ]\\s*)?)(.{1,100})( is on its way to Aincrad\\. Available there in )([0-9]{1,5})( s of play\\.)$");
+ private static final Pattern INTERLINK_ARRIVED=Pattern.compile("^(\\[Interlink\\]\\s*(?:[✔✓⚠ℹ]\\s*)?)(.{1,100})( has arrived in Aincrad: collect it from the Interlink there\\.)$");
+ private static final Pattern INTERLINK_DELIVERED=Pattern.compile("^(\\[Interlink\\]\\s*(?:[✔✓⚠ℹ]\\s*)?Transfer complete: )(.{1,100})( is in your inventory\\.)$");
+ static boolean safeQueueEstimate(String raw){
+  if(raw==null||raw.length()>110)return false;
+  // Only this exact server Actionbar syntax may contain a literal comparison '<'.
+  // Do not weaken generic chat, HTML or private-text filtering.
+  return POSITION.matcher(raw.strip()).matches();
+ }
  private record Edit(int from,int to,String replacement){}
  private static final class Plain {
   final String raw,text;final int[]start,end;
@@ -99,6 +116,72 @@ final class DynamicSystemMessages {
    replace(edits,m,1,"熔爐",left);replace(edits,m,3,"溫度",left);
    replace(edits,m,7,"分",left);replace(edits,m,9,"時間",left);
    replace(edits,m,13,"分",left);replace(edits,m,15,"精準度",left);
+   return p.apply(edits);
+  }
+  // A tiny source-verified exception: this exact public instruction already
+  // exists in the item glossary. Never duplicate it in messages or reuse all
+  // item text inside player chat.
+  if(SHARED_FIXED_SYSTEM_TEXT.contains(text)){
+   String translated=item(text,dictionary);
+   if(translated!=null&&translated.length()<=256)
+    return p.apply(List.of(new Edit(left,right,translated)));
+  }
+  m=CUTTING.matcher(text);
+  if(m.matches()){
+   replace(edits,m,1,"伐木",left);
+   return p.apply(edits);
+  }
+  m=START_FORGING.matcher(text);
+  if(m.matches()){
+   replace(edits,m,1,"開始鍛造: ",left);
+   String itemName=item(m.group(2),dictionary);
+   if(itemName!=null)replace(edits,m,2,itemName,left);
+   return p.apply(edits);
+  }
+  m=QUALITY.matcher(text);
+  if(m.matches()){
+   replace(edits,m,1,"整體品質: ",left);
+   return p.apply(edits);
+  }
+  m=SCORE.matcher(text);
+  if(m.matches()){
+   replace(edits,m,1,"鍛造完成！得分: ",left);
+   return p.apply(edits);
+  }
+  m=HIT.matcher(text);
+  if(m.matches()){
+   replace(edits,m,1,"敲擊 ",left);
+   replace(edits,m,3,": ",left);
+   replace(edits,m,5," 分",left);
+   return p.apply(edits);
+  }
+  m=POSITION.matcher(text);
+  if(m.matches()){
+   replace(edits,m,1,"伺服器排隊: 第 ",left);
+   replace(edits,m,4,"（預估）",left);
+   return p.apply(edits);
+  }
+  m=INTERLINK_QUEUED.matcher(text);
+  if(m.matches()){
+   String translated=item(m.group(2),dictionary);
+   if(translated!=null)replace(edits,m,2,translated,left);
+   replace(edits,m,3," 正在運往艾恩葛朗特，遊玩 ",left);
+   replace(edits,m,5," s 後可領取。",left);
+   return p.apply(edits);
+  }
+  m=INTERLINK_ARRIVED.matcher(text);
+  if(m.matches()){
+   String translated=item(m.group(2),dictionary);
+   if(translated!=null)replace(edits,m,2,translated,left);
+   replace(edits,m,3," 已抵達艾恩葛朗特，請在 Interlink 領取。",left);
+   return p.apply(edits);
+  }
+  m=INTERLINK_DELIVERED.matcher(text);
+  if(m.matches()){
+   replace(edits,m,1,"[Interlink] 傳送完成: ",left);
+   String translated=item(m.group(2),dictionary);
+   if(translated!=null)replace(edits,m,2,translated,left);
+   replace(edits,m,3," 已放入背包。",left);
    return p.apply(edits);
   }
   return raw;

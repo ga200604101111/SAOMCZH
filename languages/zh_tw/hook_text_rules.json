@@ -463,7 +463,7 @@
     "worlds-locations:transfer-duration": {
       "padded_exact": {
         "1000 Cols Pouch": "1,000 珂爾錢袋",
-        "1min": "1 分鐘",
+        "1min": "1min",
         "Astral Gem": "星界寶石",
         "Attack Damage": "攻擊傷害",
         "Attack Damage :": "攻擊傷害:",
@@ -514,24 +514,7 @@
       "exact": {
         "Equipment": "裝備",
         "Monsters": "怪物"
-      },
-      "operations": [
-        {
-          "op": "replace_literal",
-          "from": "s",
-          "to": " 秒"
-        },
-        {
-          "op": "replace_literal",
-          "from": "m",
-          "to": " 分鐘"
-        },
-        {
-          "op": "replace_literal",
-          "from": "h",
-          "to": " 小時"
-        }
-      ]
+      }
     },
     "worlds-locations:transfer-empty-line": {
       "use": "world_name"

@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "id": "named-container",
+  "version": "1.0.0",
+  "name": "Approved server-named handled-container titles",
+  "enabled": true,
+  "dependencies": {
+    "shared-terms": "1.0.0"
+  },
+  "coverage": [
+    "Only the inherited vanilla HandledScreen foreground title field is projected, not screen handlers, packet titles or item stacks.",
+    "Only known, exact, approved server-owned titles are localized; player-named chests and unknown titles stay unchanged.",
+    "No new Fabric mods and no raw title capture."
+  ],
+  "hooks": [
+    {
+      "id": "visible-title",
+      "class": "net/minecraft/class_465",
+      "method": "method_2388",
+      "descriptor": "(Lnet/minecraft/class_332;II)V",
+      "kind": "field",
+      "section": "names",
+      "member_class": "net/minecraft/class_465",
+      "member": "field_22785",
+      "member_descriptor": "Lnet/minecraft/class_2561;",
+      "sites": 1
+    }
+  ]
+}

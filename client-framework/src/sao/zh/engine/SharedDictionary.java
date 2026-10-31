@@ -7,7 +7,7 @@ final class SharedDictionary {
   if(h.section.equals("messages")||SemanticText.system(h))return false;
   return h.section.equals("items")||SemanticText.mob(h)||SemanticText.npc(h)||SemanticText.world(h)||SemanticText.compass(h)||SemanticText.location(h)
    ||h.owner.startsWith("fr/sao/codex/")||h.owner.startsWith("fr/sao/questtracker/")
-   ||h.owner.startsWith("fr/sao/iteminfo/")||h.owner.startsWith("fr/sao/tooltip/")
+   ||h.owner.startsWith("fr/sao/iteminfo/")||h.owner.startsWith("fr/sao/tooltip/")||h.owner.equals("fr/zapdialogue/client/text/StyledText")
    ||h.owner.startsWith("com/eighteen/saojob/skills/")||h.owner.startsWith("com/eighteen/saojob/skilltree/");
  }
  static String lookup(Script.Hook h,String text,Map<String,Map<String,String>> data){

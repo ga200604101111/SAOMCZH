@@ -38,6 +38,10 @@ final class UnknownCollector implements AutoCloseable {
  static boolean permitted(String owner,String kind,String origin){
   if(owner==null||kind==null||origin==null)return false;
   if(origin.equals("mob"))return owner.equals("fr/sao/saoui/mob/MobBarRenderer")&&kind.equals("mob_name");
+  if(origin.equals("npc_name"))return owner.equals("fr/zapdialogue/client/gui/BubbleRenderer")&&kind.equals("argument");
+  if(origin.equals("dialogue"))
+   return owner.equals("fr/zapdialogue/client/text/StyledText")&&kind.equals("argument");
+
   if(origin.equals("item")&&kind.equals("description_list"))return owner.equals("fr/sao/tooltip/TipModel");
   if(!Set.of("return","argument","call","field").contains(kind))return false;
   if(owner.startsWith("net/minecraft/")||owner.startsWith("fr/sao/pass/")||owner.startsWith("fr/sao/font/")
@@ -58,6 +62,9 @@ final class UnknownCollector implements AutoCloseable {
  static boolean safe(String text,String origin){
   if(text==null||origin==null||text.length()<4||text.length()>MAX_TEXT)return false;
   String s=text.trim();
+  // NPC speaker labels originate from a dedicated dialogue renderer; never log
+  // a single-word Minecraft username or a player identifier as an NPC name.
+  if(origin.equals("npc_name")&&(!s.contains(" ")||s.length()>64||!s.matches("[\\p{L} .'-]+")))return false;
   if(s.length()<4||(!origin.equals("mob")&&USERNAME.matcher(s).matches())||RESOURCE.matcher(s).matches()
       ||s.equalsIgnoreCase("null")||s.equalsIgnoreCase("old"))return false;
   if(!LATIN.matcher(s).find())return false;

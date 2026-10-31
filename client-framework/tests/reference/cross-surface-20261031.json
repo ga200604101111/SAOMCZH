@@ -1,0 +1,49 @@
+{
+  "names": {
+    "Dungeon Guard": "地城守衛",
+    "Forge - Categories": "鍛造 - 分類",
+    "Forge – Categories": "鍛造 - 分類",
+    "Forge — Categories": "鍛造 - 分類",
+    "Forge Categories": "鍛造分類",
+    "20. La mine de Geldorack": "20. 格爾多拉克礦坑",
+    "COAL": "煤炭",
+    "Coal": "煤炭",
+    "Rarity": "稀有度",
+    "Durability": "耐久度",
+    "SYSTEM CONTROL AUTHORITY": "系統控制權限",
+    "System Control Authority": "系統控制權限"
+  },
+  "items": {
+    "IRON AXE": "鐵斧",
+    "Geldorack Dungeon Key": "格爾多拉克地城鑰匙",
+    "Minerai de Charbon": "煤礦石"
+  },
+  "lines": {
+    "Return to Shepherd Ivo": "返回牧羊人伊沃身邊",
+    "Talk to Bob": "與 Bob 交談",
+    "Parler à Bob": "與 Bob 交談",
+    "Wolves of the Valley": "山谷群狼",
+    "White wolves come down to the pens of Hanaka. Shepherd Ivo asks for twelve of them to be put down.": "白狼闖入哈納卡的畜欄。牧羊人伊沃請你消滅其中 12 隻。",
+    "Obtenir une Clé de Donjon de Geldorack": "取得格爾多拉克地城鑰匙",
+    "Obtain a Geldorack Dungeon Key": "取得格爾多拉克地城鑰匙",
+    "Enter the mine": "進入礦坑",
+    "Entrer dans la mine": "進入礦坑"
+  },
+  "messages": {
+    "Wrong tool: axe required.": "工具不符: 需要斧頭。",
+    "Wrong tool: pickaxe required.": "工具不符: 需要鎬子。",
+    "Craft fully complete!": "製作已全部完成！",
+    "Step completed! You retrieved the items.": "工序完成！已取回物品。",
+    "QTE ready! Strike the anvil to the beat.": "QTE 已就緒！配合節奏敲擊鐵砧。",
+    "That's not the right material, or you already added enough!": "材料不符，或已放入足夠材料！",
+    "Right-click the anvil to retrieve the piece.": "右鍵點擊鐵砧取出成品。",
+    "A place is free: transferring...": "已有空位，正在傳送……",
+    "Craft fully complete! ": "製作已全部完成！ ",
+    "Woodcutting": "伐木",
+    "With the last wave down, the passage opens again.": "最後一波敵人已被擊退，通道重新開啟。",
+    "New objective: speak to Bob, in front of the door.": "新目標: 與門前的 Bob 交談。",
+    "New objective: get a Geldorack Dungeon Key from the Dungeon Guard, next to Bob.": "新目標: 向 Bob 旁邊的地城守衛取得格爾多拉克地城鑰匙。",
+    "The server is full: you are in a priority queue, ahead of everybody.": "伺服器已滿: 你已進入優先佇列，目前排在最前面。",
+    "Forging done! Score: 96/100": "鍛造完成！得分: 96/100"
+  }
+}

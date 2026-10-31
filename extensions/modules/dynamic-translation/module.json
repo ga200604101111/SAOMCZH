@@ -123,6 +123,15 @@
       "descriptor": "(Lnet/minecraft/class_2561;Z)V",
       "kind": "system_text",
       "section": "messages"
+    },
+    {
+      "id": "game-actionbar-display",
+      "class": "net/minecraft/class_329",
+      "method": "method_1758",
+      "descriptor": "(Lnet/minecraft/class_2561;Z)V",
+      "kind": "argument",
+      "section": "messages",
+      "argument": 0
     }
   ]
 }

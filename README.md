@@ -17,9 +17,9 @@ The following describes the tested source and local integration as of **October 
 | Component | Status |
 | --- | --- |
 | Fixed Java Agent | `SAO_ZH_Agent_v17.jar` |
-| External Runtime | 1.8.0 — signed and locally staged for the next launch |
-| Hook rules | 1.12.0 — 130 scoped hooks |
-| Traditional Chinese dictionary | 1.0.19 — 8,836 entries |
+| External Runtime | 1.9.0 — signed and locally staged for the next launch |
+| Hook rules | 1.14.0 — 136 scoped hooks |
+| Traditional Chinese dictionary | 1.0.22 — 8,876 entries |
 | Compatibility module | 1.1.0 |
 | Development client | Minecraft 1.21.4 / Fabric; tested against specific installed SAO mods |
 
@@ -93,6 +93,9 @@ Keep the original SAO, Sound of Aincrad, and MCEF mods in place. Preserve known-
 - [Agent and Runtime architecture](client-framework/README.md)
 - [Module catalog](extensions/modules/README.md)
 - [World text translation pipeline](client-framework/docs/world-text-pipeline-20261029.md)
+- [Shared item names, named containers and NPC captures](client-framework/docs/cross-surface-translation-20261031.md)
+- [NPC dialogue and response options](client-framework/docs/npc-dialogue-translation-20261031.md)
+- [Compact time units and Playtime labels](client-framework/docs/compact-time-units-20261031.md)
 - [Chinese typography and location HUD](client-framework/docs/typography-and-discovery-20261030.md)
 - [Java Agent-only MCEF web UI localization](client-framework/docs/zapaudio-agent-webui-20261031.md)
 - [Resource pack repository](https://github.com/ga200604101111/SAOMCZHPACK)

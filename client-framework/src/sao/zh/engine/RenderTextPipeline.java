@@ -13,7 +13,7 @@ final class RenderTextPipeline {
  static boolean wholeFirst(Script.Hook h){
   String owner=h.owner;
   // Never assemble player chat/nameplate/scoreboard nodes in a generic renderer.
-  return owner.equals("net/minecraft/class_897")||SemanticText.system(h)||SemanticText.location(h)
+  return NamedContainerTitles.hook(h)||owner.startsWith("fr/zapdialogue/client/")||owner.equals("net/minecraft/class_897")||SemanticText.system(h)||SemanticText.location(h)
    ||owner.equals("net/minecraft/class_877")
    ||owner.equals("net/minecraft/class_8138$class_8141")
    ||owner.equals("com/eighteen/saojob/hologram/HologramRenderer")
@@ -35,7 +35,12 @@ final class RenderTextPipeline {
  }
  private static String resolveSource(Script.Hook hook,String raw,Map<String,Map<String,String>> dictionaries){
   if(raw==null||raw.length()>8192||!SemanticText.permitted(hook,raw))return raw;
+  if(NamedContainerTitles.hook(hook))return NamedContainerTitles.resolve(raw,dictionaries);
   if(ItemPresentation.title(hook))return ItemPresentation.title(hook,raw,dictionaries);
+  if(hook.section.equals("items")){
+   String resource=ItemPresentation.resourceCount(hook,raw,dictionaries);
+   if(!resource.equals(raw))return resource;
+  }
   String stat=ItemPresentation.stats(hook,raw);if(!raw.equals(stat))return stat;
   // Already-authorized full-line numeric formats only, before fragment replacement.
   if(hook.id.startsWith("combat-feedback:")){

@@ -1,0 +1,256 @@
+{
+  "version": "1.0.21",
+  "reviewed_changes": {
+    "names": {
+      "1min": {
+        "old": "1 分鐘",
+        "new": "1min"
+      },
+      " 1min": {
+        "old": " 1 分鐘",
+        "new": " 1min"
+      },
+      "1min ": {
+        "old": "1 分鐘 ",
+        "new": "1min "
+      },
+      " 1min ": {
+        "old": " 1 分鐘 ",
+        "new": " 1min "
+      }
+    },
+    "items": {
+      "1min": {
+        "old": "1 分鐘",
+        "new": "1min"
+      },
+      " 1min": {
+        "old": " 1 分鐘",
+        "new": " 1min"
+      },
+      "1min ": {
+        "old": "1 分鐘 ",
+        "new": "1min "
+      },
+      " 1min ": {
+        "old": " 1 分鐘 ",
+        "new": " 1min "
+      },
+      "30min of cooldown on": {
+        "old": "冷卻時間 30 分鐘，適用於",
+        "new": "冷卻時間 30min，適用於"
+      },
+      " 30min of cooldown on": {
+        "old": " 冷卻時間 30 分鐘，適用於",
+        "new": " 冷卻時間 30min，適用於"
+      },
+      "30min of cooldown on ": {
+        "old": "冷卻時間 30 分鐘，適用於 ",
+        "new": "冷卻時間 30min，適用於 "
+      },
+      " 30min of cooldown on ": {
+        "old": " 冷卻時間 30 分鐘，適用於 ",
+        "new": " 冷卻時間 30min，適用於 "
+      },
+      "3 uses - cooldown of 3min": {
+        "old": "可使用 3 次 - 冷卻時間: 3 分鐘",
+        "new": "可使用 3 次 - 冷卻時間: 3min"
+      },
+      " 3 uses - cooldown of 3min": {
+        "old": " 可使用 3 次 - 冷卻時間: 3 分鐘",
+        "new": " 可使用 3 次 - 冷卻時間: 3min"
+      },
+      "3 uses - cooldown of 3min ": {
+        "old": "可使用 3 次 - 冷卻時間: 3 分鐘 ",
+        "new": "可使用 3 次 - 冷卻時間: 3min "
+      },
+      " 3 uses - cooldown of 3min ": {
+        "old": " 可使用 3 次 - 冷卻時間: 3 分鐘 ",
+        "new": " 可使用 3 次 - 冷卻時間: 3min "
+      },
+      "Single use - cooldown of 1min": {
+        "old": "使用一次 - 冷卻時間: 1 分鐘",
+        "new": "使用一次 - 冷卻時間: 1min"
+      },
+      " Single use - cooldown of 1min": {
+        "old": " 使用一次 - 冷卻時間: 1 分鐘",
+        "new": " 使用一次 - 冷卻時間: 1min"
+      },
+      "Single use - cooldown of 1min ": {
+        "old": "使用一次 - 冷卻時間: 1 分鐘 ",
+        "new": "使用一次 - 冷卻時間: 1min "
+      },
+      " Single use - cooldown of 1min ": {
+        "old": " 使用一次 - 冷卻時間: 1 分鐘 ",
+        "new": " 使用一次 - 冷卻時間: 1min "
+      },
+      "Une seule utilisation - recharge de 1min": {
+        "old": "使用一次 - 冷卻時間 1 分鐘",
+        "new": "使用一次 - 冷卻時間: 1min"
+      },
+      " Une seule utilisation - recharge de 1min": {
+        "old": " 使用一次 - 冷卻時間 1 分鐘",
+        "new": " 使用一次 - 冷卻時間: 1min"
+      },
+      "Une seule utilisation - recharge de 1min ": {
+        "old": "使用一次 - 冷卻時間 1 分鐘 ",
+        "new": "使用一次 - 冷卻時間: 1min "
+      },
+      " Une seule utilisation - recharge de 1min ": {
+        "old": " 使用一次 - 冷卻時間 1 分鐘 ",
+        "new": " 使用一次 - 冷卻時間: 1min "
+      },
+      "3 utilisations - recharge de 3min": {
+        "old": "可使用 3 次 - 冷卻時間 3 分鐘",
+        "new": "可使用 3 次 - 冷卻時間: 3min"
+      },
+      " 3 utilisations - recharge de 3min": {
+        "old": " 可使用 3 次 - 冷卻時間 3 分鐘",
+        "new": " 可使用 3 次 - 冷卻時間: 3min"
+      },
+      "3 utilisations - recharge de 3min ": {
+        "old": "可使用 3 次 - 冷卻時間 3 分鐘 ",
+        "new": "可使用 3 次 - 冷卻時間: 3min "
+      },
+      " 3 utilisations - recharge de 3min ": {
+        "old": " 可使用 3 次 - 冷卻時間 3 分鐘 ",
+        "new": " 可使用 3 次 - 冷卻時間: 3min "
+      },
+      "30min de recharge sur": {
+        "old": "冷卻時間 30 分鐘，適用於",
+        "new": "冷卻時間 30min，適用於"
+      },
+      " 30min de recharge sur": {
+        "old": " 冷卻時間 30 分鐘，適用於",
+        "new": " 冷卻時間 30min，適用於"
+      },
+      "30min de recharge sur ": {
+        "old": "冷卻時間 30 分鐘，適用於 ",
+        "new": "冷卻時間 30min，適用於 "
+      },
+      " 30min de recharge sur ": {
+        "old": " 冷卻時間 30 分鐘，適用於 ",
+        "new": " 冷卻時間 30min，適用於 "
+      },
+      "3min": {
+        "old": "3 分鐘",
+        "new": "3min"
+      }
+    },
+    "lines": {
+      "1min": {
+        "old": "1 分鐘",
+        "new": "1min"
+      },
+      " 1min": {
+        "old": " 1 分鐘",
+        "new": " 1min"
+      },
+      "1min ": {
+        "old": "1 分鐘 ",
+        "new": "1min "
+      },
+      " 1min ": {
+        "old": " 1 分鐘 ",
+        "new": " 1min "
+      },
+      "30min of cooldown on": {
+        "old": "冷卻時間 30 分鐘，適用於",
+        "new": "冷卻時間 30min，適用於"
+      },
+      " 30min of cooldown on": {
+        "old": " 冷卻時間 30 分鐘，適用於",
+        "new": " 冷卻時間 30min，適用於"
+      },
+      "30min of cooldown on ": {
+        "old": "冷卻時間 30 分鐘，適用於 ",
+        "new": "冷卻時間 30min，適用於 "
+      },
+      " 30min of cooldown on ": {
+        "old": " 冷卻時間 30 分鐘，適用於 ",
+        "new": " 冷卻時間 30min，適用於 "
+      },
+      "3 uses - cooldown of 3min": {
+        "old": "可使用 3 次 - 冷卻時間: 3 分鐘",
+        "new": "可使用 3 次 - 冷卻時間: 3min"
+      },
+      " 3 uses - cooldown of 3min": {
+        "old": " 可使用 3 次 - 冷卻時間: 3 分鐘",
+        "new": " 可使用 3 次 - 冷卻時間: 3min"
+      },
+      "3 uses - cooldown of 3min ": {
+        "old": "可使用 3 次 - 冷卻時間: 3 分鐘 ",
+        "new": "可使用 3 次 - 冷卻時間: 3min "
+      },
+      " 3 uses - cooldown of 3min ": {
+        "old": " 可使用 3 次 - 冷卻時間: 3 分鐘 ",
+        "new": " 可使用 3 次 - 冷卻時間: 3min "
+      },
+      "Single use - cooldown of 1min": {
+        "old": "使用一次 - 冷卻時間: 1 分鐘",
+        "new": "使用一次 - 冷卻時間: 1min"
+      },
+      " Single use - cooldown of 1min": {
+        "old": " 使用一次 - 冷卻時間: 1 分鐘",
+        "new": " 使用一次 - 冷卻時間: 1min"
+      },
+      "Single use - cooldown of 1min ": {
+        "old": "使用一次 - 冷卻時間: 1 分鐘 ",
+        "new": "使用一次 - 冷卻時間: 1min "
+      },
+      " Single use - cooldown of 1min ": {
+        "old": " 使用一次 - 冷卻時間: 1 分鐘 ",
+        "new": " 使用一次 - 冷卻時間: 1min "
+      },
+      "Une seule utilisation - recharge de 1min": {
+        "old": "使用一次 - 冷卻時間 1 分鐘",
+        "new": "使用一次 - 冷卻時間: 1min"
+      },
+      " Une seule utilisation - recharge de 1min": {
+        "old": " 使用一次 - 冷卻時間 1 分鐘",
+        "new": " 使用一次 - 冷卻時間: 1min"
+      },
+      "Une seule utilisation - recharge de 1min ": {
+        "old": "使用一次 - 冷卻時間 1 分鐘 ",
+        "new": "使用一次 - 冷卻時間: 1min "
+      },
+      " Une seule utilisation - recharge de 1min ": {
+        "old": " 使用一次 - 冷卻時間 1 分鐘 ",
+        "new": " 使用一次 - 冷卻時間: 1min "
+      },
+      "3 utilisations - recharge de 3min": {
+        "old": "可使用 3 次 - 冷卻時間 3 分鐘",
+        "new": "可使用 3 次 - 冷卻時間: 3min"
+      },
+      " 3 utilisations - recharge de 3min": {
+        "old": " 可使用 3 次 - 冷卻時間 3 分鐘",
+        "new": " 可使用 3 次 - 冷卻時間: 3min"
+      },
+      "3 utilisations - recharge de 3min ": {
+        "old": "可使用 3 次 - 冷卻時間 3 分鐘 ",
+        "new": "可使用 3 次 - 冷卻時間: 3min "
+      },
+      " 3 utilisations - recharge de 3min ": {
+        "old": " 可使用 3 次 - 冷卻時間 3 分鐘 ",
+        "new": " 可使用 3 次 - 冷卻時間: 3min "
+      },
+      "30min de recharge sur": {
+        "old": "冷卻時間 30 分鐘，適用於",
+        "new": "冷卻時間 30min，適用於"
+      },
+      " 30min de recharge sur": {
+        "old": " 冷卻時間 30 分鐘，適用於",
+        "new": " 冷卻時間 30min，適用於"
+      },
+      "30min de recharge sur ": {
+        "old": "冷卻時間 30 分鐘，適用於 ",
+        "new": "冷卻時間 30min，適用於 "
+      },
+      " 30min de recharge sur ": {
+        "old": " 冷卻時間 30 分鐘，適用於 ",
+        "new": " 冷卻時間 30min，適用於 "
+      }
+    }
+  },
+  "scope": "compact numeric durations only; narrative paragraphs excluded"
+}

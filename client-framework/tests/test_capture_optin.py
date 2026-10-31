@@ -11,7 +11,13 @@ class CaptureOptIn(unittest.TestCase):
   c=[h for h in b['hooks'] if h.get('capture')]
   self.assertGreaterEqual(len(c),20)
   for h in c:
-   self.assertIn(h['capture'],('quest','codex','skill','item','world','system','mob'))
+   self.assertIn(h['capture'],('quest','codex','skill','item','world','system','mob','dialogue','npc_name'))
+   if h['capture']=='dialogue':
+    self.assertEqual((h['id'],h['class'],h['method'],h['kind'],h['argument'],h['section']),
+     ('npc-dialogue:text-wrap','fr/zapdialogue/client/text/StyledText','wrap','argument',0,'lines'))
+   if h['capture']=='npc_name':
+    self.assertEqual((h['id'],h['class'],h['method'],h['kind'],h['argument'],h['section']),
+     ('npc-dialogue:speaker','fr/zapdialogue/client/gui/BubbleRenderer','drawSpeakerName','argument',2,'names'))
    if h['capture']=='mob':
     self.assertEqual((h['id'],h['class'],h['method'],h['kind'],h['section']),('codex-creatures:mob-shown-name','fr/sao/saoui/mob/MobBarRenderer','shownName','mob_name','names'))
    self.assertIn(h['locale'],('zh_tw',))
@@ -23,6 +29,8 @@ class CaptureOptIn(unittest.TestCase):
   self.assertEqual(named['skills-progression:skilltree-lore-read'],'skill')
   self.assertEqual(named['items-economy:detail-info-name'],'item')
   self.assertEqual(named['worlds-locations:boss-plain'],'world')
+  self.assertEqual(named['npc-dialogue:text-wrap'],'dialogue')
+  self.assertEqual(named['npc-dialogue:speaker'],'npc_name')
  def test_no_capture_for_chat_or_guild_user_data(self):
   b=compose_bundle(W,'zh_tw','1.6.0',108,int(time.time())+86400*100)
   self.assertTrue(all(not h.get('capture') for h in b['hooks'] if h['id'].startswith('guild-social:')))

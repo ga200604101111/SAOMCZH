@@ -22,6 +22,6 @@ class ContinueBatch(unittest.TestCase):
     with self.subTest(sec=sec,k=k):self.assertEqual(d[sec].get(k),v)
  def test_cooldown_examples_are_not_fragmentary(self):
   d=json.loads((ROOT/'languages/zh_tw/translations.json').read_text('utf8'))
-  self.assertEqual(d['items'].get('Single use - cooldown of 1min'),'使用一次 - 冷卻時間: 1 分鐘')
-  self.assertEqual(d['items'].get('3 uses - cooldown of 3min'),'可使用 3 次 - 冷卻時間: 3 分鐘')
+  self.assertEqual(d['items'].get('Single use - cooldown of 1min'),'使用一次 - 冷卻時間: 1min')
+  self.assertEqual(d['items'].get('3 uses - cooldown of 3min'),'可使用 3 次 - 冷卻時間: 3min')
 if __name__=='__main__':unittest.main()

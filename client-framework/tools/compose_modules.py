@@ -63,6 +63,34 @@ def checked_hook(h:Any,module_id:str,terms:dict[str,dict[str,str]])->dict[str,An
  if not isinstance(desc,str) or len(desc)>1024 or not desc.startswith('(') or ')' not in desc:raise ModuleError('Invalid method descriptor')
  kind=h.get('kind')
  if kind not in ('return','argument','field','call','wrap','refresh','armorstand_nameplate','mob_name','system_text','description_list','web_extract'):raise ModuleError('Unsupported hook kind')
+ if module_id=='npc-dialogue' or h['class'].startswith('fr/zapdialogue/'):
+  permitted={
+   ('npc-dialogue','speaker','fr/zapdialogue/client/gui/BubbleRenderer','drawSpeakerName',
+    '(Lnet/minecraft/class_332;Lfr/zapdialogue/client/gui/BubbleRenderer$Bubble;Lnet/minecraft/class_2561;Lnet/minecraft/class_327;)V',2,'names','npc_name'),
+   ('npc-dialogue','text-wrap','fr/zapdialogue/client/text/StyledText','wrap',
+    '(Lnet/minecraft/class_5348;ILnet/minecraft/class_327;)Ljava/util/List;',0,'lines','dialogue'),
+   ('npc-dialogue','text-trim','fr/zapdialogue/client/text/StyledText','trim',
+    '(Lnet/minecraft/class_5348;I)Lnet/minecraft/class_5250;',0,'lines',None),
+   ('npc-dialogue','text-length','fr/zapdialogue/client/text/StyledText','length',
+    '(Lnet/minecraft/class_5348;)I',0,'lines',None),
+  }
+  candidate=(module_id,id,h['class'],h['method'],desc,h.get('argument'),h.get('section'),h.get('capture'))
+  if candidate not in permitted or kind!='argument' or h.get('sites',1)!=1 or h.get('locale','zh_tw')!='zh_tw' or any(k in h for k in ('member_class','member','member_descriptor','measure','context_fields','cache_fields')):
+   raise ModuleError('Zap Dialogue permits only audited display argument projections')
+ if module_id=='named-container' or id=='visible-title' and h['class']=='net/minecraft/class_465':
+  if (module_id,id,h['class'],h['method'],desc,kind,h.get('section'),h.get('sites',1),
+      h.get('member_class'),h.get('member'),h.get('member_descriptor'))!=(
+      'named-container','visible-title','net/minecraft/class_465','method_2388',
+      '(Lnet/minecraft/class_332;II)V','field','names',1,
+      'net/minecraft/class_465','field_22785','Lnet/minecraft/class_2561;'
+     ) or h.get('locale','zh_tw')!='zh_tw' or h.get('capture') not in (None,'') or any(k in h for k in ('argument','measure','context_fields','cache_fields')):
+   raise ModuleError('Container title hook must target the exact vanilla display-only field')
+ if id=='game-actionbar-display' or h['class']=='net/minecraft/class_329' and h['method']=='method_1758':
+  if (module_id,id,h['class'],h['method'],desc,kind,h.get('section'),h.get('argument'),h.get('sites',1))!=(
+      'dynamic-translation','game-actionbar-display','net/minecraft/class_329',
+      'method_1758','(Lnet/minecraft/class_2561;Z)V','argument','messages',0,1
+     ) or h.get('locale','zh_tw')!='zh_tw' or h.get('capture') not in (None,'') or any(k in h for k in ('member','member_class','member_descriptor','measure','context_fields','cache_fields')):
+   raise ModuleError('Only native HUD Actionbar Text argument is allowed')
  if kind=='web_extract':
   if (module_id,id,h['class'],h['method'],desc,h.get('section'))!=(
       'zapaudio-webui','extracted-html','fr/saofr/zapaudio/client/web/WebClientExtractor',
@@ -121,7 +149,9 @@ def checked_hook(h:Any,module_id:str,terms:dict[str,dict[str,str]])->dict[str,An
    'skill':('skills-progression',('com/eighteen/saojob/skills/','com/eighteen/saojob/skilltree/')),
    'item':('items-economy',('fr/sao/iteminfo/','fr/sao/tooltip/','fr/sao/daily/','fr/sao/itemlang/')),
    'world':('worlds-locations',('fr/sao/teleport/','fr/sao/interlink/','fr/sao/saoui/mob/BossHud')),
-   'system':('combat-feedback',('fr/sao/saoui/hud/actionbar/ActionBarTranslator',))
+   'system':('combat-feedback',('fr/sao/saoui/hud/actionbar/ActionBarTranslator',)),
+   'dialogue':('npc-dialogue',('fr/zapdialogue/client/text/StyledText',)),
+   'npc_name':('npc-dialogue',('fr/zapdialogue/client/gui/BubbleRenderer',))
   }
   if not isinstance(capture,str) or capture not in families:raise ModuleError('Unknown capture origin')
   module,owners=families[capture]

@@ -17,9 +17,9 @@ SAOMCZH 提供經過審核的翻譯詞庫、限定來源的客戶端文字攔截
 | 組件 | 狀態 |
 | --- | --- |
 | 固定 Java Agent | `SAO_ZH_Agent_v17.jar` |
-| 外部 Runtime | 1.8.0 — 已完成簽章並準備於下次啟動載入 |
-| 攔截規則 | 1.12.0 — 130 個限定來源 Hook |
-| 繁體中文詞庫 | 1.0.19 — 8,836 條 |
+| 外部 Runtime | 1.9.0 — 已完成簽章並準備於下次啟動載入 |
+| 攔截規則 | 1.14.0 — 136 個限定來源 Hook |
+| 繁體中文詞庫 | 1.0.22 — 8,876 條 |
 | Compatibility 相容模組 | 1.1.0 |
 | 開發用遊戲環境 | Minecraft 1.21.4／Fabric；針對特定已安裝 SAO 模組進行測試 |
 
@@ -93,6 +93,9 @@ python tools/export_missing.py --help
 - [Agent 與 Runtime 架構](client-framework/README.md)
 - [功能模組目錄](extensions/modules/README.md)
 - [浮空文字翻譯流程](client-framework/docs/world-text-pipeline-20261029.md)
+- [共用物品翻譯、命名容器與 NPC 名稱收集](client-framework/docs/cross-surface-translation-20261031.md)
+- [NPC 對話與選項翻譯](client-framework/docs/npc-dialogue-translation-20261031.md)
+- [遊玩時間與精簡時間單位](client-framework/docs/compact-time-units-20261031.md)
 - [中文字體、排版與地點 HUD](client-framework/docs/typography-and-discovery-20261030.md)
 - [純 Java Agent 的 MCEF 網頁介面翻譯](client-framework/docs/zapaudio-agent-webui-20261031.md)
 - [獨立資源包儲存庫](https://github.com/ga200604101111/SAOMCZHPACK)

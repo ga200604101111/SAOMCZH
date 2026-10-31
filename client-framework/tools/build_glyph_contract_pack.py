@@ -27,6 +27,31 @@ def encode(s,aliases):return ''.join(chr(aliases.get(ord(c),ord(c))) for c in no
 # Exact UI keys verified against the original SAOUI/companionsmod en_us resources.
 # Do not turn Chinese sentence punctuation, numeric values or arbitrary strings into ASCII.
 LEVEL_LABELS={'saoui.node.level':'Lv. %s+','saoui.mob.level':'LV. %s','companionsmod.ui.level':'Lv. %s'}
+# English compact time units are smaller and belong to native numeric UI slots.
+# Deliberately *not* a blanket replacement of Chinese story/prose time expressions.
+_COMPACT_UNITS={
+ 'assets/triggersmod/lang':{
+  'saoui.equipment.playtime':'Playtime:',
+  'friends.ago.minutes':'%s min',
+  'friends.ago.hours':'%s h',
+  'bundle.timer_text':'剩餘時間: {days}d {hours}h {minutes}m',
+ },
+ 'assets/saoui/lang':{
+  'saoui.equipment.duration.hours':'%sh %s',
+  'saoui.equipment.duration.minutes':'%s min',
+ },
+}
+def compact_time_locale(filename, data):
+ if not isinstance(data,dict) or not filename.endswith(('/zh_tw.json','/zh_hk.json')):
+  return data
+ root=filename.rsplit('/',1)[0]
+ override=_COMPACT_UNITS.get(root)
+ if override is None:return data
+ result=dict(data)
+ for key,value in override.items():
+  if key in result:result[key]=value
+ return result
+
 def level_label(key,value):
  target=LEVEL_LABELS.get(key)
  if target is not None and isinstance(value,str):
@@ -167,7 +192,7 @@ def main():
   if len(atlas_report)!=26:raise ValueError('Unexpected atlas matrix')
   for n in z.namelist():
    if n.endswith(('/zh_tw.json','/zh_hk.json')) and '/lang/' in n:
-    old=json.loads(z.read(n));new=encode_values(old,aliases)
+    old=json.loads(z.read(n));new=encode_values(compact_time_locale(n,old),aliases)
     if new!=old:generated[n]=dump(new);locale_changed[n]=sum(a!=b for a,b in zip(strings(old),strings(new)))
   # Add exact, alias-only TTF fallbacks to every font family. No ordinary Han can be
   # captured by this provider, so original server bitmap icons retain their identity.

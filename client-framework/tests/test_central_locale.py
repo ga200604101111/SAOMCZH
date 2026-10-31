@@ -92,6 +92,8 @@ class CentralLocale(unittest.TestCase):
         b=rules()
         new={h['id']:h for h in b['hooks']}
         d=json.loads((W/'languages/zh_tw/translations.json').read_text('utf8'))
+        approved_time=json.loads((W/'client-framework/tests/reference/compact-time-20261031.json').read_text('utf8'))['reviewed_changes']
+        self.assertEqual(sum(len(v) for v in approved_time.values()),61)
         sample={'Aincrad','Healing Shard x2','TRAINING PAVISE','Leader','Member',
                 'Class: assassin','Minimum Level:', 'Restores 40 mana','19. The Chamber Beneath the Fields',
                 '⚔ 打擊 21 | total 1009 | ~26 DPS','null','old','Bobo_TheBuilder__: hello'}
@@ -108,6 +110,18 @@ class CentralLocale(unittest.TestCase):
                     self.assertEqual(current,left+'治療碎片'+right,(old['id'],w))
                 elif w.strip()=='cooldown of':
                     self.assertEqual(current.strip(),'冷卻時間:',(old['id'],w))
+                elif w in approved_time.get(n.get('section','names'),{}):
+                    # Curated exceptions: only previously reviewed compact numeric
+                    # units (1min/3min and matching cooldown fragment displays).
+                    self.assertEqual(
+                        normalize_fields(approved_time[n.get('section','names')][w]['new']),
+                        normalize_fields(current),(old['id'],w))
+                elif old['id']=='worlds-locations:transfer-duration':
+                    # Explicitly reviewed removal of the old unbounded s/m/h
+                    # replacements. Only the current exact glossary is allowed.
+                    self.assertFalse(n.get('operations'),"Duration hook must not replace arbitrary letters")
+                    expected=n.get('exact',{}).get(w,d.get(n.get('section','names'),{}).get(w,w))
+                    self.assertEqual(normalize_fields(expected),normalize_fields(current),(old['id'],w))
                 elif prior!=w:self.assertEqual(normalize_fields(prior.replace('\uff1a',':')),normalize_fields(current),(old['id'],w))
     def test_bundle_much_smaller_without_inline_glossary(self):
         b=rules()

@@ -15,6 +15,17 @@ final class Script {
  static String str(Map<?,?>m,String k){Object o=m.get(k);if(!(o instanceof String)||((String)o).isEmpty())throw new IllegalArgumentException("Missing string "+k);return (String)o;}
  static int number(Map<?,?>m,String k,int def){Object o=m.get(k);if(o==null)return def;if(!(o instanceof Number)||((Number)o).doubleValue()!=((Number)o).intValue())throw new IllegalArgumentException("Bad integer "+k);return ((Number)o).intValue();}
  static boolean valueType(String desc){return STR.equals(desc)||TEXT.equals(desc);}
+ /** Single approved StringVisitable interface argument in Zap Dialogue's pure UI methods. */
+ static boolean dialogueVisitable(String id,String owner,String method,String desc,int argument){
+  if(argument!=0||!owner.equals("fr/zapdialogue/client/text/StyledText"))return false;
+  return switch(id){
+   case "npc-dialogue:text-wrap"->method.equals("wrap")&&desc.equals("(Lnet/minecraft/class_5348;ILnet/minecraft/class_327;)Ljava/util/List;");
+   case "npc-dialogue:text-trim"->method.equals("trim")&&desc.equals("(Lnet/minecraft/class_5348;I)Lnet/minecraft/class_5250;");
+   case "npc-dialogue:text-length"->method.equals("length")&&desc.equals("(Lnet/minecraft/class_5348;)I");
+   default->false;
+  };
+ }
+
  static String owner(String n){
   if(n==null||n.length()>240||!n.matches("[A-Za-z_$][A-Za-z0-9_$/]*")||!n.contains("/")||n.contains("//"))throw new IllegalArgumentException("Invalid class name");
   for(String prefix:new String[]{"java/","javax/","jdk/","sun/","sao/zh/","org/objectweb/","net/fabricmc/","org/spongepowered/"})if(n.startsWith(prefix))throw new IllegalArgumentException("Protected class namespace");return n;
@@ -85,7 +96,9 @@ final class Script {
       throw new IllegalArgumentException("Only Sound of Aincrad HTML extraction can return a Path");
      break;
     case "return":if(!valueType(ret.getDescriptor()))throw new IllegalArgumentException("Return is not supported text");break;
-    case "argument":if(argument<0||argument>=args.length||!valueType(args[argument].getDescriptor()))throw new IllegalArgumentException("Argument is not supported text");break;
+    case "argument":if(argument<0||argument>=args.length||!(valueType(args[argument].getDescriptor())||
+       args[argument].getDescriptor().equals("Lnet/minecraft/class_5348;")&&dialogueVisitable(id,owner,method,descriptor,argument)))
+       throw new IllegalArgumentException("Argument is not supported text");break;
     case "field":if(memberOwner.isEmpty()||!memberName.matches("[A-Za-z_$][A-Za-z0-9_$]*")||!valueType(memberDescriptor))throw new IllegalArgumentException("Invalid field projection");break;
     case "call":try{if(memberOwner.isEmpty()||!memberName.matches("[A-Za-z_$][A-Za-z0-9_$]*")||!valueType(Type.getReturnType(memberDescriptor).getDescriptor()))throw new IllegalArgumentException();}catch(Exception x){throw new IllegalArgumentException("Invalid call-result projection");}break;
     default:throw new IllegalArgumentException("Unknown operation kind: "+kind);
@@ -95,6 +108,41 @@ final class Script {
    if(kind.equals("mob_name")&&!section.equals("names")||kind.equals("system_text")&&!section.equals("messages"))throw new IllegalArgumentException("Semantic source dictionary mismatch");
    Object captureInput=m.get("capture");capture=captureInput==null?"":captureInput instanceof String?(String)captureInput:"!invalid!";
    if(kind.equals("web_extract")&&!capture.isEmpty())throw new IllegalArgumentException("Web extraction cannot capture");
+   if(id.equals("named-container:visible-title") || owner.equals("net/minecraft/class_465")&&method.equals("method_2388")){
+    if(!id.equals("named-container:visible-title")||!owner.equals("net/minecraft/class_465")
+     ||!method.equals("method_2388")||!descriptor.equals("(Lnet/minecraft/class_332;II)V")
+     ||!kind.equals("field")||!memberOwner.equals("net/minecraft/class_465")
+     ||!memberName.equals("field_22785")||!memberDescriptor.equals(TEXT)
+     ||sites!=1||argument!=-1||!section.equals("names")||!locale.equals("zh_tw")
+     ||!capture.isEmpty()||!measure.isEmpty()||!contextFields.isEmpty()||!cacheFields.isEmpty())
+     throw new IllegalArgumentException("Only whitelisted HandledScreen visual title is allowed");
+   }
+   if(id.equals("dynamic-translation:game-actionbar-display")
+     ||owner.equals("net/minecraft/class_329")&&method.equals("method_1758")){
+    if(!id.equals("dynamic-translation:game-actionbar-display")||!owner.equals("net/minecraft/class_329")
+     ||!method.equals("method_1758")||!descriptor.equals("(Lnet/minecraft/class_2561;Z)V")
+     ||!kind.equals("argument")||argument!=0||sites!=1||!section.equals("messages")
+     ||!locale.equals("zh_tw")||!capture.isEmpty()||!memberOwner.isEmpty()
+     ||!memberName.isEmpty()||!memberDescriptor.isEmpty()||!measure.isEmpty()
+     ||!contextFields.isEmpty()||!cacheFields.isEmpty())
+     throw new IllegalArgumentException("Only client Actionbar Text display is allowed");
+   }
+
+   // The only legal Zap Dialogue hook targets are its four audited UI-only text entries.
+   if(id.startsWith("npc-dialogue:")||owner.startsWith("fr/zapdialogue/")){
+    boolean speaker=id.equals("npc-dialogue:speaker")
+     &&owner.equals("fr/zapdialogue/client/gui/BubbleRenderer")
+     &&method.equals("drawSpeakerName")
+     &&descriptor.equals("(Lnet/minecraft/class_332;Lfr/zapdialogue/client/gui/BubbleRenderer$Bubble;Lnet/minecraft/class_2561;Lnet/minecraft/class_327;)V")
+     &&argument==2&&section.equals("names")&&(capture.isEmpty()||capture.equals("npc_name"));
+    boolean dialogue=dialogueVisitable(id,owner,method,descriptor,argument)
+     &&section.equals("lines")&&(capture.isEmpty()||id.equals("npc-dialogue:text-wrap")&&capture.equals("dialogue"));
+    if(!kind.equals("argument")||!(speaker||dialogue)||sites!=1
+      ||!locale.equals("zh_tw")||!memberOwner.isEmpty()||!memberName.isEmpty()
+      ||!memberDescriptor.isEmpty()||!measure.isEmpty()||!contextFields.isEmpty()||!cacheFields.isEmpty())
+     throw new IllegalArgumentException("Only audited Zap Dialogue display arguments are allowed");
+   }
+
    if(!capture.isEmpty()&&!UnknownCollector.permitted(owner,kind,capture))throw new IllegalArgumentException("Capture is not approved for this owner/kind/origin");
    Map<String,String>map=new HashMap<>();Object entries=m.get("exact");if(entries instanceof Map){if(((Map<?,?>)entries).size()>10000)throw new IllegalArgumentException("Too many replacements");for(Map.Entry<?,?>e:((Map<?,?>)entries).entrySet()){
     if(!(e.getKey() instanceof String)||!(e.getValue() instanceof String)||((String)e.getKey()).isEmpty()||((String)e.getKey()).length()>8192||((String)e.getValue()).length()>16384)throw new IllegalArgumentException("Invalid literal replacement");map.put((String)e.getKey(),(String)e.getValue());}}

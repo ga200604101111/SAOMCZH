@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "id": "npc-dialogue",
+  "version": "1.0.0",
+  "name": "Zap Dialogue NPC screen translation",
+  "enabled": true,
+  "dependencies": {
+    "shared-terms": "1.0.0"
+  },
+  "coverage": [
+    "The original Zap Dialogue Client 1.6.10 NPC speaker name is translated only at drawSpeakerName, never the NPC metadata, player name or packets.",
+    "Dialogue sentences and choice labels are translated at StyledText wrap, trim and length BEFORE native measurement, wrapping and typewriter truncation.",
+    "OptionScreen keeps the unmodified original option list and sends the same original selection index. Unknown multi-word text may be captured to a local bounded file only.",
+    "No custom Fabric mod, native mod rewrite, UI file replacement or network interception. Unsupported sources remain in the original language."
+  ],
+  "hooks": [
+    {
+      "id": "speaker",
+      "class": "fr/zapdialogue/client/gui/BubbleRenderer",
+      "method": "drawSpeakerName",
+      "descriptor": "(Lnet/minecraft/class_332;Lfr/zapdialogue/client/gui/BubbleRenderer$Bubble;Lnet/minecraft/class_2561;Lnet/minecraft/class_327;)V",
+      "kind": "argument",
+      "section": "names",
+      "argument": 2,
+      "capture": "npc_name"
+    },
+    {
+      "id": "text-wrap",
+      "class": "fr/zapdialogue/client/text/StyledText",
+      "method": "wrap",
+      "descriptor": "(Lnet/minecraft/class_5348;ILnet/minecraft/class_327;)Ljava/util/List;",
+      "kind": "argument",
+      "section": "lines",
+      "argument": 0,
+      "capture": "dialogue"
+    },
+    {
+      "id": "text-trim",
+      "class": "fr/zapdialogue/client/text/StyledText",
+      "method": "trim",
+      "descriptor": "(Lnet/minecraft/class_5348;I)Lnet/minecraft/class_5250;",
+      "kind": "argument",
+      "section": "lines",
+      "argument": 0
+    },
+    {
+      "id": "text-length",
+      "class": "fr/zapdialogue/client/text/StyledText",
+      "method": "length",
+      "descriptor": "(Lnet/minecraft/class_5348;)I",
+      "kind": "argument",
+      "section": "lines",
+      "argument": 0
+    }
+  ]
+}
