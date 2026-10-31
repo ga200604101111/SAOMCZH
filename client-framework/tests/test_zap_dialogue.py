@@ -29,7 +29,7 @@ class NPCDialogueLocalization(unittest.TestCase):
  def test_locale_version_updated_with_valid_digest(self):
   import hashlib
   p=R/'languages/zh_tw/translations.json';manifest=json.loads((R/'languages/zh_tw/zh-tw-version.json').read_text('utf8'))
-  self.assertEqual(manifest['version'],'1.0.22')
+  self.assertEqual(manifest['version'],'1.0.23')
   self.assertEqual(manifest['translation']['sha256'],hashlib.sha256(p.read_bytes()).hexdigest())
   self.assertEqual(manifest['translation']['size_bytes'],p.stat().st_size)
  def test_agent_only_scope_and_capture(self):
@@ -47,7 +47,7 @@ class NPCDialogueLocalization(unittest.TestCase):
   sys.path.insert(0,str(R/'client-framework/tools'))
   from compose_localized import compose_bundle
   d=compose_bundle(R,'zh_tw','1.13.0',117,int(time.time())+86400)
-  self.assertEqual(len(d['hooks']),136)
+  self.assertEqual(len(d['hooks']),137)
   targets={h['id']:h for h in d['hooks'] if h['id'].startswith('npc-dialogue:')}
   self.assertEqual(len(targets),4)
   self.assertEqual(targets['npc-dialogue:text-wrap'].get('capture'),'dialogue')

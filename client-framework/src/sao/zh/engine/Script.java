@@ -108,6 +108,21 @@ final class Script {
    if(kind.equals("mob_name")&&!section.equals("names")||kind.equals("system_text")&&!section.equals("messages"))throw new IllegalArgumentException("Semantic source dictionary mismatch");
    Object captureInput=m.get("capture");capture=captureInput==null?"":captureInput instanceof String?(String)captureInput:"!invalid!";
    if(kind.equals("web_extract")&&!capture.isEmpty())throw new IllegalArgumentException("Web extraction cannot capture");
+   // Minecraft BossBarHud: after the native client-side name GETTER but before
+   // TextRenderer measurement and drawing. Never mutate stored BossBar, packets
+   // or arbitrary entities. The target name getter occurs exactly once.
+   if(id.equals("worlds-locations:vanilla-bossbar-title")
+     ||owner.equals("net/minecraft/class_337")&&method.equals("method_1796")){
+    if(!id.equals("worlds-locations:vanilla-bossbar-title")
+      ||!owner.equals("net/minecraft/class_337")||!method.equals("method_1796")
+      ||!descriptor.equals("(Lnet/minecraft/class_332;)V")||!kind.equals("call")
+      ||!memberOwner.equals("net/minecraft/class_345")||!memberName.equals("method_5414")
+      ||!memberDescriptor.equals("()Lnet/minecraft/class_2561;")
+      ||!section.equals("names")||sites!=1||argument!=-1||!locale.equals("zh_tw")
+      ||!capture.isEmpty()||!measure.isEmpty()||!contextFields.isEmpty()
+      ||!cacheFields.isEmpty())
+     throw new IllegalArgumentException("BossBar translation may only project the single rendered name");
+   }
    if(id.equals("named-container:visible-title") || owner.equals("net/minecraft/class_465")&&method.equals("method_2388")){
     if(!id.equals("named-container:visible-title")||!owner.equals("net/minecraft/class_465")
      ||!method.equals("method_2388")||!descriptor.equals("(Lnet/minecraft/class_332;II)V")

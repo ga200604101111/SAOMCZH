@@ -50,7 +50,7 @@ class CrossSurface20261031(unittest.TestCase):
  def test_version_integrity(self):
   ver=json.loads((ROOT/'languages/zh_tw/zh-tw-version.json').read_text('utf8'))
   content=(ROOT/'languages/zh_tw/translations.json').read_bytes()
-  self.assertEqual(ver['version'],'1.0.22')
+  self.assertEqual(ver['version'],'1.0.23')
   self.assertEqual(ver['translation']['size_bytes'],len(content))
   self.assertEqual(ver['translation']['sha256'],hashlib.sha256(content).hexdigest())
 if __name__=='__main__':unittest.main()

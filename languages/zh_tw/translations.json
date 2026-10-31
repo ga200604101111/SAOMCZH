@@ -1389,7 +1389,12 @@
     "Rarity": "稀有度",
     "Durability": "耐久度",
     "SYSTEM CONTROL AUTHORITY": "系統控制權限",
-    "System Control Authority": "系統控制權限"
+    "System Control Authority": "系統控制權限",
+    "Ambush!": "伏擊!",
+    "Ambush! ": "伏擊! ",
+    "Ambush — wave 1/3": "伏擊 — 第 1/3 波",
+    "Ambush — wave 2/3": "伏擊 — 第 2/3 波",
+    "Ambush — wave 3/3": "伏擊 — 第 3/3 波"
   },
   "messages": {
     "chain a dash onto the marked target.": "即可接續突進至被標記的目標。",

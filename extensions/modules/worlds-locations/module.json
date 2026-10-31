@@ -259,6 +259,18 @@
       "member": "titleText",
       "member_descriptor": "Lnet/minecraft/class_2561;",
       "sites": 1
+    },
+    {
+      "id": "vanilla-bossbar-title",
+      "class": "net/minecraft/class_337",
+      "method": "method_1796",
+      "descriptor": "(Lnet/minecraft/class_332;)V",
+      "kind": "call",
+      "section": "names",
+      "member_class": "net/minecraft/class_345",
+      "member": "method_5414",
+      "member_descriptor": "()Lnet/minecraft/class_2561;",
+      "sites": 1
     }
   ]
 }

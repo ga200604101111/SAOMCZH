@@ -91,6 +91,14 @@ def checked_hook(h:Any,module_id:str,terms:dict[str,dict[str,str]])->dict[str,An
       'method_1758','(Lnet/minecraft/class_2561;Z)V','argument','messages',0,1
      ) or h.get('locale','zh_tw')!='zh_tw' or h.get('capture') not in (None,'') or any(k in h for k in ('member','member_class','member_descriptor','measure','context_fields','cache_fields')):
    raise ModuleError('Only native HUD Actionbar Text argument is allowed')
+ if module_id=='worlds-locations' and id=='vanilla-bossbar-title' or h['class']=='net/minecraft/class_337':
+  if (module_id,id,h['class'],h['method'],desc,kind,h.get('section'),h.get('sites',1),
+    h.get('member_class'),h.get('member'),h.get('member_descriptor'))!=(
+    'worlds-locations','vanilla-bossbar-title','net/minecraft/class_337','method_1796',
+    '(Lnet/minecraft/class_332;)V','call','names',1,
+    'net/minecraft/class_345','method_5414','()Lnet/minecraft/class_2561;'
+  ) or h.get('capture') not in (None,'') or h.get('locale','zh_tw')!='zh_tw' or any(k in h for k in ('argument','measure','context_fields','cache_fields')):
+   raise ModuleError('BossBar may only translate the exact rendered name, not boss data')
  if kind=='web_extract':
   if (module_id,id,h['class'],h['method'],desc,h.get('section'))!=(
       'zapaudio-webui','extracted-html','fr/saofr/zapaudio/client/web/WebClientExtractor',

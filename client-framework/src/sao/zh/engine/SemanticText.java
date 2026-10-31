@@ -24,9 +24,13 @@ final class SemanticText {
  }
  static boolean world(Script.Hook h){return h.owner.equals("com/eighteen/saojob/hologram/HologramRenderer")||h.owner.equals("fr/sao/translate/SaoJobHologramTexts")||h.owner.equals("net/minecraft/class_8138$class_8141")||h.owner.equals("net/minecraft/class_877");}
  static boolean mob(Script.Hook h){return h.id.equals("codex-creatures:mob-shown-name")&&h.owner.equals("fr/sao/saoui/mob/MobBarRenderer");}
+ static boolean boss(Script.Hook h){
+  return h.id.equals("worlds-locations:vanilla-bossbar-title")
+    &&h.owner.equals("net/minecraft/class_337")&&h.method.equals("method_1796");
+ }
  static boolean compass(Script.Hook h){return h.owner.equals("fr/sao/questtracker/hud/QuestCompassRenderer");}
  static boolean item(Script.Hook h){return h.section.equals("items");}
- static boolean enabled(Script.Hook h){return mob(h)||npc(h)||system(h)||world(h)||compass(h)||item(h)||location(h);}
+ static boolean enabled(Script.Hook h){return mob(h)||boss(h)||npc(h)||system(h)||world(h)||compass(h)||item(h)||location(h);}
  static String captureKey(Script.Hook h,String raw){
   if(raw==null||!enabled(h)||!permitted(h,raw))return raw;String s=FORMAT.matcher(raw).replaceAll("").strip();
   if(mob(h)||world(h)){
@@ -47,7 +51,7 @@ final class SemanticText {
   if(!enabled(h))return true;if(raw==null)return false;
   String visible=FORMAT.matcher(raw).replaceAll("").strip();
   String safetyName=mob(h)?nativeName(visible):visible;
-  if((system(h)||mob(h)||npc(h))&&privateMessage(safetyName)
+  if((system(h)||mob(h)||npc(h)||boss(h))&&privateMessage(safetyName)
      &&!(system(h)&&DynamicSystemMessages.safeQueueEstimate(safetyName)))return false;
   return !npc(h)||visible.startsWith("[NPC]");
  }
