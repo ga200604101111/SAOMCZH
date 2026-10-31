@@ -75,6 +75,15 @@ final class Script {
      if(!id.equals("dynamic-translation:game-system-display")||!owner.equals("net/minecraft/class_7594")||!method.equals("method_44736")||!descriptor.equals("(Lnet/minecraft/class_2561;Z)V"))throw new IllegalArgumentException("Not a game-system display callsite");break;
     case "description_list":
      if(!id.equals("items-economy:tooltip-description-paragraphs")||!owner.equals("fr/sao/tooltip/TipModel")||!method.equals("description")||!descriptor.equals("()Ljava/util/List;")||!"items".equals(m.get("section")))throw new IllegalArgumentException("Not a dedicated description-only list source");break;
+    case "web_extract":
+     if(!id.equals("zapaudio-webui:extracted-html")
+       ||!owner.equals("fr/saofr/zapaudio/client/web/WebClientExtractor")
+       ||!method.equals("extract")||!descriptor.equals("()Ljava/nio/file/Path;")
+       ||argument!=-1||sites!=1||!memberOwner.isEmpty()||!memberName.isEmpty()
+       ||!memberDescriptor.isEmpty()||!measure.isEmpty()||!contextFields.isEmpty()
+       ||!cacheFields.isEmpty()||!"lines".equals(m.get("section")))
+      throw new IllegalArgumentException("Only Sound of Aincrad HTML extraction can return a Path");
+     break;
     case "return":if(!valueType(ret.getDescriptor()))throw new IllegalArgumentException("Return is not supported text");break;
     case "argument":if(argument<0||argument>=args.length||!valueType(args[argument].getDescriptor()))throw new IllegalArgumentException("Argument is not supported text");break;
     case "field":if(memberOwner.isEmpty()||!memberName.matches("[A-Za-z_$][A-Za-z0-9_$]*")||!valueType(memberDescriptor))throw new IllegalArgumentException("Invalid field projection");break;
@@ -85,6 +94,7 @@ final class Script {
    section=m.get("section") instanceof String?(String)m.get("section"):"names";if(!Set.of("names","items","lines","messages").contains(section))throw new IllegalArgumentException("Unknown dictionary section");if(kind.equals("armorstand_nameplate")&&!section.equals("lines"))throw new IllegalArgumentException("ArmorStand labels require lines dictionary");
    if(kind.equals("mob_name")&&!section.equals("names")||kind.equals("system_text")&&!section.equals("messages"))throw new IllegalArgumentException("Semantic source dictionary mismatch");
    Object captureInput=m.get("capture");capture=captureInput==null?"":captureInput instanceof String?(String)captureInput:"!invalid!";
+   if(kind.equals("web_extract")&&!capture.isEmpty())throw new IllegalArgumentException("Web extraction cannot capture");
    if(!capture.isEmpty()&&!UnknownCollector.permitted(owner,kind,capture))throw new IllegalArgumentException("Capture is not approved for this owner/kind/origin");
    Map<String,String>map=new HashMap<>();Object entries=m.get("exact");if(entries instanceof Map){if(((Map<?,?>)entries).size()>10000)throw new IllegalArgumentException("Too many replacements");for(Map.Entry<?,?>e:((Map<?,?>)entries).entrySet()){
     if(!(e.getKey() instanceof String)||!(e.getValue() instanceof String)||((String)e.getKey()).isEmpty()||((String)e.getKey()).length()>8192||((String)e.getValue()).length()>16384)throw new IllegalArgumentException("Invalid literal replacement");map.put((String)e.getKey(),(String)e.getValue());}}

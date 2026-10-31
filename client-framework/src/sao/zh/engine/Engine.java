@@ -66,6 +66,11 @@ public final class Engine {
  private void bind(){LiteralGlyphBridge.bind();Dispatch.bind((id,value,owner)->{
   Script snapshot=current;Script.Hook h=snapshot.byId.get(id);if(h==null||h.failures.get()>=3||!TextProjection.locale(owner,h.locale))return value;
   try{
+   if(h.kind.equals("web_extract")){
+    if(value instanceof Path && WebUiLocaleInstaller.install((Path)value))
+     once("webui-locale-"+h.id,"WEBUI_ZH_TW_LOCALIZATION_READY hook="+h.id);
+    return value;
+   }
    if(h.kind.equals("description_list"))return loreParagraphs.project(value,text->translate(h,text),LiteralGlyphBridge::readable,LiteralGlyphBridge::encode,epoch.get());
    if((SemanticText.system(h)||SemanticText.npc(h))&&!SemanticText.permitTree(h,TextProjection.plainText(value,owner),dictionary))return value;
    // The native compass flat() deliberately removes PUA icons. Decode our Han aliases

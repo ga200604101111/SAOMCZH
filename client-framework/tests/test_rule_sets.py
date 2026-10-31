@@ -50,7 +50,7 @@ class CommonTextRules(unittest.TestCase):
    new=current[original['id']]
    self.assertEqual(normalized_map(new.get('exact',{})),expected_daily_correction(original['id'],original.get('exact',{})),original['id']+' exact')
    self.assertEqual(expected_operations(new.get('operations',[])),expected_operations(original.get('operations',[])),original['id']+' operations')
-  self.assertEqual(len(current),129)  # Existing 123 targets plus the description-only List accessor
+  self.assertEqual(len(current),130)  # 129 existing hooks plus one allowlisted Java Agent web-extract return
  def test_all_existing_hook_exceptions_are_preserved(self):
   baseline=json.loads((W/'audit/hook_text_rules-1.5.1.json' if (W/'audit/hook_text_rules-1.5.1.json').is_file() else W/'client-framework/tests/reference/hook_text_rules-1.5.1.json').read_text('utf8'))
   canonical=json.loads((W/'languages/zh_tw/hook_text_rules.json').read_text('utf8'))

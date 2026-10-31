@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "id": "zapaudio-webui",
+  "version": "1.0.0",
+  "name": "Sound of Aincrad MCEF 繁體中文介面",
+  "enabled": true,
+  "dependencies": {
+    "shared-terms": "1.0.0"
+  },
+  "coverage": [
+    "Only SAOMCZH Java Agent may modify the extracted local MCEF HTML after the original WebClientExtractor returns; no Fabric mod installation.",
+    "Exact allowlisted Path return, verified original HTML SHA256, zip asset in signed Runtime, no WebRTC or media JS edits."
+  ],
+  "hooks": [
+    {
+      "id": "extracted-html",
+      "class": "fr/saofr/zapaudio/client/web/WebClientExtractor",
+      "method": "extract",
+      "descriptor": "()Ljava/nio/file/Path;",
+      "kind": "web_extract",
+      "section": "lines"
+    }
+  ]
+}

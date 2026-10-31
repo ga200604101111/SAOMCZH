@@ -1,4 +1,4 @@
-package sao.zh.zapaudio;
+package sao.zh.engine;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.HexFormat;
 
 /**
- * Opt-in UI-only localization for Sound of Aincrad 1.0.0.
+ * Opt-in UI-only localization performed by the SAOMCZH Java Agent for Sound of Aincrad 1.0.0.
  * The upstream extractor always refreshes index.html from the original mod.
  * Called immediately after extraction, before Chromium loads the page.
  * Never changes the original mod JAR, voice-client.js or a WebRTC path.

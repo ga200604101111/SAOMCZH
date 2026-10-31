@@ -62,7 +62,13 @@ def checked_hook(h:Any,module_id:str,terms:dict[str,dict[str,str]])->dict[str,An
  desc=h.get('descriptor')
  if not isinstance(desc,str) or len(desc)>1024 or not desc.startswith('(') or ')' not in desc:raise ModuleError('Invalid method descriptor')
  kind=h.get('kind')
- if kind not in ('return','argument','field','call','wrap','refresh','armorstand_nameplate','mob_name','system_text','description_list'):raise ModuleError('Unsupported hook kind')
+ if kind not in ('return','argument','field','call','wrap','refresh','armorstand_nameplate','mob_name','system_text','description_list','web_extract'):raise ModuleError('Unsupported hook kind')
+ if kind=='web_extract':
+  if (module_id,id,h['class'],h['method'],desc,h.get('section'))!=(
+      'zapaudio-webui','extracted-html','fr/saofr/zapaudio/client/web/WebClientExtractor',
+      'extract','()Ljava/nio/file/Path;','lines'
+     ) or h.get('capture') not in (None,'') or h.get('sites',1)!=1 or any(k in h for k in ('argument','member_class','member','member_descriptor','context_fields','cache_fields','measure')):
+   raise ModuleError('Web HTML extraction may only use the exact Sound of Aincrad return Path')
  if kind=='description_list':
   if (module_id,id,h['class'],h['method'],desc,h.get('section'))!=('items-economy','tooltip-description-paragraphs','fr/sao/tooltip/TipModel','description','()Ljava/util/List;','items') or h.get('capture') not in (None,'item'):raise ModuleError('Only the approved description list is supported')
  if kind in ('mob_name','system_text'):

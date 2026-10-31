@@ -30,6 +30,10 @@ def main():
  with zipfile.ZipFile(a.asm) as z:
   for n in z.namelist():
    if n.startswith('org/objectweb/asm/') and n.endswith('.class'):engine[n]=z.read(n)
+ # Signed external Runtime carries the voice UI translation script; NEVER a Fabric addon.
+ ui_script=root/'resources/saomczh_zapaudio/web/saomczh-zh-tw.js'
+ if not ui_script.is_file():raise FileNotFoundError('Missing Agent-managed web UI locale resource')
+ engine['assets/saomczh_zapaudio/web/saomczh-zh-tw.js']=ui_script.read_bytes()
  engine['META-INF/ASM-LICENSE.txt']=(root/'licenses/ASM-BSD-3-Clause.txt').read_bytes();jar(out/'SAO_ZH_Runtime_1.2.0.jar',engine)
  cc={f.relative_to(compat).as_posix():f.read_bytes() for f in compat.rglob('*.class')}
  prefixes=tuple('sao/zh/compat16/'+v for v in ['SplashBridge','SplashAssets','PackLifecycleManager','GitHubTranslationClient','CjkLayout','PackBridge','RuntimeBridge','MiniJson','FontColorPolicy','LiteralGlyphs','PerformanceBridge','GlyphPageStore','GlyphCacheBridge'])

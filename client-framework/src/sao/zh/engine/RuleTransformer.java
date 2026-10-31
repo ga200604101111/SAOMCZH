@@ -15,6 +15,11 @@ final class RuleTransformer implements ClassFileTransformer {
    public MethodVisitor visitMethod(int a,String n,String d,String sig,String[]e){methodFlags.put(n+d,a);return null;}
   },ClassReader.SKIP_CODE|ClassReader.SKIP_DEBUG|ClassReader.SKIP_FRAMES);
   for(Script.Hook h:hooks){
+   if(h.kind.equals("web_extract")){
+    Integer flags=methodFlags.get(h.method+h.descriptor);
+    if(flags==null||(flags&Opcodes.ACC_STATIC)==0||(flags&Opcodes.ACC_SYNCHRONIZED)==0)
+     throw new IllegalArgumentException("Sound of Aincrad extractor must be synchronized and static");
+   }
    if(h.kind.equals("description_list")){
     Integer flags=methodFlags.get(h.method+h.descriptor);if(flags==null||(flags&Opcodes.ACC_STATIC)!=0)throw new IllegalArgumentException("Description accessor must be an instance method");
    }
@@ -49,7 +54,7 @@ final class RuleTransformer implements ClassFileTransformer {
      }}
      @Override public void visitInsn(int op){
       if(op==Opcodes.ARETURN)for(Script.Hook h:selected){
-       if(h.kind.equals("return")||h.kind.equals("description_list"))dispatch(h,Type.getReturnType(desc).getDescriptor());
+       if(h.kind.equals("return")||h.kind.equals("description_list")||h.kind.equals("web_extract"))dispatch(h,Type.getReturnType(desc).getDescriptor());
        if(h.kind.equals("mob_name")){
         if((access&Opcodes.ACC_STATIC)==0)throw new IllegalArgumentException("Mob shownName must be static");
         super.visitLdcInsn(h.id);super.visitInsn(Opcodes.SWAP);
