@@ -25,7 +25,13 @@ final class RenderTextPipeline {
  }
  static String resolve(Script.Hook hook,String raw,Map<String,Map<String,String>> dictionaries){
   String output=resolveSource(hook,raw,dictionaries);
-  return hook.section.equals("items")&&!ItemPresentation.title(hook)?FieldTypography.normalize(output):output;
+  // Equipment stat labels are in the `names` section, not `items`.
+  // Apply the same U+FF1A → ASCII colon normalization to that exact item-stat hook;
+  // never globally rewrite names, locations, times, or player chat.
+  boolean itemField=hook.section.equals("items")&&!ItemPresentation.title(hook);
+  boolean equipmentField=hook.id.equals("items-economy:equipment-stat")
+    &&hook.owner.equals("fr/sao/equipment/EquipmentClient$Stat");
+  return itemField||equipmentField?FieldTypography.normalize(output):output;
  }
  private static String resolveSource(Script.Hook hook,String raw,Map<String,Map<String,String>> dictionaries){
   if(raw==null||raw.length()>8192||!SemanticText.permitted(hook,raw))return raw;
