@@ -1394,7 +1394,8 @@
     "Ambush! ": "伏擊! ",
     "Ambush — wave 1/3": "伏擊 — 第 1/3 波",
     "Ambush — wave 2/3": "伏擊 — 第 2/3 波",
-    "Ambush — wave 3/3": "伏擊 — 第 3/3 波"
+    "Ambush — wave 3/3": "伏擊 — 第 3/3 波",
+    "Gardien des Éclats": "碎片管理員"
   },
   "messages": {
     "chain a dash onto the marked target.": "即可接續突進至被標記的目標。",
@@ -5214,7 +5215,10 @@
     "Obtenir une Clé de Donjon de Geldorack": "取得格爾多拉克地城鑰匙",
     "Obtain a Geldorack Dungeon Key": "取得格爾多拉克地城鑰匙",
     "Enter the mine": "進入礦坑",
-    "Entrer dans la mine": "進入礦坑"
+    "Entrer dans la mine": "進入礦坑",
+    "Clic droit : vos éclats du jour": "右鍵領取每日碎片。",
+    "Right-click: your shards of the day": "右鍵領取每日碎片。",
+    "Right-click: your daily shards": "右鍵領取每日碎片。"
   },
   "items": {
     "Stamina Shard": "耐力碎片",

@@ -29,7 +29,7 @@ class NPCDialogueLocalization(unittest.TestCase):
  def test_locale_version_updated_with_valid_digest(self):
   import hashlib
   p=R/'languages/zh_tw/translations.json';manifest=json.loads((R/'languages/zh_tw/zh-tw-version.json').read_text('utf8'))
-  self.assertEqual(manifest['version'],'1.0.23')
+  self.assertEqual(manifest['version'],'1.0.24')
   self.assertEqual(manifest['translation']['sha256'],hashlib.sha256(p.read_bytes()).hexdigest())
   self.assertEqual(manifest['translation']['size_bytes'],p.stat().st_size)
  def test_agent_only_scope_and_capture(self):

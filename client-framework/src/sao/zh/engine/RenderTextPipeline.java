@@ -35,6 +35,13 @@ final class RenderTextPipeline {
  }
  private static String resolveSource(Script.Hook hook,String raw,Map<String,Map<String,String>> dictionaries){
   if(raw==null||raw.length()>8192||!SemanticText.permitted(hook,raw))return raw;
+  // Some SAO TextDisplays concatenate an NPC name and its instruction with
+  // a private-use hard separator. The ordinary exact lookup cannot match the
+  // whole combined string, but each reviewed fragment can be reused safely.
+  if(SemanticText.world(hook)&&raw.indexOf('\uE001')>=0){
+   String split=WorldTextSegments.resolve(hook,raw,dictionaries);
+   if(!split.equals(raw))return split;
+  }
   if(NamedContainerTitles.hook(hook))return NamedContainerTitles.resolve(raw,dictionaries);
   if(ItemPresentation.title(hook))return ItemPresentation.title(hook,raw,dictionaries);
   if(hook.section.equals("items")){

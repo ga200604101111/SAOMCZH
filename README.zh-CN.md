@@ -17,9 +17,9 @@ SAOMCZH 维护经过审核的翻译词库、限定来源的客户端文字拦截
 | 组件 | 状态 |
 | --- | --- |
 | 固定 Java Agent | `SAO_ZH_Agent_v17.jar` |
-| 外部 Runtime | 1.9.1 — 已完成签名并准备在下次启动时加载 |
+| 外部 Runtime | 1.9.2 — 已完成签名并准备在下次启动时加载 |
 | 拦截规则 | 1.15.0 — 137 个限定来源 Hook |
-| 繁体中文词库 | 1.0.23 — 8,881 条 |
+| 繁体中文词库 | 1.0.24 — 8,885 条 |
 | Compatibility 兼容模块 | 1.1.0 |
 | 开发用游戏环境 | Minecraft 1.21.4／Fabric；针对特定已安装 SAO 模组进行测试 |
 
@@ -93,6 +93,7 @@ python tools/export_missing.py --help
 - [Agent 与 Runtime 架构](client-framework/README.md)
 - [功能模块目录](extensions/modules/README.md)
 - [悬浮文字翻译流程](client-framework/docs/world-text-pipeline-20261029.md)
+- [碎片管理员悬浮文字与分段翻译](client-framework/docs/shard-keeper-world-text-20261031.md)
 - [原生 Title、Subtitle 与 BossBar 翻译](client-framework/docs/native-title-bossbar-20261031.md)
 - [共享物品翻译、命名容器与 NPC 名称收集](client-framework/docs/cross-surface-translation-20261031.md)
 - [NPC 对话与选项翻译](client-framework/docs/npc-dialogue-translation-20261031.md)

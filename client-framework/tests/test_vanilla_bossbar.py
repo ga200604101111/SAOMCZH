@@ -38,10 +38,10 @@ class VanillaTitleBossBarCoverage(unittest.TestCase):
  def test_version_and_rule_total(self):
   ver=json.loads((R/'languages/zh_tw/zh-tw-version.json').read_text('utf8'))
   raw=(R/'languages/zh_tw/translations.json').read_bytes()
-  self.assertEqual(ver['version'],'1.0.23')
+  self.assertEqual(ver['version'],'1.0.24')
   self.assertEqual(ver['translation']['size_bytes'],len(raw))
   self.assertEqual(ver['translation']['sha256'],hashlib.sha256(raw).hexdigest())
-  self.assertEqual(sum(len(json.loads(raw)[s]) for s in ('names','items','lines','messages')),8881)
+  self.assertEqual(sum(len(json.loads(raw)[s]) for s in ('names','items','lines','messages')),8885)
   sys.path.insert(0,str(R/'client-framework/tools'))
   from compose_localized import compose_bundle
   rules=compose_bundle(R,'zh_tw','1.15.0',119,int(time.time())+86400)

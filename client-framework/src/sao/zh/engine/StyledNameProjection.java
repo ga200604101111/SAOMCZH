@@ -20,7 +20,24 @@ final class StyledNameProjection {
   Access a=ACCESS.get(owner);if(!a.ready||!a.text.isInstance(original))return original;
   String raw=(String)a.getString.invoke(original);
   if(raw==null||raw.isEmpty()||raw.length()>MAX_CHARS||raw.indexOf('§')>=0)return original;
-  String[]lines=raw.split("\n",-1);if(lines.length>MAX_LINES)return original;
+  // SAO public floating labels sometimes use the U+E001 glyph as a hard
+  // display separator, with a colored name followed by a differently styled
+  // explanation. Translate each section independently, preserving the exact
+  // original separator (including its font/style) as immutable metadata.
+  ArrayList<String>pieces=new ArrayList<>();
+  ArrayList<Integer>separators=new ArrayList<>();
+  int from=0;
+  for(int i=0;i<raw.length();i++){
+   char c=raw.charAt(i);
+   if(c=='\n'||c=='\uE001'){
+    pieces.add(raw.substring(from,i));separators.add((int)c);
+    if(pieces.size()>=MAX_LINES)return original;
+    from=i+1;
+   }
+  }
+  pieces.add(raw.substring(from));
+  if(pieces.size()>MAX_LINES)return original;
+  String[]lines=pieces.toArray(new String[0]);
   String[]mapped=new String[lines.length];boolean different=false;
   for(int i=0;i<lines.length;i++){
    String next=translate.apply(lines[i]);
@@ -70,7 +87,7 @@ final class StyledNameProjection {
     for(int i=old.length-tail;i<old.length;i++)append(result,old[i],styles[offset+i]);
    }else for(int i=0;i<old.length;i++)append(result,old[i],styles[offset+i]);
    offset+=old.length;
-   if(line<lines.length-1){append(result,'\n',styles[offset]);offset++;}
+   if(line<separators.size()){append(result,separators.get(line),styles[offset]);offset++;}
   }
   if(!changed)return original;
   Object output=a.literal.invoke(null,"");
